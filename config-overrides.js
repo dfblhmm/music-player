@@ -20,7 +20,8 @@ module.exports = override(
 		'assets': resolve(__dirname, 'src/assets'),
     'components': resolve(__dirname, 'src/components'),
     'containers': resolve(__dirname, 'src/containers'),
-    'redux': resolve(__dirname, 'src/redux')
+    'redux': resolve(__dirname, 'src/redux'),
+    'utils': resolve(__dirname, 'src/utils') 
   })
 )
 

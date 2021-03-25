@@ -1,3 +1,13 @@
-body {
-  background-color: orange;
+.ant-layout {
+  height: 100%;
+}
+.ant-layout .ant-layout,
+.ant-layout .ant-layout-sider {
+  background-color: #fff;
+}
+.ant-layout .ant-layout-header {
+  background-color: #ec4141;
+}
+.ant-layout-sider {
+  border-right: 1px solid #E1E1E1;
 }
