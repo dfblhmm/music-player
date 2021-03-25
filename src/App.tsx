@@ -13,7 +13,7 @@ export default class App extends Component {
         <Layout>
           <Header><HeaderContent/></Header>
           <Layout>
-            <Sider><SiderContent/></Sider>
+            <Sider width="224px"><SiderContent/></Sider>
             <Content><MainContent/></Content>
           </Layout>
           <Footer><FooterContent/></Footer>

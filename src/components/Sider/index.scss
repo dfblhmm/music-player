@@ -1,0 +1,58 @@
+// 定义复用样式
+@mixin height {
+  line-height: 32px;
+  height: 32px;
+}
+
+// 菜单项
+.ant-menu-inline .ant-menu-item {
+  @include height;
+  padding-left: 10px !important;
+  margin: 0 10px;
+  width: calc(100% - 20px);
+  border-right: 0;
+  &:hover {
+    color: #313131;
+    background-color: #fff2f0;
+  }
+  &:not(:last-child) {
+    margin-bottom: 5px;
+  }
+  &::after {
+    border: 0;
+  }
+  // 字体图标
+  .anticon {
+    font-size: 18px;
+    margin-right: 8px;
+    color: #5C5C5C;
+  }
+}
+
+// 被选中的菜单项
+.ant-menu-item-selected {
+  color: #313131;
+  font: {
+    weight: 600;
+    size: 17px;
+  }
+}
+.ant-menu-submenu-title {
+  &:hover {
+    color: #313131;
+  }
+  .ant-menu-submenu-arrow {
+    color: #313131 !important;
+    right: 50%;
+  }
+}
+
+// title提示文字
+.title {
+  @include height;
+  font-size: 13px;
+  color: #999;
+  padding-left: 10px;
+  margin: 10px;
+}
+
