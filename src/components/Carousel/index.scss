@@ -1,0 +1,71 @@
+@mixin arrow {
+  &:hover .arrow{
+    &:first-of-type {
+      left: 20px;
+    }
+    &:last-of-type {
+      right: 20px;
+    }
+  }
+}
+
+.carousel-container {
+  height: 200px;
+  box-sizing: border-box;
+  margin: 30px 90px;
+  overflow: hidden;
+  perspective: 1000px;
+  position: relative;
+  .carousel-item {
+    height: 100%;
+    width: 50%;
+    transform: translate3d(50%, 0, 0);
+    position: absolute;
+    transform-style: preserve-3d;
+    cursor: pointer;
+    z-index: 8;
+    .ant-image img {
+      width: 100%;
+      height: 100%;
+      border-radius: 15px;
+    }
+    // 图片遮罩层
+    .ant-image-mask {
+      border-radius: 15px;
+    }
+    &.prev {
+      transform: translate3d(-20%, 0, -200px);
+      z-index: 10;
+    }
+    &.active {
+      transform: translate3d(50%, 0, 0);
+      z-index: 11;
+    }
+    &.next {
+      transform: translate3d(120%, 0, -200px);
+      z-index: 10;
+    }
+  }
+  // 图标
+  .arrow {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #fff;
+    font-size: 14px;
+    padding: 8px;
+    background-color: rgba(0,0,0,.2);
+    border-radius: 50%;
+    z-index: 20;
+    transition: all .4s ease-in-out;
+    cursor: pointer;
+    &:first-of-type {
+      left: -30px;
+    }
+    &:last-of-type {
+      right: -30px;
+    }
+  }
+  // 显示左右箭头
+  @include arrow;
+}

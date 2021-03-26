@@ -1,6 +1,7 @@
 import { PureComponent, Fragment } from 'react'
 import { Menu } from 'antd'
 import './index.scss'
+import Carousel from 'components/Carousel'
 interface Props {}
 interface State {
   selectedKeys: string[]
@@ -24,6 +25,7 @@ export default class Recommend extends PureComponent<Props, State> {
           <Menu.Item key="rank">排行榜</Menu.Item>
           <Menu.Item key="singer">歌手</Menu.Item>
         </Menu>
+        <Carousel/>
       </Fragment>
     )
   }
