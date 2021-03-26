@@ -1,32 +1,43 @@
-import { Component, Fragment } from 'react'
+import { PureComponent, Fragment } from 'react'
+import { Link } from 'react-router-dom'
 import { Menu, Collapse } from 'antd'
 import './index.scss'
 // 获取IconFont字体图标
 import IconFont from 'components/IconFont'
 import { CaretRightOutlined } from '@ant-design/icons'
 const { Panel } = Collapse
-export default class SiderContainer extends Component {
+export default class SiderContainer extends PureComponent {
+  // 点击了导航条
+  handleMenuClick = (e: {key: unknown}) => {
+    console.log(e.key)
+  }
   render() {
     return (
       <Fragment>
         <Menu
           style={{ width: 224, marginTop: '10px' }}
-          defaultSelectedKeys={['1']}
-          mode="inline"
+          defaultSelectedKeys={['found']} mode="inline"
+          onClick={this.handleMenuClick}
         >
-          <Menu.Item key="1">发现音乐</Menu.Item>
-          <Menu.Item key="2">视频</Menu.Item>
-          <Menu.Item key="3">朋友</Menu.Item>
-          <Menu.Item key="4">私人FM</Menu.Item>
+          <Menu.Item key="found"><Link to="/found">发现音乐</Link></Menu.Item>
+          <Menu.Item key="video"><Link to="/video">视频</Link></Menu.Item>
+          <Menu.Item key="friends"><Link to="/friends">朋友</Link></Menu.Item>
+          <Menu.Item key="fm"><Link to="/fm">私人FM</Link></Menu.Item>
           <li className="title">我的音乐</li>
-          <Menu.Item key="5" style={{ fontWeight: 'normal', fontSize: '14px' }}>
-            <IconFont type="icon-cloud" />我的音乐云盘
+          <Menu.Item key="my-cloud">
+            <Link to="/my-cloud" style={{ fontWeight: 'normal', fontSize: '14px' }}>
+              <IconFont type="icon-cloud" />我的音乐云盘
+            </Link>
           </Menu.Item>
-          <Menu.Item key="6" style={{ fontWeight: 'normal', fontSize: '14px' }}>
-            <IconFont type="icon-radio" />我的电台
+          <Menu.Item key="my-radio">
+            <Link to="/my-radio" style={{ fontWeight: 'normal', fontSize: '14px' }}>
+              <IconFont type="icon-radio" />我的电台
+            </Link>
           </Menu.Item>
-          <Menu.Item key="7" style={{ fontWeight: 'normal', fontSize: '14px' }}>
-            <IconFont type="icon-collection" />我的收藏
+          <Menu.Item key="my-collection">
+            <Link to="my-collection" style={{ fontWeight: 'normal', fontSize: '14px' }}>
+              <IconFont type="icon-collection" />我的收藏
+            </Link>
           </Menu.Item>
         </Menu>
         <Collapse ghost expandIconPosition="right" style={{marginTop: '10px'}}

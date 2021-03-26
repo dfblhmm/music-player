@@ -1,11 +1,10 @@
 import { PureComponent, Fragment } from 'react'
-export default class FooterContainer extends PureComponent {
+export default class FM extends PureComponent {
   render() {
     return (
       <Fragment>
-        底部
+        FM
       </Fragment>
     )
   }
 }
-

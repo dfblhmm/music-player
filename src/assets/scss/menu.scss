@@ -1,0 +1,8 @@
+// 被选中的菜单项
+@mixin menu {
+  color: #313131;
+  font: {
+    weight: 600;
+    size: 17px;
+  }
+}

@@ -1,9 +1,9 @@
-import React, { Component, Fragment } from 'react'
+import { PureComponent, Fragment } from 'react'
 import { Link } from 'react-router-dom'
 import { Row, Col } from 'antd'
 import logo from 'assets/images/logo.png'
 import './index.scss'
-export default class HeaderContainer extends Component {
+export default class HeaderContainer extends PureComponent {
   render() {
     return (
       <Fragment>

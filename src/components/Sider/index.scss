@@ -13,38 +13,43 @@
   margin-right: 8px;
   color: #5C5C5C; 
 }
+// 选中的菜单项
+@import 'assets/scss/menu.scss';
 
 // 菜单项
 .ant-menu-inline .ant-menu-item {
   @include height;
-  padding-left: 10px !important;
+  padding: 0 !important;
   margin: 0 10px;
   width: calc(100% - 20px);
   border-right: 0;
-  &:hover {
-    color: #313131;
-    background-color: #fff2f0;
-  }
   &:not(:last-child) {
     margin-bottom: 5px;
   }
   &::after {
     border: 0;
   }
+  // 链接
+  & a {
+    display: block;
+    width: 100%;
+    height: 100%;
+    padding: 0 16px 0 10px;
+    &:hover {
+      color: #000;
+      background-color: #fff2f0;
+    }
+  }
   // 字体图标
   .anticon {
     @include iconfont;
   }
 }
-
 // 被选中的菜单项
-.ant-menu-item-selected {
-  color: #313131;
-  font: {
-    weight: 600;
-    size: 17px;
-  }
+.ant-menu-item-selected a {
+  @include menu;
 }
+
 .ant-menu-submenu-title {
   &:hover {
     color: #313131;

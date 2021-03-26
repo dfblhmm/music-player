@@ -1,11 +1,11 @@
 import { PureComponent, Fragment } from 'react'
-export default class FooterContainer extends PureComponent {
+
+export default class MyCloud extends PureComponent {
   render() {
     return (
       <Fragment>
-        底部
+        我的云盘
       </Fragment>
     )
   }
 }
-
