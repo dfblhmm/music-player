@@ -3,6 +3,16 @@
   line-height: 32px;
   height: 32px;
 }
+@mixin text-ellipsis {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+@mixin iconfont {
+  font-size: 18px;
+  margin-right: 8px;
+  color: #5C5C5C; 
+}
 
 // 菜单项
 .ant-menu-inline .ant-menu-item {
@@ -23,9 +33,7 @@
   }
   // 字体图标
   .anticon {
-    font-size: 18px;
-    margin-right: 8px;
-    color: #5C5C5C;
+    @include iconfont;
   }
 }
 
@@ -56,3 +64,37 @@
   margin: 10px;
 }
 
+// 折叠面板
+.ant-collapse-icon-position-right > .ant-collapse-item > .ant-collapse-header {
+  color: #999;
+  padding-left: 20px;
+  padding-bottom: 10px;
+  font-size: 13px;
+  & .ant-collapse-arrow {
+    left: -15px;
+  }
+}
+.ant-collapse-content > .ant-collapse-content-box {
+  padding: {
+    top: 0 !important;
+    left: 20px;
+    bottom: 0 !important;
+  }
+}
+// 折叠项
+.collapse-item {
+  @extend .title;
+  font-size: 14px;
+  margin: 0;
+  padding-left: 0;
+  cursor: pointer;
+  &:hover {
+    background-color: #fff2f0;
+  }
+  @include text-ellipsis;
+  transition: background 0.3s cubic-bezier(0.645, 0.045, 0.355, 1);
+  // 图标
+  .anticon {
+    @include iconfont;
+  }
+}
