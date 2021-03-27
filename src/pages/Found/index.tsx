@@ -1,12 +1,9 @@
-import { PureComponent, Fragment } from 'react'
+import { PureComponent, Fragment, lazy } from 'react'
+import { Route, Redirect, Switch } from 'react-router-dom'
 import { Menu } from 'antd'
 import './index.scss'
-import Carousel from 'components/Carousel'
-interface Props {}
-interface State {
-  selectedKeys: string[]
-}
-export default class Recommend extends PureComponent<Props, State> {
+const Recommend = lazy(() => import('./Recommend'))
+export default class Found extends PureComponent {
   state = {
     selectedKeys: ['recommend'] // 当前选中的菜单项
   }
@@ -25,7 +22,10 @@ export default class Recommend extends PureComponent<Props, State> {
           <Menu.Item key="rank">排行榜</Menu.Item>
           <Menu.Item key="singer">歌手</Menu.Item>
         </Menu>
-        <Carousel/>
+        <Switch>
+          <Route path="/found/recommend" component={Recommend} />
+          <Redirect to="/found/recommend" />
+        </Switch>
       </Fragment>
     )
   }

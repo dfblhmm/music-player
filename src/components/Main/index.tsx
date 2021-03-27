@@ -10,7 +10,6 @@ const MyCloud = lazy(() => import('pages/MyCloud'))
 const MyRadio = lazy(() => import('pages/MyRadio'))
 const MyCollection = lazy(() => import('pages/MyCollection'))
 export default class ContentContainer extends PureComponent {
-  
   render() {
     return (
       <Fragment>

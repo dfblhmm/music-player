@@ -49,6 +49,7 @@
     ]
   },
   "devDependencies": {
+    "@types/nprogress": "^0.2.0",
     "babel-plugin-import": "^1.13.3",
     "customize-cra": "^1.0.0",
     "less": "^4.1.1",
