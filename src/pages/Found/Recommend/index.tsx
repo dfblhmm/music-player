@@ -1,5 +1,6 @@
-import { PureComponent, Fragment } from 'react'
+import { PureComponent } from 'react'
 import http from 'utils/http'
+import style from './index.module.scss'
 import Carousel from 'components/Carousel'
 interface Banners {
   imageUrl: string,
@@ -22,9 +23,9 @@ export default class Recommend extends PureComponent {
   render() {
     const { banners } = this.state
     return (
-      <Fragment>
+      <div className={style.container}>
         <Carousel banners={banners} autoplay={false} />
-      </Fragment>
+      </div>
     )
   }
 }

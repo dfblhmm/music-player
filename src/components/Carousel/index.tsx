@@ -1,4 +1,4 @@
-import { MouseEventHandler, PureComponent } from 'react'
+import React, { MouseEventHandler, PureComponent } from 'react'
 import { Image } from 'antd'
 import './index.scss'
 import IconFont from 'components/IconFont'
@@ -15,6 +15,8 @@ interface Props {
   toggleTime: number
   height: number
   autoplay: boolean
+  showArrow: boolean
+  showDot: boolean
 }
 export default class Carousel extends PureComponent<Props> {
   state = {
@@ -24,8 +26,10 @@ export default class Carousel extends PureComponent<Props> {
   static defaultProps: Props = {
     banners: [],
     toggleTime: 5000,
-    height: 200,
-    autoplay: true
+    height: 225,
+    autoplay: true,
+    showArrow: true,
+    showDot: true
   }
   componentDidMount() {
     // 组件挂载完成，开启轮播
@@ -76,7 +80,7 @@ export default class Carousel extends PureComponent<Props> {
       case next: 
         return 'carousel-item next'
       case activeIndex:
-        return 'carousel-item active'
+        return 'carousel-item carousel-active'
       default:
         return 'carousel-item'
     }
@@ -90,22 +94,34 @@ export default class Carousel extends PureComponent<Props> {
   }
   render() {
     const { activeIndex } = this.state
-    const { banners, height } = this.props
+    const { banners, height, showArrow, showDot } = this.props
     return (
       <div className="carousel-container" style={{height: height + 'px'}}>
-        <IconFont type="icon-arrow-left" className="arrow" title="上一张" onClick={this.changeCurrent('prev')}/>
+        <IconFont type="icon-arrow-left" className="arrow" title="上一张" 
+          style={{display: showArrow ? 'block':'none'}} onClick={this.changeCurrent('prev')}/>
         {
           banners.map((value, index) => {
             return (
-              <div key={index} className={this.getCurrentClassName(index)} 
+              <div key={index} className={this.getCurrentClassName(index)} style={{height: height - 25 + 'px'}}
                 onMouseEnter={this.pause} onMouseLeave={this.autoplay} onClick={this.handleClickImg(index)}
                 >
-                <Image src={value.imageUrl} height={height} placeholder preview={index===activeIndex} />
+                <Image src={value.imageUrl} placeholder preview={false} />
               </div>
             )
           })
         }
-        <IconFont type="icon-arrow-right" className="arrow" title="下一张" onClick={this.changeCurrent('next')}/>
+        <IconFont type="icon-arrow-right" className="arrow" title="下一张" 
+          style={{display: showArrow ? 'block':'none'}} onClick={this.changeCurrent('next')}/>
+        {/* 小圆点 */}
+        <ul className="dot" style={{height: '25px', display: showDot ? 'flex':'none'}} >
+          {
+            banners.map((value, index) => 
+              <li key={index} onMouseOver={() =>this.setState({activeIndex: index})}>
+                <span className={activeIndex === index ? 'active-dot': ''}></span>
+              </li>
+            )
+          }
+        </ul>
       </div>
     )
   }
