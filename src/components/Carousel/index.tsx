@@ -1,4 +1,4 @@
-import React, { MouseEventHandler, PureComponent } from 'react'
+import { MouseEventHandler, PureComponent } from 'react'
 import { Image } from 'antd'
 import './index.scss'
 import IconFont from 'components/IconFont'
