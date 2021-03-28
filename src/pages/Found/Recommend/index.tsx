@@ -1,20 +1,11 @@
 import { PureComponent } from 'react'
+import { Link } from 'react-router-dom'
 import { Row, Col } from 'antd'
 import http from 'utils/http'
 import IconFont from 'components/IconFont'
 import style from './index.module.scss'
 import Carousel from 'components/Carousel'
-import SongList from 'components/SongList'
-interface Banners {
-  imageUrl: string
-  targetId: number
-}
-interface RecommendList {
-  id: number
-  name: string
-  playCount: number
-  picUrl: string
-}
+import ImgCard from 'components/ImageCard'
 export default class Recommend extends PureComponent {
   state = {
     banners: [],
@@ -35,17 +26,22 @@ export default class Recommend extends PureComponent {
   getBanners(res: any) {
     const banners: Array<Banners> = []
     res.banners.forEach((value: Banners) => {
-      banners.push({ imageUrl: value.imageUrl + '?param=566y200', targetId: value.targetId })
+      const { targetId, imageUrl, targetType, titleColor, typeTitle, url } = value
+      banners.push({ 
+        targetId, imageUrl: imageUrl + '?param?x566y200', 
+        targetType, titleColor, typeTitle, url
+      })
     })
     this.setState({banners})
   }
   // 获取推荐歌单
   getRecommendSongList(res: any) {
-    const recommendSongList: Array<RecommendList> = []
-    res.result.forEach((value: RecommendList) => {
+    const recommendSongList: Array<ImgCardType> = []
+    res.result.forEach((value: ImgCardType) => {
+      const { id, picUrl, name, playCount } = value
       recommendSongList.push({
-         id: value.id, name: value.name, 
-         picUrl: value.picUrl + '?param=205y205', playCount: value.playCount
+        id, picUrl: picUrl + 'param?x205y205', name, 
+        showPlayCount: true, playCount
       })
     })
     this.setState({recommendSongList})
@@ -55,21 +51,21 @@ export default class Recommend extends PureComponent {
     return (
       <div className={style.container}>
         {/* 轮播图 */}
-        <Carousel banners={banners} />
-        <div className={style.title}>
+        <Carousel banners={banners} autoplay={false} />
+        <Link to="/" className={style.title}>
           推荐歌单<IconFont type="icon-arrow-right" style={{fontSize:'17px', fontWeight:'bold'}}/>
-        </div>
+        </Link>
         {/* 推荐歌单 */}
         <Row gutter={20} wrap={true}>
           {
-            recommendSongList.map((value: RecommendList) => 
-              <Col key={value.id} className={style.col}><SongList {...value} /></Col>
+            recommendSongList.map((value: ImgCardType) => 
+              <Col key={value.id} className={style.col}><ImgCard {...value} /></Col>
             )
           }
         </Row>
-        <div className={style.title}>
+        <Link to="/" className={style.title}>
           独家放送<IconFont type="icon-arrow-right" style={{fontSize:'17px', fontWeight:'bold'}}/>
-        </div>
+        </Link>
         {/* 独家放送 */}
         
       </div>

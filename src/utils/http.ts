@@ -17,9 +17,6 @@ axios.defaults.baseURL = 'http://localhost:4000'
 axios.defaults.withCredentials = true
 
 const MethodType = ['post', 'put', 'patch']
-interface Data {
-  [key: string]: any
-}
 interface allRequest {
   url: string,
   method?: Method

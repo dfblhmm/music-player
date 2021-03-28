@@ -4,7 +4,7 @@ import { Menu, Affix } from 'antd'
 import './index.scss'
 const Recommend = lazy(() => import('./Recommend'))
 export default class Found extends PureComponent {
-  target!: HTMLElement | null | Window
+  target!: HTMLElement | null
   state = {
     selectedKeys: ['recommend'], // 当前选中的菜单项
   }

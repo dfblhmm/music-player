@@ -1,5 +1,5 @@
 @mixin arrow {
-  &:hover .arrow{
+  &:hover .carousel-arrow{
     &:first-of-type {
       left: 20px;
     }
@@ -21,35 +21,39 @@
     height: 100%;
     position: absolute;
     left: 50%;
-    z-index: 8;
+    z-index: 10;
     transform: translate3d(-50%, 0, -200px);
     transform-style: preserve-3d;
-    transition: all .6s ease;
-    .ant-image img {
-      width: 100%;
-      height: 100%;
-      border-radius: 15px;
-    }
-    // 图片遮罩层
-    .ant-image-mask {
-      border-radius: 15px;
-    }
-    &.prev {
+    transition: transform .6s ease, z-index .1s ease;
+    // transition: all .6s ease;
+    border-radius: 15px;
+    overflow: hidden;
+    &.carousel-prev {
       transform: translate3d(-120%, 0, -200px);
-      z-index: 10;
+      z-index: 14;
     }
     &.carousel-active {
       transform: translate3d(-50%, 0, 0);
-      z-index: 11;
+      z-index: 16;
       cursor: pointer;
     }
-    &.next {
+    &.carousel-next {
       transform: translate3d(20%, 0, -200px);
-      z-index: 9;
+      z-index: 12;
+    }
+    // 轮播图对应类型
+    .banner-title {
+      position: absolute;
+      bottom: 0;
+      right: 0;
+      border-top-left-radius: 5px;
+      font-size: 12px;
+      padding: 5px 10px;
+      color: #fff;
     }
   }
-  // 图标
-  .arrow {
+  // 左右箭头
+  .carousel-arrow {
     position: absolute;
     top: 50%;
     transform: translateY(-50%);
@@ -71,7 +75,7 @@
   // 显示左右箭头
   @include arrow;
   // 小圆点
-  .dot {
+  .carousel-dot {
     width: 100%;
     position: absolute;
     bottom: 0;
@@ -91,7 +95,7 @@
         height: 7px;
         background-color: #E6E6E6;
         border-radius: 50%;
-        &.active-dot {
+        &.carousel-active-dot {
           background-color: #ec4141;
         }
       }

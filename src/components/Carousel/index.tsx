@@ -6,10 +6,6 @@ interface PrevNext {
   prev: number
   next: number
 }
-interface Banners {
-  imageUrl: string
-  targetId: number
-}
 interface Props {
   banners: Array<Banners>
   toggleTime: number
@@ -76,9 +72,9 @@ export default class Carousel extends PureComponent<Props> {
     const { activeIndex } = this.state
     switch (index) {
       case prev:
-        return 'carousel-item prev'
+        return 'carousel-item carousel-prev'
       case next: 
-        return 'carousel-item next'
+        return 'carousel-item carousel-next'
       case activeIndex:
         return 'carousel-item carousel-active'
       default:
@@ -98,26 +94,30 @@ export default class Carousel extends PureComponent<Props> {
     return (
       <div className="carousel-container" style={{height: height + 'px'}} 
         onMouseEnter={this.pause} onMouseLeave={this.autoplay}>
-        <IconFont type="icon-arrow-left" className="arrow" title="上一张" 
+        <IconFont type="icon-arrow-left" className="carousel-arrow" title="上一张" 
           style={{display: showArrow ? 'block':'none'}} onClick={this.changeCurrent('prev')}/>
         {
           banners.map((value, index) => {
+            const { titleColor, typeTitle } = value
             return (
               <div key={index} className={this.getCurrentClassName(index)} style={{height: height - 25 + 'px'}}
                  onClick={this.handleClickImg(index)}>
                 <Image src={value.imageUrl} placeholder preview={false} />
+                <span className="banner-title" 
+                  style={{backgroundColor: titleColor==='red' ? '#CC4A4A' : '#4A79CC'}}>{typeTitle}
+                </span>
               </div>
             )
           })
         }
-        <IconFont type="icon-arrow-right" className="arrow" title="下一张" 
+        <IconFont type="icon-arrow-right" className="carousel-arrow" title="下一张" 
           style={{display: showArrow ? 'block':'none'}} onClick={this.changeCurrent('next')}/>
         {/* 小圆点 */}
-        <ul className="dot" style={{height: '25px', display: showDot ? 'flex':'none'}} >
+        <ul className="carousel-dot" style={{height: '25px', display: showDot ? 'flex':'none'}} >
           {
             banners.map((value, index) => 
               <li key={index} onMouseOver={() =>this.setState({activeIndex: index})}>
-                <span className={activeIndex === index ? 'active-dot': ''}></span>
+                <span className={activeIndex === index ? 'carousel-active-dot': ''}></span>
               </li>
             )
           }
