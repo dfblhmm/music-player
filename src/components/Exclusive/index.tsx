@@ -1,19 +1,7 @@
-import { Fragment, PureComponent } from 'react'
-import { Image } from 'antd'
-import IconFont from 'components/IconFont'
+import { PureComponent, Fragment } from 'react'
 import style from './index.module.scss'
-interface RecommendList {
-  id: number
-  name: string
-  playCount: number
-  picUrl: string
-}
-export default class SongList extends PureComponent<RecommendList> {
-  handleCount = (count: number): number | string => {
-    return count > 100000 ? Math.floor(count / 10000) + '万' : count
-  }
+export default class Exclusive extends PureComponent {
   render() {
-    const { name, picUrl, playCount } = this.props
     return (
       <Fragment>
         <div className={style['songlist-img']}>

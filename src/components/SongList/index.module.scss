@@ -39,3 +39,12 @@ img {
     font-size: 15px;
   }
 }
+// 歌单名称
+.name {
+  font-size: 14px;
+  line-height: 1.5em;
+  cursor: pointer;
+  &:hover {
+    color: #000;
+  }
+}

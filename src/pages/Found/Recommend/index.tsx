@@ -54,10 +54,12 @@ export default class Recommend extends PureComponent {
     const { banners, recommendSongList } = this.state
     return (
       <div className={style.container}>
+        {/* 轮播图 */}
         <Carousel banners={banners} />
         <div className={style.title}>
           推荐歌单<IconFont type="icon-arrow-right" style={{fontSize:'17px', fontWeight:'bold'}}/>
         </div>
+        {/* 推荐歌单 */}
         <Row gutter={20} wrap={true}>
           {
             recommendSongList.map((value: RecommendList) => 
@@ -65,6 +67,11 @@ export default class Recommend extends PureComponent {
             )
           }
         </Row>
+        <div className={style.title}>
+          独家放送<IconFont type="icon-arrow-right" style={{fontSize:'17px', fontWeight:'bold'}}/>
+        </div>
+        {/* 独家放送 */}
+        
       </div>
     )
   }
