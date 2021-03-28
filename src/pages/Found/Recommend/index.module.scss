@@ -1,3 +1,24 @@
 .container {
   padding: 0 90px;
+  .col {
+    flex: 20%;
+    max-width: 20%;
+    margin-bottom: 20px;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+  }
+  // 每个区域的标题
+  .title {
+    margin-bottom: 15px;
+    color: #373737;
+    cursor: pointer;
+    &:hover {
+      color: #000;
+    }
+    font: {
+      size: 20px;
+      weight: 600;
+    }
+  }
 }

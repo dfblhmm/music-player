@@ -1,0 +1,41 @@
+img {
+  border-radius: 5px;
+}
+.songlist-img {
+  position: relative;
+  margin-bottom: 5px;
+  cursor: pointer;
+  &:hover .play{
+    opacity: 1;
+  }
+}
+// 播放图标
+.play {
+  position: absolute;
+  right: 8px;
+  bottom: 10px;
+  color: #ec4141;
+  background-color: #fff;
+  box-shadow: 0 0 10px #fff;
+  border-radius: 50%;
+  padding: 7px;
+  opacity: 0;
+  font-size: 14px;
+  transition: opacity 0.5s ease;
+  cursor: pointer;
+}
+// 播放次数
+.play-count {
+  position: absolute;
+  right: 10px;
+  top: 2px;
+  span {
+    font-size: 12px;
+    margin-left: 2px;
+    color: #fff;
+  }
+  // 播放次数图标
+  .count {
+    font-size: 15px;
+  }
+}

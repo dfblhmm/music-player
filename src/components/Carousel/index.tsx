@@ -96,15 +96,15 @@ export default class Carousel extends PureComponent<Props> {
     const { activeIndex } = this.state
     const { banners, height, showArrow, showDot } = this.props
     return (
-      <div className="carousel-container" style={{height: height + 'px'}}>
+      <div className="carousel-container" style={{height: height + 'px'}} 
+        onMouseEnter={this.pause} onMouseLeave={this.autoplay}>
         <IconFont type="icon-arrow-left" className="arrow" title="上一张" 
           style={{display: showArrow ? 'block':'none'}} onClick={this.changeCurrent('prev')}/>
         {
           banners.map((value, index) => {
             return (
               <div key={index} className={this.getCurrentClassName(index)} style={{height: height - 25 + 'px'}}
-                onMouseEnter={this.pause} onMouseLeave={this.autoplay} onClick={this.handleClickImg(index)}
-                >
+                 onClick={this.handleClickImg(index)}>
                 <Image src={value.imageUrl} placeholder preview={false} />
               </div>
             )

@@ -16,10 +16,17 @@ axios.interceptors.response.use((response: AxiosResponse) => {
 axios.defaults.baseURL = 'http://localhost:4000'
 axios.defaults.withCredentials = true
 
-export { axios }
-
 const MethodType = ['post', 'put', 'patch']
-export default function http(url: string, data = {}, method: Method = 'get'): Promise<any> {
+interface Data {
+  [key: string]: any
+}
+interface allRequest {
+  url: string,
+  method?: Method
+  data?: Data
+}
+
+export default function http(url: string, data = {}, method: Method = 'get'): Promise<Data> {
   return new Promise(resolve => {
     let res: Promise<any>
     if (MethodType.includes(method)) {
@@ -35,4 +42,16 @@ export default function http(url: string, data = {}, method: Method = 'get'): Pr
       message.error('请求出错，请重试')
     })
   })  
+}
+
+http.all = function(requests: Array<allRequest>): Promise<Data> {
+  return new Promise(resolve => {
+    const arr: Array<Promise<any>> = []
+    requests.forEach(value => {
+      arr.push(http(value.url, value.data, value.method))
+    })
+    const res = Promise.all(arr)
+    res.then(res => resolve(res))
+       .catch(() => message.error('请求出错，请重试'))
+  })
 }

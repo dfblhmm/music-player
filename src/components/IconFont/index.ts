@@ -1,4 +1,4 @@
 import { createFromIconfontCN } from '@ant-design/icons'
 export default createFromIconfontCN({
-  scriptUrl: '//at.alicdn.com/t/font_2124451_wnnx7vlyfmi.js',
+  scriptUrl: '//at.alicdn.com/t/font_2124451_sqd9brqfv9j.js',
 })
