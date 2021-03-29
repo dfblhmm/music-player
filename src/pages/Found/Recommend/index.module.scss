@@ -1,11 +1,19 @@
+@mixin col {
+  margin-bottom: 20px;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
 .container {
   padding: 0 90px;
-  .col {
+  .col-songlist {
+    @include col;
     flex: 20%;
     max-width: 20%;
-    margin-bottom: 20px;
-    position: relative;
-    display: flex;
-    flex-direction: column;
+  }
+  .col-exclusive {
+    @include col;
+    flex: 33.33%;
+    max-width: 33.33%;
   }
 }

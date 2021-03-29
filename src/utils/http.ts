@@ -14,6 +14,7 @@ axios.interceptors.response.use((response: AxiosResponse) => {
 })
 
 axios.defaults.baseURL = 'http://localhost:4000'
+// axios.defaults.baseURL = 'https://autumnfish.cn'
 axios.defaults.withCredentials = true
 
 const MethodType = ['post', 'put', 'patch']
