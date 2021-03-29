@@ -1,0 +1,25 @@
+@mixin common {
+  display: block;
+  margin: 20px 0 15px;
+  color: #373737;
+  font: {
+    size: 20px;
+    weight: 600;
+  }
+}
+// 每个区域的标题
+.title {
+  @include common;
+}
+.nav-title {
+  @include common;
+  &:hover {
+    color: #000;
+  }
+}
+.nav-icon {
+  font: {
+    size: 17px;
+    weight: bold;
+  }
+}

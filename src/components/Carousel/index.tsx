@@ -6,7 +6,7 @@ interface PrevNext {
   prev: number
   next: number
 }
-interface Props {
+interface BannersProps {
   banners: Array<Banners>
   toggleTime: number
   height: number
@@ -14,12 +14,12 @@ interface Props {
   showArrow: boolean
   showDot: boolean
 }
-export default class Carousel extends PureComponent<Props> {
+export default class Carousel extends PureComponent<BannersProps> {
   state = {
     activeIndex: 0,
     timer : 0
   }
-  static defaultProps: Props = {
+  static defaultProps: BannersProps = {
     banners: [],
     toggleTime: 5000,
     height: 225,

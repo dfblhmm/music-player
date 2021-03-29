@@ -1,11 +1,10 @@
 import { PureComponent } from 'react'
-import { Link } from 'react-router-dom'
 import { Row, Col } from 'antd'
 import http from 'utils/http'
-import IconFont from 'components/IconFont'
 import style from './index.module.scss'
 import Carousel from 'components/Carousel'
 import ImgCard from 'components/ImageCard'
+import NavTitle from 'components/NavTitle'
 export default class Recommend extends PureComponent {
   state = {
     banners: [],
@@ -40,8 +39,7 @@ export default class Recommend extends PureComponent {
     res.result.forEach((value: ImgCardType) => {
       const { id, picUrl, name, playCount } = value
       recommendSongList.push({
-        id, picUrl: picUrl + 'param?x205y205', name, 
-        showPlayCount: true, playCount
+        id, picUrl: picUrl + 'param?x205y205', name, playCount
       })
     })
     this.setState({recommendSongList})
@@ -52,22 +50,17 @@ export default class Recommend extends PureComponent {
       <div className={style.container}>
         {/* 轮播图 */}
         <Carousel banners={banners} autoplay={false} />
-        <Link to="/" className={style.title}>
-          推荐歌单<IconFont type="icon-arrow-right" style={{fontSize:'17px', fontWeight:'bold'}}/>
-        </Link>
         {/* 推荐歌单 */}
+        <NavTitle to="/" title="推荐歌单" />
         <Row gutter={20} wrap={true}>
           {
             recommendSongList.map((value: ImgCardType) => 
-              <Col key={value.id} className={style.col}><ImgCard {...value} /></Col>
+              <Col key={value.id} className={style.col}><ImgCard showPlayIcon {...value} /></Col>
             )
           }
         </Row>
-        <Link to="/" className={style.title}>
-          独家放送<IconFont type="icon-arrow-right" style={{fontSize:'17px', fontWeight:'bold'}}/>
-        </Link>
         {/* 独家放送 */}
-        
+        <NavTitle to="/" title="独家放送" />
       </div>
     )
   }

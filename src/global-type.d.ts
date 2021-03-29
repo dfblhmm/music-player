@@ -18,6 +18,6 @@ interface ImgCardType {
   id: number
   picUrl: string
   name: string
-  showPlayCount: boolean
   playCount?: number
+  showPlayIcon?: boolean // 是否显示播放按钮
 }
