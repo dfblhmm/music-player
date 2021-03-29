@@ -1,9 +1,10 @@
 import { PureComponent } from 'react'
-import { Row, Col } from 'antd'
+// import { Row, Col } from 'antd'
 import http from 'utils/http'
 import style from './index.module.scss'
 import Carousel from 'components/Carousel'
-import ImgCard from 'components/ImageCard'
+// import ImgCard from 'components/ImgCard'
+import ImgCardList from 'components/ImgCardList'
 import NavTitle from 'components/NavTitle'
 export default class Recommend extends PureComponent {
   state = {
@@ -67,27 +68,10 @@ export default class Recommend extends PureComponent {
         <Carousel banners={banners} autoplay={false} />
         {/* 推荐歌单 */}
         <NavTitle to="/" title="推荐歌单" />
-        <Row gutter={20} wrap={true}>
-          {
-            recommendSongList.map((value: ImgCardType) => 
-              <Col key={value.id} className={style['col-songlist']}>
-                <ImgCard showPlayIcon {...value} />
-              </Col>
-            )
-          }
-        </Row>
+        <ImgCardList list={recommendSongList} flex="20%" wrap showPlayIcon />
         {/* 独家放送入口 */}
         <NavTitle to="/" title="独家放送" />
-        <Row gutter={20} wrap={true}>
-          {
-            exclusiveEntry.map((value: ImgCardType) => 
-              <Col key={value.id} className={style['col-exclusive']}>
-                <ImgCard showVideoIcon {...value} />
-              </Col>
-            )
-          }
-        </Row>
-        
+        <ImgCardList list={exclusiveEntry} flex="1" showVideoIcon />
       </div>
     )
   }

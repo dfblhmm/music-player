@@ -19,16 +19,19 @@ interface Artists {
   name: string
 }
 // 图片卡片组件
-interface ImgCardType {
+interface ImgCardType extends ImgCardIconType {
   id: number
   picUrl: string
   sPicUrl?: string
   name: string
   playCount?: number
+  artists?: Array<Artists> // 歌手数组
+  duration?: number // 资源的时长
+}
+// 控制不同的卡片是否显示特定的图标
+interface ImgCardIconType {
   showPlayIcon?: boolean // 是否显示播放图标
   showVideoIcon?: boolean // 是否显示图片左上角的播放视频图标
   maskTitle?: string // 是否显示遮罩层
   ellipsis?: boolean // 文字溢出时是否使用省略号代替
-  artists?: Array<Artists> // 歌手数组
-  duration?: number // 资源的时长
 }

@@ -12,7 +12,7 @@ export default class NavTitle extends PureComponent<NavTitleProps> {
     if (!to) return (<h1 className={style.title}>{title}</h1>)
     return (
       <Link to={to} className={style['nav-title']}>
-        独家放送<IconFont type="icon-arrow-right" className={style['nav-icon']} />
+        {title}<IconFont type="icon-arrow-right" className={style['nav-icon']} />
       </Link>
     )
   }
