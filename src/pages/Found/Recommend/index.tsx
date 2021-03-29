@@ -1,23 +1,24 @@
 import { PureComponent } from 'react'
-// import { Row, Col } from 'antd'
 import http from 'utils/http'
 import style from './index.module.scss'
 import Carousel from 'components/Carousel'
-// import ImgCard from 'components/ImgCard'
 import ImgCardList from 'components/ImgCardList'
 import NavTitle from 'components/NavTitle'
+import NewSong from 'components/NewSong'
 export default class Recommend extends PureComponent {
   state = {
     banners: [],
     recommendSongList: [],
-    exclusiveEntry: []
+    exclusiveEntry: [],
+    recommendMV: []
   }
   async componentDidMount() {
     // 并发获取数据
     const res = await http.all([
       { url: '/banner' },
       { url: '/personalized', data: {limit: 10} },
-      { url: '/personalized/privatecontent' } 
+      { url: '/personalized/privatecontent' },
+      { url: '/personalized/mv' } 
     ])
     // 获取轮播图数据
     this.getBanners(res[0])
@@ -25,6 +26,8 @@ export default class Recommend extends PureComponent {
     this.getRecommendSongList(res[1])
     // 获取独家放送入口
     this.getExclusiveEntry(res[2])
+    // 获取推荐MV
+    this.getRecommendMV(res[3])
   }
   // 获取轮播图数据
   getBanners(res: Data) {
@@ -60,8 +63,20 @@ export default class Recommend extends PureComponent {
     })
     this.setState({exclusiveEntry})
   }
+  // 获取推荐MV
+  getRecommendMV(res: Data) {
+    const recommendMV: Array<ImgCardType> = []
+    res.result.forEach((value: ImgCardType) => {
+      const { id, name, picUrl, playCount, artists } = value
+      recommendMV.push({
+         id, name, picUrl: picUrl + '?param=x266y150', 
+         playCount, artists, maskTitle: '最新热门MV推荐' 
+      })
+    })
+    this.setState({recommendMV})
+  }
   render() {
-    const { banners, recommendSongList, exclusiveEntry } = this.state
+    const { banners, recommendSongList, exclusiveEntry, recommendMV} = this.state
     return (
       <div className={style.container}>
         {/* 轮播图 */}
@@ -72,6 +87,14 @@ export default class Recommend extends PureComponent {
         {/* 独家放送入口 */}
         <NavTitle to="/" title="独家放送" />
         <ImgCardList list={exclusiveEntry} flex="1" showVideoIcon />
+        {/* 最新音乐 */}
+        <NavTitle to="/" title="最新音乐" />
+        <NewSong />
+        {/* 推荐MV */}
+        <NavTitle to="/" title="推荐MV" />
+        <ImgCardList list={recommendMV} flex="1" />
+        {/* 主播电台 */}
+        <NavTitle to="/" title="主播电台" />
       </div>
     )
   }

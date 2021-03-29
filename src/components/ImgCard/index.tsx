@@ -3,12 +3,12 @@ import { Image } from 'antd'
 import IconFont from 'components/IconFont'
 import style from './index.module.scss'
 export default class ImgCard extends PureComponent<ImgCardType> {
-  static defaultProps = {
-    showPlayIcon: false,
-    showVideoIcon: false,
-    maskTitle: false,
-    ellipsis: false
-  }
+  // static defaultProps = {
+  //   showPlayIcon: false,
+  //   showVideoIcon: false,
+  //   maskTitle: false,
+  //   ellipsis: false
+  // }
   // 是否显示播放次数
   showPlayCount(): JSX.Element {
     let { playCount }: { playCount?: number | string } = this.props
@@ -55,8 +55,8 @@ export default class ImgCard extends PureComponent<ImgCardType> {
         {
           artists.map((value: Artists, index) => (
             <Fragment key={index}>
-              <span className={value.id ? style['artist-has-info'] : style['artist-no-info']}></span>
-              {index === artists.length - 1 ? ' / ' : <Fragment></Fragment>}
+              <span className={value.id ? style['artist-has-info'] : style['artist-no-info']}>{value.name}</span>
+              {index !== artists.length - 1 ? <span style={{fontSize:'12px'}}> / </span> : <Fragment></Fragment>}
             </Fragment>
           ))
         }

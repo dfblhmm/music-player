@@ -5,7 +5,7 @@ import style from './index.module.scss'
 interface ImgCardListProps extends ImgCardIconType{
   list: Array<ImgCardType>
   gutter?: number
-  flex: string
+  flex: string | number
   wrap?: boolean
 }
 export default class ImgCardList extends PureComponent<ImgCardListProps> {
@@ -21,7 +21,7 @@ export default class ImgCardList extends PureComponent<ImgCardListProps> {
         <Row gutter={gutter} wrap={wrap}>
           {
             list.map((value: ImgCardType) => 
-              <Col key={value.id} className={style.col} style={{flex}}>
+              <Col key={value.id} className={style.col} flex={flex}>
                 <ImgCard {...iconType} {...value} />
               </Col>
             )

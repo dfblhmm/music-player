@@ -1,0 +1,21 @@
+.song-img {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  // 播放图标
+  .play {
+    position: absolute;
+    color: #ec4141;
+    background-color: #fff;
+    box-shadow: 0 0 10px #fff;
+    border-radius: 50%;
+    padding: 5px;
+    font-size: 12px;
+  }
+
+  img {
+    border-radius: 5px;
+  }
+}
