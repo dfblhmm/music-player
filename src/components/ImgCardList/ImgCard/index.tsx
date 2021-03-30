@@ -7,7 +7,7 @@ export default class ImgCard extends PureComponent<ImgCardType> {
   // 是否显示播放次数
   showPlayCount(): JSX.Element {
     let { playCount }: { playCount?: number | string } = this.props
-    if (!playCount) return (<Fragment></Fragment>)
+    if (!playCount) return (<></>)
     // 取出播放次数，并进行格式化
     playCount = playCount > 100000 ? Math.floor(playCount / 10000) + '万' : playCount
     return (
@@ -20,7 +20,7 @@ export default class ImgCard extends PureComponent<ImgCardType> {
   // 是否显示播放图标
   showPlayIcon(): JSX.Element {
     const { showPlayIcon } = this.props
-    if(!showPlayIcon) return (<Fragment></Fragment>)
+    if(!showPlayIcon) return (<></>)
     return (
       <IconFont type="icon-play-item" className={style.play} title="播放"/>
     )
@@ -28,7 +28,7 @@ export default class ImgCard extends PureComponent<ImgCardType> {
   // 是否显示视频播放图标
   showVideoIcon(): JSX.Element {
     const { showVideoIcon } = this.props
-    if(!showVideoIcon) return (<Fragment></Fragment>)
+    if(!showVideoIcon) return (<></>)
     return (
       <IconFont type="icon-play-item" className={style['play-video']} />
     )
@@ -36,7 +36,7 @@ export default class ImgCard extends PureComponent<ImgCardType> {
   // 是否显示遮罩层
   showMask(): JSX.Element {
     const { maskTitle } = this.props
-    if(!maskTitle) return (<Fragment></Fragment>)
+    if(!maskTitle) return (<></>)
     return (
       <div className={style.mask}>{maskTitle}</div>
     )
@@ -44,19 +44,27 @@ export default class ImgCard extends PureComponent<ImgCardType> {
   // 是否显示歌手
   showArtists(): JSX.Element {
     const { artists } = this.props
-    if (!artists) return (<Fragment></Fragment>)
+    if (!artists) return (<></>)
     return (<Artists artists={artists} color="#676767" hoverColor="#373737" />)
   }
   // 是否显示时长
   showDuration(): JSX.Element {
     const { duration } = this.props
-    if (!duration) return (<Fragment></Fragment>)
+    if (!duration) return (<></>)
     let minute: number | string = Math.floor(duration / 60000)
     let second: number | string = Math.floor(duration / 1000 % 60)
     minute = minute > 10 ? minute : '0' + minute
     second = second > 10 ? second : '0' + second
     return (
       <span className={style['item-duration']}>{`${minute}:${second}`}</span>
+    )
+  }
+  // 是否显示电台描述
+  showRadio(): JSX.Element {
+    const { rcmdtext } = this.props 
+    if (!rcmdtext) return (<></>)
+    return (
+      <div className={style['radio-name']} title={rcmdtext}>{rcmdtext}</div>
     )
   }
   render() {
@@ -75,6 +83,8 @@ export default class ImgCard extends PureComponent<ImgCardType> {
           {this.showMask()}
           {/* 是否显示时长 */}
           {this.showDuration()}
+          {/* 是否显示电台 */}
+          { this.showRadio() }
         </div>
         {/* 项目名字 */}
         <div className={ellipsis?style['item-name-ellipsis']:style['item-name']}>{name}</div>

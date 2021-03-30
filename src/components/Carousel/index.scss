@@ -24,8 +24,7 @@
     z-index: 10;
     transform: translate3d(-50%, 0, -200px);
     transform-style: preserve-3d;
-    // transition: transform .6s ease, z-index .3s ease;
-    transition: all .6s ease;
+    transition: transform .6s ease, z-index .3s ease;
     border-radius: 15px;
     overflow: hidden;
     &.carousel-prev {

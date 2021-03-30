@@ -37,7 +37,7 @@ export default class Artists extends PureComponent<ArtistsProps> {
               </span>
               {index !== artists.length - 1 ? 
                 <span className={style.separator} style={{color}}>/</span>
-                : <Fragment></Fragment>}
+                : <></>}
             </Fragment>
           ))
         }

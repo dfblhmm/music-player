@@ -6,12 +6,12 @@ $color: #ec4141;
 }
 .col {
   display: flex;
-  flex: calc(33.33% - 30px);
-  max-width: calc(33.33% - 30px);
+  flex: calc(33.33% - 20px);
+  max-width: calc(33.33% - 20px);
   border-radius: 5px;
   margin-bottom: 20px;
   padding: 0 !important;
-  margin-right: 10px;
+  margin-right: 20px;
   &:hover {
     background-color: #EAEAEA;
   }
@@ -45,6 +45,10 @@ $color: #ec4141;
       padding: 0 2px;
       margin-right: 5px;
     }
-    .mv { cursor: pointer; }
+    .mv { 
+      display: flex;
+      align-items: center;
+      cursor: pointer; 
+    }
   }
 }

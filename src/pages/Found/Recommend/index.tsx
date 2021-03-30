@@ -11,16 +11,18 @@ export default class Recommend extends PureComponent {
     recommendSongList: [],
     exclusiveEntry: [],
     recommendMV: [],
-    newSongs: []
+    newSongs: [],
+    radios: []
   }
   async componentDidMount() {
     // 并发获取数据
     const res = await http.all([
       { url: '/banner' },
-      { url: '/personalized', data: {limit: 10} },
+      { url: '/personalized', data: { limit: 10 } },
       { url: '/personalized/privatecontent' },
       { url: '/personalized/mv' },
-      { url: 'personalized/newsong', data: {limit: 9 } } 
+      { url: 'personalized/newsong', data: { limit: 9 } },
+      { url: '/dj/hot', data: { limit: 6 } } 
     ])
     // 获取轮播图数据
     this.getBanners(res[0].banners)
@@ -32,6 +34,8 @@ export default class Recommend extends PureComponent {
     this.getRecommendMV(res[3].result)
     // 获取最新音乐
     this.getNewSongs(res[4].result)
+    // 获取主播电台
+    this.getRadios(res[5].djRadios) 
   }
   // 获取轮播图数据
   getBanners(res: Data) {
@@ -84,10 +88,10 @@ export default class Recommend extends PureComponent {
     const newSongs: Array<SongItem> = []
     res.forEach((value: Data) => {
       const { id, name, picUrl } = value
-      const artists = value.song.artists
-      const mvid = value.song.mvid
-      const maxbr = value.song.privilege.maxbr
-      const alias = value.song.alias[0]
+      const artists: Array<Artist> = value.song.artists
+      const mvid: number = value.song.mvid
+      const maxbr: number = value.song.privilege.maxbr
+      const alias: string = value.song.alias[0]
       newSongs.push({
         id, name, picUrl: picUrl + '?param=x55y55', artists,
         maxbr, mvid, alias
@@ -96,8 +100,19 @@ export default class Recommend extends PureComponent {
 
     this.setState({newSongs})
   }
+  // 获取主播电台
+  getRadios(res: Data) {
+    const radios: Array<ImgCardType> = []
+    res.forEach((value: ImgCardType) => {
+      const { id, name, rcmdtext, picUrl } = value
+      radios.push({
+        id, name: rcmdtext!, picUrl, rcmdtext: name
+      })
+    })
+    this.setState({radios})
+  }
   render() {
-    const { banners, recommendSongList, exclusiveEntry, recommendMV, newSongs} = this.state
+    const { banners, recommendSongList, exclusiveEntry, recommendMV, newSongs, radios } = this.state
     return (
       <div className={style.container}>
         {/* 轮播图 */}
@@ -116,6 +131,7 @@ export default class Recommend extends PureComponent {
         <ImgCardList list={recommendMV} flex="25%" ellipsis />
         {/* 主播电台 */}
         <NavTitle to="/" title="主播电台" />
+        <ImgCardList list={radios} flex="1" />
       </div>
     )
   }

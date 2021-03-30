@@ -27,6 +27,7 @@ interface ImgCardType extends ImgCardIconType {
   playCount?: number
   artists?: Array<Artist> // 歌手数组
   duration?: number // 资源的时长
+  rcmdtext?: string // 电台类型
 }
 // 控制不同的卡片是否显示特定的图标
 interface ImgCardIconType {
