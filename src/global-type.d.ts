@@ -14,7 +14,7 @@ interface Banners {
   url: string | null // 对应的url地址 
 }
 // 歌手信息
-interface Artists {
+interface Artist {
   id: number
   name: string
 }
@@ -25,7 +25,7 @@ interface ImgCardType extends ImgCardIconType {
   sPicUrl?: string
   name: string
   playCount?: number
-  artists?: Array<Artists> // 歌手数组
+  artists?: Array<Artist> // 歌手数组
   duration?: number // 资源的时长
 }
 // 控制不同的卡片是否显示特定的图标

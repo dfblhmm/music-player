@@ -1,6 +1,7 @@
 import { Fragment, PureComponent } from 'react'
 import { Image } from 'antd'
 import IconFont from 'components/IconFont'
+import Artists from 'components/Artists'
 import style from './index.module.scss'
 export default class ImgCard extends PureComponent<ImgCardType> {
   // static defaultProps = {
@@ -52,14 +53,7 @@ export default class ImgCard extends PureComponent<ImgCardType> {
     if (!artists) return (<Fragment></Fragment>)
     return (
       <div className={style['item-artists']}>
-        {
-          artists.map((value: Artists, index) => (
-            <Fragment key={index}>
-              <span className={value.id ? style['artist-has-info'] : style['artist-no-info']}>{value.name}</span>
-              {index !== artists.length - 1 ? <span style={{fontSize:'12px'}}> / </span> : <Fragment></Fragment>}
-            </Fragment>
-          ))
-        }
+        <Artists artists={artists} color="#676767" hoverColor="#373737" />
       </div>
     )
   }
