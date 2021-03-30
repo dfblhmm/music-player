@@ -1,6 +1,6 @@
 import { PureComponent, Fragment } from 'react'
 import { Row, Col } from 'antd'
-import ImgCard from 'components/ImgCard'
+import ImgCard from './ImgCard'
 import style from './index.module.scss'
 interface ImgCardListProps extends ImgCardIconType{
   list: Array<ImgCardType>

@@ -28,12 +28,17 @@ export default class Carousel extends PureComponent<BannersProps> {
     showDot: true
   }
   componentDidMount() {
-    // 组件挂载完成，开启轮播
-    this.autoplay()
+    // 组件挂载完成
+    // 浏览器窗口处于活动状态
+    window.addEventListener('focus', this.autoplay)
+    // 浏览器窗口处于不活跃状态
+    window.addEventListener('blur', this.pause)
   }
   componentWillUnmount() {
-    // 组件销毁，关闭定时器
+    // 组件销毁，关闭定时器，移除事件
     this.pause()
+    window.removeEventListener('focus', this.autoplay)
+    window.removeEventListener('blur', this.pause)
   }
   // 开启轮播
   autoplay = () => {
@@ -93,7 +98,7 @@ export default class Carousel extends PureComponent<BannersProps> {
     const { banners, height, showArrow, showDot } = this.props
     return (
       <div className="carousel-container" style={{height: height + 'px'}} 
-        onMouseEnter={this.pause} onMouseLeave={this.autoplay}>
+        onMouseEnter={this.pause} onMouseLeave={this.autoplay}> 
         <IconFont type="icon-arrow-left" className="carousel-arrow" title="上一张" 
           style={{display: showArrow ? 'block':'none'}} onClick={this.changeCurrent('prev')}/>
         {
