@@ -4,7 +4,7 @@ import style from './index.module.scss'
 import Carousel from 'components/Carousel'
 import ImgCardList from 'components/ImgCardList'
 import NavTitle from 'components/NavTitle'
-import NewSong from 'components/NewSong'
+import NewSong from './NewSong'
 export default class Recommend extends PureComponent {
   state = {
     banners: [],
