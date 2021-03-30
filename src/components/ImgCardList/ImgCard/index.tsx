@@ -4,12 +4,6 @@ import IconFont from 'components/IconFont'
 import Artists from 'components/Artists'
 import style from './index.module.scss'
 export default class ImgCard extends PureComponent<ImgCardType> {
-  // static defaultProps = {
-  //   showPlayIcon: false,
-  //   showVideoIcon: false,
-  //   maskTitle: false,
-  //   ellipsis: false
-  // }
   // 是否显示播放次数
   showPlayCount(): JSX.Element {
     let { playCount }: { playCount?: number | string } = this.props
@@ -51,11 +45,7 @@ export default class ImgCard extends PureComponent<ImgCardType> {
   showArtists(): JSX.Element {
     const { artists } = this.props
     if (!artists) return (<Fragment></Fragment>)
-    return (
-      <div className={style['item-artists']}>
-        <Artists artists={artists} color="#676767" hoverColor="#373737" />
-      </div>
-    )
+    return (<Artists artists={artists} color="#676767" hoverColor="#373737" />)
   }
   // 是否显示时长
   showDuration(): JSX.Element {

@@ -50,7 +50,7 @@
   left: 5px;
   top: 5px;
   color: #fff;
-  font-size: 12px;
+  font-size: 11px;
   background-color: rgba(0,0,0,.2);
   border-radius: 50%;
   padding: 5px;
@@ -83,11 +83,6 @@
 // 名字溢出时是否用省略号代替
 .item-name-ellipsis {
   @extend .item-name;
-  @include ellipsis;
-}
-// 歌手
-.item-artists {
-  width: 100%;
   @include ellipsis;
 }
 // 时长

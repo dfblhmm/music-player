@@ -35,8 +35,8 @@ $color: #ec4141;
   // 歌曲信息
   .song-info {
     font-size: 12px;
-    @include ellipsis;
-    span { vertical-align: middle; }
+    display: flex;
+    align-items: center;
     .isSQ, .mv {
       display: inline-block;
       color: $color;

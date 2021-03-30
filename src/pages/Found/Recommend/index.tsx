@@ -113,7 +113,7 @@ export default class Recommend extends PureComponent {
         <NewSong songItems={newSongs} />
         {/* 推荐MV */}
         <NavTitle to="/" title="推荐MV" />
-        <ImgCardList list={recommendMV} flex="25%" />
+        <ImgCardList list={recommendMV} flex="25%" ellipsis />
         {/* 主播电台 */}
         <NavTitle to="/" title="主播电台" />
       </div>

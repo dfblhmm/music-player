@@ -1,4 +1,5 @@
 import { PureComponent, Fragment, MouseEventHandler } from 'react'
+import style from './index.module.scss'
 interface ArtistsProps {
   artists: Array<Artist>
   color: string
@@ -27,7 +28,7 @@ export default class Artists extends PureComponent<ArtistsProps> {
   render() {
     const { artists, color } = this.props
     return (
-      <Fragment>
+      <div className={style.artists}>
         {
           artists.map((value: Artist, index) => (
             <Fragment key={value.id}>
@@ -35,12 +36,12 @@ export default class Artists extends PureComponent<ArtistsProps> {
                 onMouseLeave={this.leave(value.id)} title={value.name}>{value.name}
               </span>
               {index !== artists.length - 1 ? 
-                <span style={{fontSize:'12px', color, margin: '0 2px'}}>/</span>
+                <span className={style.separator} style={{color}}>/</span>
                 : <Fragment></Fragment>}
             </Fragment>
           ))
         }
-      </Fragment>
+      </div>
     )
   }
 }

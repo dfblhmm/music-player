@@ -10,8 +10,7 @@ interface ImgCardListProps extends ImgCardIconType{
 }
 export default class ImgCardList extends PureComponent<ImgCardListProps> {
   static defaultProps = {
-    gutter: 20,
-    wrap: false
+    gutter: 20
   }
   render() {
     const { gutter, list, flex, wrap, ellipsis, showPlayIcon, showVideoIcon, maskTitle } = this.props
@@ -21,7 +20,7 @@ export default class ImgCardList extends PureComponent<ImgCardListProps> {
         <Row gutter={gutter} wrap={wrap}>
           {
             list.map((value: ImgCardType) => 
-              <Col key={value.id} className={style.col} style={{flex, maxWidth: flex}} >
+              <Col key={value.id} className={style.col} flex={flex} style={{maxWidth: flex}} >
                 <ImgCard {...iconType} {...value} />
               </Col>
             )
