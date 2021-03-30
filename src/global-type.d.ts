@@ -35,3 +35,13 @@ interface ImgCardIconType {
   maskTitle?: string // 是否显示遮罩层
   ellipsis?: boolean // 文字溢出时是否使用省略号代替
 }
+// 歌曲信息
+interface SongItem {
+  id: number
+  artists: Array<Artist>
+  name: string
+  picUrl: string
+  mvid: number
+  maxbr: number
+  alias?: string
+}

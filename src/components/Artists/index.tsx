@@ -8,7 +8,7 @@ export default class Artists extends PureComponent<ArtistsProps> {
   hasInfo(id: number) {
     const { color } = this.props
     if (!id) return { fontSize: '12px', color }
-    else return { fontSize: '12px', cursor: 'pointer', color }
+    else return { fontSize: '12px', cursor: 'pointer', color, transition: 'color .2s ease' }
   }
   // 鼠标悬停改变颜色
   hover = (id: number): MouseEventHandler => {
@@ -32,9 +32,11 @@ export default class Artists extends PureComponent<ArtistsProps> {
           artists.map((value: Artist, index) => (
             <Fragment key={value.id}>
               <span style={this.hasInfo(value.id)} onMouseEnter={this.hover(value.id)}
-                onMouseLeave={this.leave(value.id)}>{value.name}
+                onMouseLeave={this.leave(value.id)} title={value.name}>{value.name}
               </span>
-              {index !== artists.length - 1 ? <span style={{fontSize:'12px', color}}> / </span> : <Fragment></Fragment>}
+              {index !== artists.length - 1 ? 
+                <span style={{fontSize:'12px', color, margin: '0 2px'}}>/</span>
+                : <Fragment></Fragment>}
             </Fragment>
           ))
         }

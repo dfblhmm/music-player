@@ -10,7 +10,8 @@ export default class Recommend extends PureComponent {
     banners: [],
     recommendSongList: [],
     exclusiveEntry: [],
-    recommendMV: []
+    recommendMV: [],
+    newSongs: []
   }
   async componentDidMount() {
     // 并发获取数据
@@ -18,21 +19,24 @@ export default class Recommend extends PureComponent {
       { url: '/banner' },
       { url: '/personalized', data: {limit: 10} },
       { url: '/personalized/privatecontent' },
-      { url: '/personalized/mv' } 
+      { url: '/personalized/mv' },
+      { url: 'personalized/newsong', data: {limit: 9 } } 
     ])
     // 获取轮播图数据
-    this.getBanners(res[0])
+    this.getBanners(res[0].banners)
     // 获取推荐歌单
-    this.getRecommendSongList(res[1])
+    this.getRecommendSongList(res[1].result)
     // 获取独家放送入口
-    this.getExclusiveEntry(res[2])
+    this.getExclusiveEntry(res[2].result)
     // 获取推荐MV
-    this.getRecommendMV(res[3])
+    this.getRecommendMV(res[3].result)
+    // 获取最新音乐
+    this.getNewSongs(res[4].result)
   }
   // 获取轮播图数据
   getBanners(res: Data) {
     const banners: Array<Banners> = []
-    res.banners.forEach((value: Banners) => {
+    res.forEach((value: Banners) => {
       const { targetId, imageUrl, targetType, titleColor, typeTitle, url } = value
       banners.push({ 
         targetId, imageUrl: imageUrl + '?param?x566y200', 
@@ -44,7 +48,7 @@ export default class Recommend extends PureComponent {
   // 获取推荐歌单
   getRecommendSongList(res: Data) {
     const recommendSongList: Array<ImgCardType> = []
-    res.result.forEach((value: ImgCardType) => {
+    res.forEach((value: ImgCardType) => {
       const { id, picUrl, name, playCount } = value
       recommendSongList.push({
         id, picUrl: picUrl + 'param?x205y205', name, playCount
@@ -55,7 +59,7 @@ export default class Recommend extends PureComponent {
   // 获取独家放送入口
   getExclusiveEntry(res: Data) {
     const exclusiveEntry: Array<ImgCardType> = []
-    res.result.forEach((value: ImgCardType) => {
+    res.forEach((value: ImgCardType) => {
       const { id, name, sPicUrl: picUrl } = value
       exclusiveEntry.push({
         id, name, picUrl: picUrl! + '?param=x362y204'
@@ -66,7 +70,7 @@ export default class Recommend extends PureComponent {
   // 获取推荐MV
   getRecommendMV(res: Data) {
     const recommendMV: Array<ImgCardType> = []
-    res.result.forEach((value: ImgCardType) => {
+    res.forEach((value: ImgCardType) => {
       const { id, name, picUrl, playCount, artists } = value
       recommendMV.push({
          id, name, picUrl: picUrl + '?param=x266y150', 
@@ -75,8 +79,25 @@ export default class Recommend extends PureComponent {
     })
     this.setState({recommendMV})
   }
+  // 获取最新音乐
+  getNewSongs(res: Data) {
+    const newSongs: Array<SongItem> = []
+    res.forEach((value: Data) => {
+      const { id, name, picUrl } = value
+      const artists = value.song.artists
+      const mvid = value.song.mvid
+      const maxbr = value.song.privilege.maxbr
+      const alias = value.song.alias[0]
+      newSongs.push({
+        id, name, picUrl: picUrl + '?param=x55y55', artists,
+        maxbr, mvid, alias
+      })
+    })
+
+    this.setState({newSongs})
+  }
   render() {
-    const { banners, recommendSongList, exclusiveEntry, recommendMV} = this.state
+    const { banners, recommendSongList, exclusiveEntry, recommendMV, newSongs} = this.state
     return (
       <div className={style.container}>
         {/* 轮播图 */}
@@ -89,10 +110,10 @@ export default class Recommend extends PureComponent {
         <ImgCardList list={exclusiveEntry} flex="1" showVideoIcon />
         {/* 最新音乐 */}
         <NavTitle to="/" title="最新音乐" />
-        <NewSong />
+        <NewSong songItems={newSongs} />
         {/* 推荐MV */}
         <NavTitle to="/" title="推荐MV" />
-        <ImgCardList list={recommendMV} flex="1" />
+        <ImgCardList list={recommendMV} flex="25%" />
         {/* 主播电台 */}
         <NavTitle to="/" title="主播电台" />
       </div>
