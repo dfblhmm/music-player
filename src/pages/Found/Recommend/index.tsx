@@ -117,7 +117,7 @@ export default class Recommend extends PureComponent {
         {/* 轮播图 */}
         <Carousel banners={banners} autoplay={false} />
         {/* 推荐歌单 */}
-        <NavTitle to="/" title="推荐歌单" />
+        <NavTitle to="/found/songlist" title="推荐歌单" />
         <ImgCardList list={recommendSongList} flex="20%" wrap showPlayIcon />
         {/* 独家放送入口 */}
         <NavTitle to="/" title="独家放送" />
@@ -129,7 +129,7 @@ export default class Recommend extends PureComponent {
         <NavTitle to="/" title="推荐MV" />
         <ImgCardList list={recommendMV} flex="25%" ellipsis />
         {/* 主播电台 */}
-        <NavTitle to="/" title="主播电台" />
+        <NavTitle to="/video" title="主播电台" />
         <ImgCardList list={radios} flex="1" />
       </div>
     )

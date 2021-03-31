@@ -1,0 +1,21 @@
+.container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 20px 0;
+  .btn-change {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 14px;
+    border: 1px solid #E0E0E0;
+    border-radius: 15px;
+    letter-spacing: .1em;
+    background-color: #fff;
+    padding: 8px 15px;
+    cursor: pointer;
+    &:hover {
+      background-color: #F2F2F2;
+    }
+  }
+}

@@ -10,11 +10,22 @@ export default class Found extends PureComponent<RouteComponentProps> {
     selectedKeys: ['recommend'], // 当前选中的菜单项
   }
   componentDidMount() {
-    const { location: { pathname } } = this.props
+    // 页面加载完或页面刷新后及时确定当前对应的菜单项
+    const { location: { pathname }, history: { listen } } = this.props
+    this.updateMenuItem(pathname)
+    listen(location => this.updateMenuItem(location.pathname))
+  }
+  // 更新当前菜单项
+  updateMenuItem(pathname: string) {
+    if (pathname === '/found') return this.setState({selectedKeys: ['recommend']})
     const paths = pathname.split('/')
     const path = paths[paths.length - 1]
     this.setState({selectedKeys: [path]})
   }
+  componentWillUnmount() {
+    this.updateMenuItem = () => undefined
+  }
+  
   // 切换菜单选项
   handleClick = (e: { key: unknown }) => {
     const key = e.key as string

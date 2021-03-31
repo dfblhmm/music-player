@@ -1,10 +1,11 @@
 // 顶部精品歌单
 .top-high-quality {
-  height: 170px;
+  padding: 15px 0;
   display: flex;
   align-items: center;
   cursor: pointer;
   border-radius: 5px;
+  padding-left: 16px;
   margin-top: 30px;
   background: linear-gradient(to right, #A8A5A2, #5C201C, #A69A95, #8F8288, #938E92);
 }
