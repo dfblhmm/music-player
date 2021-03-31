@@ -4,10 +4,11 @@ import style from './index.module.scss'
 interface CategoryProps {
   btnTitle?: string
   navCategory?: Array<string>
+  categoryList?: Array<{category: string, sub: Array<string>}>
 }
 export default class Category extends PureComponent<CategoryProps> {
   render() {
-    const { btnTitle } = this.props
+    const { btnTitle, categoryList } = this.props
     return (
       <div className={style.container}>
         {
