@@ -1,8 +1,7 @@
+@import 'assets/scss/ellipsis.scss';
 .artists {
   width: 100%;
-  overflow: hidden;
-  white-space: nowrap;
-  text-overflow: ellipsis;
+  @include ellipsis;
 }
 .separator {
   font-size: 12px;

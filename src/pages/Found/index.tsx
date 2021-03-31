@@ -1,16 +1,27 @@
 import { PureComponent, lazy } from 'react'
-import { Route, Redirect, Switch } from 'react-router-dom'
+import { Route, Redirect, Switch, RouteComponentProps } from 'react-router-dom'
 import { Menu, Affix } from 'antd'
 import './index.scss'
 const Recommend = lazy(() => import('./Recommend'))
-export default class Found extends PureComponent {
+const SongList = lazy(() => import('./SongList'))
+export default class Found extends PureComponent<RouteComponentProps> {
   target!: HTMLElement | null
   state = {
     selectedKeys: ['recommend'], // 当前选中的菜单项
   }
+  componentDidMount() {
+    const { location: { pathname } } = this.props
+    const paths = pathname.split('/')
+    const path = paths[paths.length - 1]
+    this.setState({selectedKeys: [path]})
+  }
   // 切换菜单选项
   handleClick = (e: { key: unknown }) => {
-    this.setState({selectedKeys: [e.key as string]})
+    const key = e.key as string
+    const { history: { push } } = this.props
+    if (key === this.state.selectedKeys[0]) return
+    push(`/found/${key}`)
+    this.setState({selectedKeys: [key]})
   }
   render() {
     const { selectedKeys } = this.state
@@ -27,6 +38,7 @@ export default class Found extends PureComponent {
         </Affix>
         <Switch>
           <Route path="/found/recommend" component={Recommend} />
+          <Route path="/found/songlist" component={SongList} />
           <Redirect to="/found/recommend" />
         </Switch>
       </div>

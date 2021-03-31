@@ -3,11 +3,6 @@
   line-height: 32px;
   height: 32px;
 }
-@mixin text-ellipsis {
-  overflow: hidden;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-}
 @mixin iconfont {
   font-size: 18px;
   margin-right: 8px;
@@ -15,6 +10,8 @@
 }
 // 选中的菜单项
 @import 'assets/scss/menu.scss';
+// 文字溢出隐藏
+@import 'assets/scss/ellipsis.scss';
 
 // 菜单项
 .ant-menu-inline .ant-menu-item {
@@ -96,7 +93,7 @@
   &:hover {
     background-color: #fff2f0;
   }
-  @include text-ellipsis;
+  @include ellipsis;
   transition: background 0.3s cubic-bezier(0.645, 0.045, 0.355, 1);
   // 图标
   .anticon {

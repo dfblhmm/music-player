@@ -1,6 +1,5 @@
 import { PureComponent } from 'react'
 import http from 'utils/http'
-import style from './index.module.scss'
 import Carousel from 'components/Carousel'
 import ImgCardList from 'components/ImgCardList'
 import NavTitle from 'components/NavTitle'
@@ -114,7 +113,7 @@ export default class Recommend extends PureComponent {
   render() {
     const { banners, recommendSongList, exclusiveEntry, recommendMV, newSongs, radios } = this.state
     return (
-      <div className={style.container}>
+      <div style={{padding: '0 90px'}}>
         {/* 轮播图 */}
         <Carousel banners={banners} autoplay={false} />
         {/* 推荐歌单 */}

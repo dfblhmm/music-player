@@ -1,8 +1,4 @@
-@mixin ellipsis {
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
+@import 'assets/scss/ellipsis.scss';
 .item-img {
   position: relative;
   margin-bottom: 5px;
