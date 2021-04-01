@@ -1,21 +1,108 @@
-import { PureComponent } from 'react'
+import { MouseEventHandler, PureComponent } from 'react'
+import { Card } from 'antd'
 import IconFont from 'components/IconFont'
 import style from './index.module.scss'
 interface CategoryProps {
   btnTitle?: string
-  navCategory?: Array<string>
-  categoryList?: Array<{category: string, sub: Array<string>}>
+  hotCategoryList?: Array<{id: number, name: string}>
+  categoryList?: Array<{category?: string, icon?: string, sub: Array<{name: string, hot: boolean}>}>
+  cardPosition: 'left' | 'right'
+  width?: number
+  changeCategory? : (cat: string) => void
 }
 export default class Category extends PureComponent<CategoryProps> {
+  card?: HTMLElement | null
+  componentDidMount() {
+    // 点击了卡片之外的区域，隐藏卡片
+    const { categoryList } = this.props
+    if (!categoryList) return
+    window.onclick = () => {
+      if (this.card) this.card.style.display = 'none' 
+    }
+  }
+  // 是否显示分类选择区域
+  showAllCategory(): JSX.Element {
+    const { categoryList } = this.props
+    if (!categoryList) return (<></>)
+    // 确定卡片的位置
+    const { cardPosition, width } = this.props
+    const position = cardPosition === 'left' ? {'left': '0'} : {'right': '0'}
+    // 卡片头部
+    const { btnTitle, changeCategory } = this.props
+    const title: JSX.Element = (
+      <span className={style['card-head']} onClick={() => changeCategory!(btnTitle!)}>{btnTitle}</span>
+    )
+    // 渲染子分类
+    const subCategory = (sub: Array<{name: string, hot: boolean}>): JSX.Element => 
+       <ul className={style['sub-item-container']}>
+         {
+           sub.map(value => 
+             <li key={value.name} onClick={() => this.clickCategory(value.name)}>
+               {/* 每个子分类的名字 */}
+               <span style={{position: 'relative'}}>
+                 {value.name}{value.hot? <i className={style['hot-category']}>HOT</i>:<></>}
+               </span>
+             </li>
+           )
+         }
+       </ul>
+  
+    return (
+      <div className={style['category-card']} style={position} ref={c => this.card = c}>
+        <Card title={title} hoverable bodyStyle={{padding: '0'}} style={{width: width + 'px'}} 
+          headStyle={{cursor: 'default'}}
+          >
+          {/* 卡片主体区域   */}
+          <div className={style['category-list']} onClick={e => e.stopPropagation()}>
+            {
+              categoryList.map(value => 
+                <div className={style['category-item']} key={value.category}>
+                  {/* 每个主分类 */}
+                  {value.category? <div className={style.category}>
+                    {value.icon ? <IconFont type={value.icon} className={style.icon} />:<></>}{value.category}</div>: <></>}
+                  {/* 对应的子分类 */}
+                  {subCategory(value.sub)}
+                </div>
+              )
+            }
+          </div>
+        </Card>
+      </div>
+    )
+  }
+  // 是否显示导航分类
+  showNavCategory(): JSX.Element {
+    const { hotCategoryList } = this.props
+    if (!hotCategoryList) return (<></>)
+    return (
+      <div className={style['nav-category']}>
+        <ul>
+          {
+            hotCategoryList.map(value => <li key={value.id}>{value.name}</li>)
+          }
+        </ul>
+      </div>
+    )
+  }
+  // 切换了分类
+  clickCategory = (tag: string) => {
+    const { changeCategory } = this.props
+    // 关闭卡片
+    this.card!.style.display = 'none'
+    changeCategory!(tag)
+  }
   render() {
-    const { btnTitle, categoryList } = this.props
+    const { btnTitle } = this.props
     return (
       <div className={style.container}>
         {
           btnTitle ? <div className={style['btn-change']}>{btnTitle}
             <IconFont type="icon-arrow-right"/></div>: <></>
         }
-        <div className={style['nav-category']}></div>
+        {/* 是否显示分类选择区域 */}
+        {this.showAllCategory()}
+        {/* 是否显示导航分类 */}
+        {this.showNavCategory()}
       </div>
     )
   }

@@ -1,8 +1,11 @@
+$color: #ec4141;
 .container {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin: 20px 0;
+  padding: 20px 0 10px;
+  position: relative;
+  // 当前的标签
   .btn-change {
     display: flex;
     justify-content: center;
@@ -12,10 +15,86 @@
     border-radius: 15px;
     letter-spacing: .1em;
     background-color: #fff;
-    padding: 8px 15px;
+    padding: 8px 12px;
     cursor: pointer;
     &:hover {
       background-color: #F2F2F2;
+    }
+  }
+}
+
+// 卡片选择区域
+.category-card {
+  position: absolute;
+  top: 100%;
+  // 头部
+  .card-head {
+    color: $color;
+    background-color: #FDF5F5;
+    padding: 6px 15px;
+    font-size: 14px;
+    border-radius: 15px;
+    cursor: pointer;
+  }
+  // 主体区域的分类条目列表
+  .category-list {
+    padding: 24px;
+    width: 100%;
+    .category-item {
+      display: flex;
+      align-items: center;
+      padding: 10px 0;
+      // 主分类
+      .category {
+        flex: 15%;
+        cursor: default;
+        color: #999;
+        .icon {
+          font-size: 18px;
+          margin-right: 6px;
+        }
+      }
+      // 子分类
+      .sub-item-container {
+        flex: 85%;
+        display: flex;
+        flex-wrap: wrap;
+        li {
+          flex: 16.6%;
+          max-width: 16.6%;
+          color: #373737;
+          padding: 10px 10px;
+          cursor: pointer;
+          position: relative;
+          transition: color .3s;
+          &:hover {color: $color;}
+          // 是否显示hot图标
+          .hot-category {
+            font-size: 8px;
+            color: $color;
+            font-weight: 600;
+            transform: scale(.6);
+            position: absolute;
+            right: -25px;
+            top: -6px;
+          }
+        }
+      }
+    }
+  }
+}
+
+// 导航分类
+.nav-category {
+  ul {
+    display: flex;
+    li {
+      color: #676767;
+      padding: 0 12px;
+      font-size: 12px;
+      cursor: pointer;
+      transition: all .3s;
+      &:hover {color: #000;}
     }
   }
 }
