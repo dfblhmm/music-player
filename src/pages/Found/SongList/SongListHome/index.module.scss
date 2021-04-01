@@ -8,4 +8,44 @@
   padding-left: 16px;
   margin-top: 30px;
   background: linear-gradient(to right, #A8A5A2, #5C201C, #A69A95, #8F8288, #938E92);
+  // 精品歌单图片
+  .high-quality-img {
+    border-radius: 5px;
+    overflow: hidden;
+    position: relative;
+  }
+  // 精品歌单信息
+  .high-quality-info {
+    display: flex;
+    padding-left: 12px;
+    justify-content: center;
+    flex-direction: column;
+    // 歌单logo 
+    .tip {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 110px;
+      color: #E7AA5A;
+      border: 1px solid #E7AA5A;
+      border-radius: 15px;
+      padding: 5px 0;
+      font-size: 14px;
+      .icon {
+        font-size: 18px;
+        margin-right: 4px;
+      }
+    }
+    // 精品歌单名字
+    .high-quality-name {
+      font-size: 15px;
+      color: #fff;
+      margin: 20px 0 15px;
+    }
+    // 精品歌单描述
+    .high-quality-desc {
+      font-size: 12px;
+      color: #B38B87;
+    }
+  }
 }

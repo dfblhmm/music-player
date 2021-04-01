@@ -3,6 +3,7 @@ import { Card } from 'antd'
 import IconFont from 'components/IconFont'
 import style from './index.module.scss'
 interface CategoryProps {
+  btnElement?: JSX.Element
   btnTitle?: string
   hotCategoryList?: Array<{id: number, name: string}>
   categoryList?: Array<{category?: string, icon?: string, sub: Array<{name: string, hot: boolean}>}>
@@ -29,7 +30,7 @@ export default class Category extends PureComponent<CategoryProps> {
     if (!categoryList) return (<></>)
     // 确定卡片的位置
     const { cardPosition, width } = this.props
-    const cssStyle: Data = cardPosition === 'left' ? {'left': '0'} : {'right': '0'}
+    const cssStyle: Data = cardPosition === 'left' ? {'left': '-2px'} : {'right': '2px'}
     // 卡片头部
     const { btnTitle, changeCategory } = this.props
     const title: JSX.Element = (
@@ -53,8 +54,8 @@ export default class Category extends PureComponent<CategoryProps> {
     cssStyle.display = showCard ? 'flex' : 'none'
     return (
       <div className={style['category-card']} style={cssStyle} ref={c => this.card = c}>
-        <Card title={title} hoverable bodyStyle={{padding: '0'}} style={{width: width + 'px'}} 
-          headStyle={{cursor: 'default'}}
+        <Card title={title} hoverable bodyStyle={{padding: '0', cursor:'default'}} 
+          style={{width: width + 'px'}} headStyle={{cursor: 'default'}}
           >
           {/* 卡片主体区域   */}
           <div className={style['category-list']} onClick={e => e.stopPropagation()}>
@@ -98,18 +99,17 @@ export default class Category extends PureComponent<CategoryProps> {
     changeCategory!(tag)
   }
   // 获取所有分类
-  getAllCategory = (e: MouseEvent) => {
+  showCardArea = (e: MouseEvent) => {
     e.stopPropagation()
     this.card && this.setState({showCard: !this.state.showCard})
   }
   render() {
-    const { btnTitle } = this.props
+    const { btnElement } = this.props
     return (
       <div className={style.container}>
         {
-          btnTitle ? <div className={style['btn-change']} 
-            onClick={e=> this.getAllCategory(e)}>{btnTitle}
-            <IconFont type="icon-arrow-right"/></div>: <></>
+          btnElement ? <div className={style['btn-change']} 
+            onClick={e=> this.showCardArea(e)}>{btnElement}</div>: <></>
         }
         {/* 是否显示分类选择区域 */}
         {this.showAllCategory()}

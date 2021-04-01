@@ -4,6 +4,7 @@ $color: #ec4141;
   justify-content: space-between;
   align-items: center;
   padding: 20px 0 10px;
+  margin-bottom: 10px;
   position: relative;
   // 当前的标签
   .btn-change {
@@ -28,6 +29,7 @@ $color: #ec4141;
   position: absolute;
   display: none;
   top: 100%;
+  z-index: 20;
   // 头部
   .card-head {
     color: $color;

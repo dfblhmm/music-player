@@ -28,6 +28,9 @@ interface ImgCardType extends ImgCardIconType {
   artists?: Array<Artist> // 歌手数组
   duration?: number // 资源的时长
   rcmdtext?: string // 电台类型
+  avatarDetail?: {identityIconUrl: string} // 歌单作者头像信息
+  userId?: number
+  nickname?: string
 }
 // 控制不同的卡片是否显示特定的图标
 interface ImgCardIconType {
@@ -46,4 +49,3 @@ interface SongItem {
   maxbr: number
   alias?: string
 }
-// 精品歌单
