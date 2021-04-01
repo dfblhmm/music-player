@@ -67,6 +67,18 @@ export default class ImgCard extends PureComponent<ImgCardType> {
       <div className={style['radio-name']} title={rcmdtext}>{rcmdtext}</div>
     )
   }
+  // 是否显示用户信息
+  showUserInfo(): JSX.Element {
+    const { creatorInfo } = this.props
+    if (!creatorInfo) return (<></>)
+    const { nickname, userId, avatarDetail } = creatorInfo
+    return (
+      <div className={style['user-info']}>
+        <IconFont type="icon-user" style={{marginRight:'5px'}} />{creatorInfo.nickname}
+
+      </div>
+    )
+  }
   render() {
     const { name, picUrl, ellipsis } = this.props
     return (
@@ -85,6 +97,8 @@ export default class ImgCard extends PureComponent<ImgCardType> {
           {this.showDuration()}
           {/* 是否显示电台 */}
           { this.showRadio() }
+          {/* 是否显示用户信息 */}
+          {this.showUserInfo()}
         </div>
         {/* 项目名字 */}
         <div className={ellipsis?style['item-name-ellipsis']:style['item-name']}>{name}</div>

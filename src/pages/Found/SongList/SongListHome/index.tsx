@@ -11,7 +11,7 @@ interface TopQuality {
   coverImgUrl: string 
 }
 interface SongListType extends ImgCardType {
-  creator: Data
+  creator: {userId: number, nickname: string, avatarDetail?: {identityIconUrl: string}}
   coverImgUrl: string
 }
 export default class SongListHome extends PureComponent {
@@ -98,10 +98,11 @@ export default class SongListHome extends PureComponent {
   getSongList(res: Array<SongListType>) {
     const songList: Array<ImgCardType> = []
     res.forEach(value => {
-      const { name, id, playCount, creator, coverImgUrl, userId, nickname } = value
+      const { name, id, playCount, creator, coverImgUrl } = value
+      const { userId, nickname, avatarDetail } = creator
       songList.push({
         name, id, playCount, picUrl: coverImgUrl + '?param=x205y205', 
-        userId, nickname, avatarDetail: creator.avatarDetail
+        creatorInfo: {userId, nickname, avatarDetail}
       })
     })
     this.setState({songList})
