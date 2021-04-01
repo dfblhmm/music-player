@@ -46,3 +46,4 @@ interface SongItem {
   maxbr: number
   alias?: string
 }
+// 精品歌单

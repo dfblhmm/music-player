@@ -26,6 +26,7 @@ $color: #ec4141;
 // 卡片选择区域
 .category-card {
   position: absolute;
+  display: none;
   top: 100%;
   // 头部
   .card-head {

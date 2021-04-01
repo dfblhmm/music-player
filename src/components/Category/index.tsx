@@ -1,4 +1,4 @@
-import { MouseEventHandler, PureComponent } from 'react'
+import { PureComponent, MouseEvent } from 'react'
 import { Card } from 'antd'
 import IconFont from 'components/IconFont'
 import style from './index.module.scss'
@@ -12,12 +12,15 @@ interface CategoryProps {
 }
 export default class Category extends PureComponent<CategoryProps> {
   card?: HTMLElement | null
+  state = {
+    showCard: false    
+  }
   componentDidMount() {
     // 点击了卡片之外的区域，隐藏卡片
     const { categoryList } = this.props
     if (!categoryList) return
     window.onclick = () => {
-      if (this.card) this.card.style.display = 'none' 
+      if (this.card) this.setState({showCard: false}) 
     }
   }
   // 是否显示分类选择区域
@@ -26,7 +29,7 @@ export default class Category extends PureComponent<CategoryProps> {
     if (!categoryList) return (<></>)
     // 确定卡片的位置
     const { cardPosition, width } = this.props
-    const position = cardPosition === 'left' ? {'left': '0'} : {'right': '0'}
+    const cssStyle: Data = cardPosition === 'left' ? {'left': '0'} : {'right': '0'}
     // 卡片头部
     const { btnTitle, changeCategory } = this.props
     const title: JSX.Element = (
@@ -46,9 +49,10 @@ export default class Category extends PureComponent<CategoryProps> {
            )
          }
        </ul>
-  
+    const { showCard } = this.state
+    cssStyle.display = showCard ? 'flex' : 'none'
     return (
-      <div className={style['category-card']} style={position} ref={c => this.card = c}>
+      <div className={style['category-card']} style={cssStyle} ref={c => this.card = c}>
         <Card title={title} hoverable bodyStyle={{padding: '0'}} style={{width: width + 'px'}} 
           headStyle={{cursor: 'default'}}
           >
@@ -74,11 +78,13 @@ export default class Category extends PureComponent<CategoryProps> {
   showNavCategory(): JSX.Element {
     const { hotCategoryList } = this.props
     if (!hotCategoryList) return (<></>)
+    const { changeCategory } = this.props
     return (
       <div className={style['nav-category']}>
         <ul>
           {
-            hotCategoryList.map(value => <li key={value.id}>{value.name}</li>)
+            hotCategoryList.map(value => <li key={value.id} 
+              onClick={() => changeCategory!(value.name)}>{value.name}</li>)
           }
         </ul>
       </div>
@@ -88,15 +94,21 @@ export default class Category extends PureComponent<CategoryProps> {
   clickCategory = (tag: string) => {
     const { changeCategory } = this.props
     // 关闭卡片
-    this.card!.style.display = 'none'
+    this.setState({showCard: !this.state.showCard})
     changeCategory!(tag)
+  }
+  // 获取所有分类
+  getAllCategory = (e: MouseEvent) => {
+    e.stopPropagation()
+    this.card && this.setState({showCard: !this.state.showCard})
   }
   render() {
     const { btnTitle } = this.props
     return (
       <div className={style.container}>
         {
-          btnTitle ? <div className={style['btn-change']}>{btnTitle}
+          btnTitle ? <div className={style['btn-change']} 
+            onClick={e=> this.getAllCategory(e)}>{btnTitle}
             <IconFont type="icon-arrow-right"/></div>: <></>
         }
         {/* 是否显示分类选择区域 */}
