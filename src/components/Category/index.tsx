@@ -24,6 +24,10 @@ export default class Category extends PureComponent<CategoryProps> {
       if (this.card) this.setState({showCard: false}) 
     }
   }
+  componentWillUnmount() {
+    // 移除事件监听
+    window.onclick = null
+  }
   // 是否显示分类选择区域
   showAllCategory(): JSX.Element {
     const { categoryList } = this.props
