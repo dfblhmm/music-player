@@ -7,11 +7,21 @@ import Category from 'components/Category'
 import style from './index.module.scss'
 export default class QualitySongList extends PureComponent<RouteComponentProps> {
   state = {
-    categoryList: []
+    categoryList: [],
+    songList: [],
+    before: 0 // 分页参数
   }
   async componentDidMount() {
-     const res = await http('/playlist/highquality/tags')
-     this.getQualityTags(res.tags)
+    const { match: { params }} = this.props
+    const { cat } = params as { cat: string }
+    const res = await http.all([
+      { url: '/playlist/highquality/tags' },
+      { url: '/top/playlist/highquality', data: { limit: 30, cat } }
+    ])
+    // 获取所有精品歌单标签
+    this.getQualityTags(res[0].tags)
+    // 获取当前标签的精品歌单列表
+    this.getHighQualitySongList(res[1].playlists)
   }
   // 获取所有精品歌单标签
   getQualityTags(res: Array<Artist>) {
@@ -19,9 +29,19 @@ export default class QualitySongList extends PureComponent<RouteComponentProps> 
     categoryList[0] = { sub: res }
     this.setState({ categoryList })  
   }
-  // 获取当前标签的精品歌单
-  getHighQualitySongList() {
-    
+  // 获取当前标签的精品歌单列表
+  getHighQualitySongList(res: Array<HighQualitySongList>) {
+    const { songList }: { songList: Array<HighQualitySongList> } = this.state
+    res.forEach(value => {
+      const { id, coverImgUrl, name, playCount, copywriter, creator, tag } = value
+      const { nickname, userId, avatarDetail } = creator
+      songList.push({
+        id, name, playCount, copywriter, tag, coverImgUrl,
+        creator: { nickname, userId, avatarDetail }
+      })
+    })
+    const len = res.length
+    this.setState({songList: [...songList], before: res[len - 1].updateTime!})
   }
   // 切换分类
   changeCategory = (cat: string) => {

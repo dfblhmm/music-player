@@ -29,13 +29,17 @@
 .high-quality-info {
   display: flex;
   padding-left: 12px;
-  justify-content: center;
+  justify-content: space-around;
   flex-direction: column;
   // 精品歌单名字
   .high-quality-name {
     @include ellipsis;
     font-size: 15px;
     color: #fff;
+  }
+  // 精品歌单作者
+  .high-quality-creator {
+    
   }
   // 精品歌单描述
   .high-quality-desc {

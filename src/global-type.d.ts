@@ -51,3 +51,14 @@ interface SongItem {
   maxbr: number
   alias?: string
 }
+// 精品歌单信息
+interface HighQualitySongList {
+  tag: string // 歌单标签
+  copywriter: string // 歌单描述
+  name: string // 歌单名
+  id: number // 歌单id
+  creator: {userId: number, nickname: string, avatarDetail?: {identityIconUrl: string}}
+  coverImgUrl: string // 歌单封面
+  playCount: number // 歌单播放数
+  updateTime?: number
+}
