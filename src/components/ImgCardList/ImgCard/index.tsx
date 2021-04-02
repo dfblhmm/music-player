@@ -74,17 +74,17 @@ export default class ImgCard extends PureComponent<ImgCardType> {
     const { nickname, userId, avatarDetail } = creatorInfo
     return (
       <div className={style['user-info']}>
-        <IconFont type="icon-user" style={{marginRight:'5px'}} />{creatorInfo.nickname}
+        <IconFont type="icon-user" style={{marginRight:'5px'}} />{nickname}
 
       </div>
     )
   }
   render() {
-    const { name, picUrl, ellipsis } = this.props
+    const { name, picUrl, ellipsis, width, height } = this.props
     return (
       <Fragment>
         <div className={style['item-img']}>
-          <Image src={picUrl} preview={false} />
+          <Image src={picUrl} preview={false} placeholder style={{width,height}} />
           {/* 是否显示播放图标 */}
           {this.showPlayIcon()}
           {/* 是否展示播放次数 */}

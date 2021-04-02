@@ -20,7 +20,10 @@ interface Artist {
 }
 // 图片卡片组件
 interface ImgCardType extends ImgCardIconType {
+  width?: string
+  height?: string
   id: number
+  nid?: string // 当id重复时使用nanoid进行替换
   picUrl: string
   sPicUrl?: string
   name: string

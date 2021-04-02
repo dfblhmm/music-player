@@ -1,5 +1,6 @@
 import { Fragment, PureComponent } from 'react'
 import { Image } from 'antd'
+import { nanoid } from 'nanoid'
 import IconFont from 'components/IconFont'
 import http from 'utils/http'
 import Category from 'components/Category'
@@ -97,12 +98,20 @@ export default class SongListHome extends PureComponent {
   // 获取当前分类的歌单列表
   getSongList(res: Array<SongListType>) {
     const songList: Array<ImgCardType> = []
+    const ids: {[key: string]: boolean} = {}
     res.forEach(value => {
-      const { name, id, playCount, creator, coverImgUrl } = value
+      const { id, name, playCount, creator, coverImgUrl } = value 
       const { userId, nickname, avatarDetail } = creator
+      let nid = ''
+      // 遇到重复的项目使用nanoid进行替换
+      if (ids[id]) {
+        nid = nanoid()
+      } else {
+        ids[id] = true
+      }
       songList.push({
         name, id, playCount, picUrl: coverImgUrl + '?param=x205y205', 
-        creatorInfo: {userId, nickname, avatarDetail}
+        creatorInfo: {userId, nickname, avatarDetail}, nid
       })
     })
     this.setState({songList})

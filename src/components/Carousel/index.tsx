@@ -1,5 +1,6 @@
 import { MouseEventHandler, PureComponent } from 'react'
 import { Image } from 'antd'
+import { nanoid } from 'nanoid'
 import './index.scss'
 import IconFont from 'components/IconFont'
 interface PrevNext {
@@ -105,7 +106,7 @@ export default class Carousel extends PureComponent<BannersProps> {
           banners.map((value, index) => {
             const { titleColor, typeTitle } = value
             return (
-              <div key={index} className={this.getCurrentClassName(index)} style={{height: height - 25 + 'px'}}
+              <div key={nanoid()} className={this.getCurrentClassName(index)} style={{height: height - 25 + 'px'}}
                  onClick={this.handleClickImg(index)}>
                 <Image src={value.imageUrl} placeholder preview={false} />
                 <span className="banner-title" 
@@ -121,7 +122,7 @@ export default class Carousel extends PureComponent<BannersProps> {
         <ul className="carousel-dot" style={{height: '25px', display: showDot ? 'flex':'none'}} >
           {
             banners.map((value, index) => 
-              <li key={index} onMouseOver={() =>this.setState({activeIndex: index})}>
+              <li key={nanoid()} onMouseOver={() =>this.setState({activeIndex: index})}>
                 <span className={activeIndex === index ? 'carousel-active-dot': ''}></span>
               </li>
             )
