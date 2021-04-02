@@ -1,6 +1,7 @@
 import { Fragment, PureComponent } from 'react'
-import { Image } from 'antd'
+import { Image, BackTop, Pagination } from 'antd'
 import { nanoid } from 'nanoid'
+import targetContext from '../../context'
 import IconFont from 'components/IconFont'
 import http from 'utils/http'
 import Category from 'components/Category'
@@ -16,13 +17,16 @@ interface SongListType extends ImgCardType {
   coverImgUrl: string
 }
 export default class SongListHome extends PureComponent {
+  static contextType = targetContext
   state = {
     categoryList: [], // 分类列表
     hotCategoryList: [], // 热门分类列表
     highQualityTags: [], // 精品标签
     showTopQuality: true, // 是否显示顶部精品歌单区域
     topHighQualityInfo: {}, // 顶部精品歌单信息
-    songList: [] // 歌单
+    songList: [], // 歌单
+    total: 0, // 当前分类的歌单总数
+    current: 1 // 当前的页数
   }
   async componentDidMount() {
     const res = await http.all([
@@ -42,6 +46,8 @@ export default class SongListHome extends PureComponent {
     this.getAllCategory(res[3])
     // 获取歌单
     this.getSongList(res[4].playlists)
+    // 更新歌单总数
+    this.setState({total: res[4].total})
   }
   // 获取顶部精品歌单
   getTopHighQuality(res: TopQuality) {
@@ -94,6 +100,8 @@ export default class SongListHome extends PureComponent {
     // 更新歌单区域
     const songlist = await http('/top/playlist', { limit: 100, order: 'hot', cat })
     this.getSongList(songlist.playlists as Array<SongListType>)
+    // 页码重置
+    this.setState({current: 1})
   }
   // 获取当前分类的歌单列表
   getSongList(res: Array<SongListType>) {
@@ -116,6 +124,17 @@ export default class SongListHome extends PureComponent {
     })
     this.setState({songList})
   }
+  // 改变页码
+  changePage = async (currentPage: number) => {
+    // 获取新的歌单列表
+    const offset = (currentPage - 1) * 100
+    const res = await http('/top/playlist', { limit: 100, order: 'hot', offset})
+    this.getSongList(res.playlists);
+    // 页面回到顶部
+    (this.context as HTMLElement).scrollTop = 0 
+    // 更新页数
+    this.setState({current: currentPage})
+  }
   render() {
     const { categoryList, hotCategoryList, showTopQuality, songList } = this.state
     // 选择按钮
@@ -124,6 +143,8 @@ export default class SongListHome extends PureComponent {
     )
     // 顶部精品歌单信息
     const { name, copywriter, coverImgUrl } = this.state.topHighQualityInfo as TopQuality
+    // 分页器数据
+    const { total, current } = this.state
     return (
       <div style={{padding: '0 90px'}}>
         {/* 头部精品歌单区域 */}
@@ -140,7 +161,15 @@ export default class SongListHome extends PureComponent {
           changeCategory={this.changeCategory} btnTitle="全部歌单"
           btnElement={btnElement} width={746} hotCategoryList={hotCategoryList} />
         {/* 歌单区域 */}
-        <ImgCardList flex="20%" wrap list={songList} showPlayIcon />
+        <ImgCardList flex="20%" wrap list={songList} showPlayIcon width={205} height={205} />
+        {/* 回到顶部 */}
+        <BackTop visibilityHeight={1000} target={()=>this.context}
+          style={{right: '30px', bottom: '100px'}} />
+        {/* 分页器 */}
+        <div className={style.pagination}>
+          <Pagination pageSize={100} current={current} showSizeChanger={false}
+            onChange={page => this.changePage(page)}  total={total} />
+        </div>
       </div>
     )
   }

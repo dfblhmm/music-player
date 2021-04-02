@@ -1,6 +1,7 @@
 import { PureComponent, lazy } from 'react'
 import { Route, Redirect, Switch, RouteComponentProps } from 'react-router-dom'
 import { Menu, Affix } from 'antd'
+import targetContext from './context'
 import './index.scss'
 const Recommend = lazy(() => import('./Recommend'))
 const SongList = lazy(() => import('./SongList'))
@@ -47,11 +48,13 @@ export default class Found extends PureComponent<RouteComponentProps> {
             <Menu.Item key="singer">歌手</Menu.Item>
           </Menu>
         </Affix>
-        <Switch>
-          <Route path="/found/recommend" component={Recommend} />
-          <Route path="/found/songlist" component={SongList} />
-          <Redirect to="/found/recommend" />
-        </Switch>
+        <targetContext.Provider value={this.target as HTMLElement}>
+          <Switch>
+            <Route path="/found/recommend" component={Recommend} />
+            <Route path="/found/songlist" component={SongList} />
+            <Redirect to="/found/recommend" />
+          </Switch>
+        </targetContext.Provider>
       </div>
     )
   }

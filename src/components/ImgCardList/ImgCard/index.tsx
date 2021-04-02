@@ -1,5 +1,6 @@
 import { Fragment, PureComponent } from 'react'
 import { Image } from 'antd'
+import { UserOutlined } from '@ant-design/icons'
 import IconFont from 'components/IconFont'
 import Artists from 'components/Artists'
 import style from './index.module.scss'
@@ -73,11 +74,18 @@ export default class ImgCard extends PureComponent<ImgCardType> {
     if (!creatorInfo) return (<></>)
     const { nickname, userId, avatarDetail } = creatorInfo
     return (
-      <div className={style['user-info']}>
-        <IconFont type="icon-user" style={{marginRight:'5px'}} />{nickname}
-
+      <div className={style['user-info-container']} onClick={()=>this.goUserPage(userId)}>
+        <div className={style['user-info']}>
+          <UserOutlined style={{marginRight:'4px',fontSize:'14px'}} />{nickname}
+          {avatarDetail ? <Image src={avatarDetail.identityIconUrl} preview={false}
+            className={style['identity-img']} /> : <></>}
+        </div>
       </div>
     )
+  }
+  // 点击了用户详情
+  goUserPage = (userId: number) => {
+    console.log(userId)
   }
   render() {
     const { name, picUrl, ellipsis, width, height } = this.props

@@ -106,7 +106,7 @@ export default class Carousel extends PureComponent<BannersProps> {
           banners.map((value, index) => {
             const { titleColor, typeTitle } = value
             return (
-              <div key={nanoid()} className={this.getCurrentClassName(index)} style={{height: height - 25 + 'px'}}
+              <div key={index} className={this.getCurrentClassName(index)} style={{height: height - 25 + 'px'}}
                  onClick={this.handleClickImg(index)}>
                 <Image src={value.imageUrl} placeholder preview={false} />
                 <span className="banner-title" 
