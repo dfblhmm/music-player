@@ -2,14 +2,17 @@ import { PureComponent, MouseEvent } from 'react'
 import { Card } from 'antd'
 import IconFont from 'components/IconFont'
 import style from './index.module.scss'
+import { nanoid } from 'nanoid'
 interface CategoryProps {
-  btnElement?: JSX.Element
-  btnTitle?: string
-  hotCategoryList?: Array<{id: number, name: string}>
+  btnElement?: JSX.Element // 按钮React节点
+  btnStyle?: {width?: string, height?: string, padding?: string, fontSize?: string} // 按钮样式
+  btnTitle?: string // 按钮文字
+  hotCategoryList?: Array<{id: number, name: string}> // 热门分类
   categoryList?: Array<{category?: string, icon?: string, sub: Array<{name: string, hot: boolean}>}>
   cardPosition: 'left' | 'right'
-  width?: number
-  changeCategory? : (cat: string) => void
+  width?: number // 卡片的宽
+  changeCategory? : (cat: string) => void // 点击了分类后的回调
+  categoryItemStyle?: {flex: string, fontSize?: string} // 每个子分类的flex占比
 }
 export default class Category extends PureComponent<CategoryProps> {
   card?: HTMLElement | null
@@ -38,14 +41,19 @@ export default class Category extends PureComponent<CategoryProps> {
     // 卡片头部
     const { btnTitle, changeCategory } = this.props
     const title: JSX.Element = (
-      <span className={style['card-head']} onClick={() => changeCategory!(btnTitle!)}>{btnTitle}</span>
+      <span className={style['card-head']}
+        onClick={() => changeCategory!(btnTitle!)}>{btnTitle}</span>
     )
+    // 每个子分类的样式
+    const { flex, fontSize } = this.props.categoryItemStyle!
+    const liStyle = { flex, fontSize, maxWidth: flex }
     // 渲染子分类
     const subCategory = (sub: Array<{name: string, hot: boolean}>): JSX.Element => 
        <ul className={style['sub-item-container']}>
          {
            sub.map(value => 
-             <li key={value.name} onClick={() => this.clickCategory(value.name)}>
+             <li key={value.name} onClick={() => this.clickCategory(value.name)} 
+              style={liStyle}>
                {/* 每个子分类的名字 */}
                <span style={{position: 'relative'}}>
                  {value.name}{value.hot? <i className={style['hot-category']}>HOT</i>:<></>}
@@ -65,10 +73,11 @@ export default class Category extends PureComponent<CategoryProps> {
           <div className={style['category-list']} onClick={e => e.stopPropagation()}>
             {
               categoryList.map(value => 
-                <div className={style['category-item']} key={value.category}>
+                <div className={style['category-item']} key={nanoid()}>
                   {/* 每个主分类 */}
                   {value.category? <div className={style.category}>
-                    {value.icon ? <IconFont type={value.icon} className={style.icon} />:<></>}{value.category}</div>: <></>}
+                    {value.icon ? <IconFont type={value.icon} className={style.icon} />
+                    :<></>}{value.category}</div>: <></>}
                   {/* 对应的子分类 */}
                   {subCategory(value.sub)}
                 </div>
@@ -108,11 +117,11 @@ export default class Category extends PureComponent<CategoryProps> {
     this.card && this.setState({showCard: !this.state.showCard})
   }
   render() {
-    const { btnElement } = this.props
+    const { btnElement, btnStyle } = this.props
     return (
       <div className={style.container}>
         {
-          btnElement ? <div className={style['btn-change']} 
+          btnElement ? <div className={style['btn-change']} style={btnStyle}
             onClick={e=> this.showCardArea(e)}>{btnElement}</div>: <></>
         }
         {/* 是否显示分类选择区域 */}

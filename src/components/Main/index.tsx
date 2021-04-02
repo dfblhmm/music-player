@@ -1,6 +1,7 @@
 import { PureComponent, Fragment, lazy, Suspense } from 'react'
 import { Switch, Route, Redirect } from 'react-router-dom'
-import './index.scss'
+import { Spin } from 'antd'
+import style from './index.module.scss'
 // 按需加载路由组件
 const Found = lazy(() => import('pages/Found'))
 const Video = lazy(() => import('pages/Video'))
@@ -13,17 +14,17 @@ export default class ContentContainer extends PureComponent {
   render() {
     return (
       <Fragment>
-        <Suspense fallback={<h1>加载中</h1>}>
+        <Suspense fallback={<Spin className={style.spin} />}>
           <Switch>
-            <Route path="/found" component={Found} />
-            <Route path="/video" component={Video} />
-            <Route path="/friends" component={Friends} />
-            <Route path="/fm" component={FM}/>
-            <Route path="/my-cloud" component={MyCloud} />
-            <Route path="/my-radio" component={MyRadio}/>
-            <Route path="/my-collection" component={MyCollection} />
-            <Redirect to="/found" />
-          </Switch>
+              <Route path="/found" component={Found} />
+              <Route path="/video" component={Video} />
+              <Route path="/friends" component={Friends} />
+              <Route path="/fm" component={FM}/>
+              <Route path="/my-cloud" component={MyCloud} />
+              <Route path="/my-radio" component={MyRadio}/>
+              <Route path="/my-collection" component={MyCollection} />
+              <Redirect to="/found" />
+            </Switch>
         </Suspense>
       </Fragment>
     )

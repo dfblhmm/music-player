@@ -1,4 +1,5 @@
 import { Fragment, PureComponent } from 'react'
+import { RouteComponentProps } from 'react-router'
 import { Image, BackTop, Pagination } from 'antd'
 import { nanoid } from 'nanoid'
 import targetContext from '../../context'
@@ -16,7 +17,7 @@ interface SongListType extends ImgCardType {
   creator: {userId: number, nickname: string, avatarDetail?: {identityIconUrl: string}}
   coverImgUrl: string
 }
-export default class SongListHome extends PureComponent {
+export default class SongListHome extends PureComponent<RouteComponentProps> {
   static contextType = targetContext
   state = {
     categoryList: [], // 分类列表
@@ -26,7 +27,8 @@ export default class SongListHome extends PureComponent {
     topHighQualityInfo: {}, // 顶部精品歌单信息
     songList: [], // 歌单
     total: 0, // 当前分类的歌单总数
-    current: 1 // 当前的页数
+    current: 1, // 当前的页数
+    cat: '全部歌单' // 当前的分类
   }
   async componentDidMount() {
     const res = await http.all([
@@ -101,7 +103,7 @@ export default class SongListHome extends PureComponent {
     const songlist = await http('/top/playlist', { limit: 100, order: 'hot', cat })
     this.getSongList(songlist.playlists as Array<SongListType>)
     // 页码重置
-    this.setState({current: 1})
+    this.setState({current: 1, cat})
   }
   // 获取当前分类的歌单列表
   getSongList(res: Array<SongListType>) {
@@ -135,20 +137,31 @@ export default class SongListHome extends PureComponent {
     // 更新页数
     this.setState({current: currentPage})
   }
+  // 前往精品歌单页面
+  goQualityPage = () => {
+    const { cat } = this.state
+    const { history: { push } } = this.props
+    push(`/found/songlist/quality/${cat}`)
+  }
   render() {
-    const { categoryList, hotCategoryList, showTopQuality, songList } = this.state
+    const { categoryList, hotCategoryList, showTopQuality, songList, cat } = this.state
     // 选择按钮
-    const btnElement: JSX.Element = (
-      <Fragment>全部歌单<IconFont type="icon-arrow-right"/></Fragment>
+    let btnElement: JSX.Element = <></>
+    if (cat === 'Bossa Nova') btnElement = <Fragment>Bossa</Fragment>
+    else btnElement = (
+      <Fragment>{cat}<IconFont type="icon-arrow-right"/></Fragment>
     )
     // 顶部精品歌单信息
     const { name, copywriter, coverImgUrl } = this.state.topHighQualityInfo as TopQuality
     // 分页器数据
     const { total, current } = this.state
+    // 分类选择样式
+    const btnStyle = { width: '100px', height: '30px', padding: '0'}
     return (
       <div style={{padding: '0 90px'}}>
         {/* 头部精品歌单区域 */}
-        <div className={style['top-high-quality']} style={{display: showTopQuality?'flex':'none'}} >
+        <div className={style['top-high-quality']} onClick={this.goQualityPage}
+          style={{display: showTopQuality?'flex':'none'}} >
           <div className={style['high-quality-img']}><Image src={coverImgUrl} preview={false} /></div>
           <div className={style['high-quality-info']}>
           <div className={style.tip}><IconFont type="icon-quality" className={style.icon} />精品歌单</div>
@@ -157,8 +170,8 @@ export default class SongListHome extends PureComponent {
           </div>
         </div>
         {/* 歌单标签切换区域 */}
-        <Category cardPosition={'left'} categoryList={categoryList} 
-          changeCategory={this.changeCategory} btnTitle="全部歌单"
+        <Category cardPosition={'left'} categoryList={categoryList} btnStyle={btnStyle}
+          changeCategory={this.changeCategory} btnTitle={'全部歌单'} categoryItemStyle={{flex:'"16.6%"'}}
           btnElement={btnElement} width={746} hotCategoryList={hotCategoryList} />
         {/* 歌单区域 */}
         <ImgCardList flex="20%" wrap list={songList} showPlayIcon width={205} height={205} />

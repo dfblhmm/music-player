@@ -7,6 +7,7 @@
   border-radius: 5px;
   overflow: hidden;
   position: relative;
+  // 左上角精品icon
   .left-top-icon {
     position: absolute;
     left: 0;
@@ -30,22 +31,6 @@
   padding-left: 12px;
   justify-content: center;
   flex-direction: column;
-  // 歌单logo 
-  .tip {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 110px;
-    color: #E7AA5A;
-    border: 1px solid #E7AA5A;
-    border-radius: 15px;
-    padding: 5px 0;
-    font-size: 14px;
-    .icon {
-      font-size: 18px;
-      margin-right: 4px;
-    }
-  }
   // 精品歌单名字
   .high-quality-name {
     @include ellipsis;
