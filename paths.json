@@ -6,9 +6,9 @@
       "assets": ["src/assets"],
       "components": ["src/components"],
       "containers": ["src/containers"],
+      "redux": ["src/redux"],
       "utils": ["src/utils"],
-      "pages": ["src/pages"],
-      "redux": ["src/redux"]
+      "pages": ["src/pages"]
     }
   }
 }

@@ -18,15 +18,14 @@ export default class Found extends PureComponent<RouteComponentProps> {
   }
   // 更新当前菜单项
   updateMenuItem(pathname: string) {
-    if (pathname === '/found') return this.setState({selectedKeys: ['recommend']})
-    const paths = pathname.split('/')
-    const path = paths[paths.length - 1]
-    this.setState({selectedKeys: [path]})
+    // if (pathname === '/found') return this.setState({selectedKeys: ['recommend']})
+    // const paths = pathname.split('/')
+    // const path = paths[paths.length - 1]
+    // this.setState({selectedKeys: [path]})
   }
   componentWillUnmount() {
     this.updateMenuItem = () => undefined
   }
-  
   // 切换菜单选项
   handleClick = (e: { key: unknown }) => {
     const key = e.key as string
@@ -34,6 +33,10 @@ export default class Found extends PureComponent<RouteComponentProps> {
     if (key === this.state.selectedKeys[0]) return
     push(`/found/${key}`)
     this.setState({selectedKeys: [key]})
+  }
+  // 点击了导航链接
+  clickNavLink = (to: string) => {
+    console.log('found', to)
   }
   render() {
     const { selectedKeys } = this.state

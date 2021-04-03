@@ -62,3 +62,7 @@ interface HighQualitySongList {
   playCount: number // 歌单播放数
   updateTime?: number
 }
+// 点击了NavTitle时的事件
+interface ClickNavLink {
+  clickLink?: (to: string) => void
+}
