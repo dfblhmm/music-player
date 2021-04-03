@@ -13,7 +13,7 @@ interface TopQuality {
   copywriter: string
   coverImgUrl: string 
 }
-interface SongListType extends ImgCardType {
+interface SongListType extends ImgCardItemType {
   creator: {userId: number, nickname: string, avatarDetail?: {identityIconUrl: string}}
   coverImgUrl: string
 }
@@ -107,7 +107,7 @@ export default class SongListHome extends PureComponent<RouteComponentProps> {
   }
   // 获取当前分类的歌单列表
   getSongList(res: Array<SongListType>) {
-    const songList: Array<ImgCardType> = []
+    const songList: Array<ImgCardItemType> = []
     const ids: {[key: string]: boolean} = {}
     res.forEach(value => {
       const { id, name, playCount, creator, coverImgUrl } = value 

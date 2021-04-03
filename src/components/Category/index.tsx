@@ -12,7 +12,7 @@ interface CategoryProps {
   cardPosition: 'left' | 'right'
   width?: number // 卡片的宽
   changeCategory? : (cat: string) => void // 点击了分类后的回调
-  categoryItemStyle?: {flex: string, fontSize?: string} // 每个子分类的flex占比
+  categoryItemStyle?: {flex: string, fontSize?: string} // 每个子分类的flex占比和字体大小
 }
 export default class Category extends PureComponent<CategoryProps> {
   card?: HTMLElement | null

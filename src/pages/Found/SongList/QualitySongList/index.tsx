@@ -4,12 +4,14 @@ import http from 'utils/http'
 import IconFont from 'components/IconFont'
 import NavTitle from 'components/NavTitle'
 import Category from 'components/Category'
+import HighQualityList from 'components/HighQualityList'
 import style from './index.module.scss'
 export default class QualitySongList extends PureComponent<RouteComponentProps> {
   state = {
     categoryList: [],
     songList: [],
-    before: 0 // 分页参数
+    before: 0, // 分页参数
+    cat: ''
   }
   async componentDidMount() {
     const { match: { params }} = this.props
@@ -22,6 +24,8 @@ export default class QualitySongList extends PureComponent<RouteComponentProps> 
     this.getQualityTags(res[0].tags)
     // 获取当前标签的精品歌单列表
     this.getHighQualitySongList(res[1].playlists)
+    // 获取当前的标签
+    this.setState({ cat })
   }
   // 获取所有精品歌单标签
   getQualityTags(res: Array<Artist>) {
@@ -46,25 +50,27 @@ export default class QualitySongList extends PureComponent<RouteComponentProps> 
   // 切换分类
   changeCategory = (cat: string) => {
     console.log(cat)
+    this.setState({ cat })
   }
   render() {
-    // 获取传递的当前的标签
-    const { match: { params } } = this.props
+    const { cat } = this.state
     const btnElement: JSX.Element = (
       <Fragment>
-        <IconFont type="icon-choose" style={{fontSize:'14px', marginRight:'4px'}} />
-        {(params as {cat: string}).cat}
+        <IconFont type="icon-choose" style={{fontSize:'14px', marginRight:'4px'}} />{cat}
       </Fragment>
     )
     const btnStyle = {fontSize: '13px', padding: '6px 10px'}
     // 获取所有精品歌单标签
-    const { categoryList } = this.state
+    const { categoryList, songList } = this.state
     return (
       <div className={style['quality-songlist-container']}>
-        <NavTitle title="精品歌单" />
-        <Category cardPosition="right" btnElement={btnElement} width={550} 
-          categoryItemStyle={{flex: '20%', fontSize: '13px'}} changeCategory={this.changeCategory}
-          btnTitle="全部歌单" btnStyle={btnStyle} categoryList={categoryList} />
+        <div className={style.header}>
+          <NavTitle title="精品歌单" />
+          <Category cardPosition="right" btnElement={btnElement} width={550} 
+            categoryItemStyle={{flex: '20%', fontSize: '13px'}} changeCategory={this.changeCategory}
+            btnTitle="全部歌单" btnStyle={btnStyle} categoryList={categoryList} />
+        </div>
+        <HighQualityList list={songList} />
       </div>
     )
   }

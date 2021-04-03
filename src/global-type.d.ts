@@ -19,7 +19,7 @@ interface Artist {
   name: string
 }
 // 图片卡片组件
-interface ImgCardType extends ImgCardIconType {
+interface ImgCardItemType extends ImgCardItemIconType {
   width?: string
   height?: string
   id: number
@@ -35,7 +35,7 @@ interface ImgCardType extends ImgCardIconType {
   creatorInfo?: {userId: number, nickname: string, avatarDetail?: {identityIconUrl: string}}
 }
 // 控制不同的卡片是否显示特定的图标
-interface ImgCardIconType {
+interface ImgCardItemIconType {
   showPlayIcon?: boolean // 是否显示播放图标
   showVideoIcon?: boolean // 是否显示图片左上角的播放视频图标
   maskTitle?: string // 是否显示遮罩层

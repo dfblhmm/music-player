@@ -2,9 +2,22 @@ import { Fragment, PureComponent } from 'react'
 import { Image } from 'antd'
 import { UserOutlined } from '@ant-design/icons'
 import IconFont from 'components/IconFont'
-import Artists from 'components/Artists'
 import style from './index.module.scss'
-export default class ImgCard extends PureComponent<ImgCardType> {
+interface ImgCardProps {
+  width?: string
+  height?: string
+  picUrl: string
+  sPicUrl?: string
+  playCount?: number
+  duration?: number // 资源的时长
+  rcmdtext?: string // 电台类型
+  // 歌单作者头像信息
+  creatorInfo?: {userId: number, nickname: string, avatarDetail?: {identityIconUrl: string}}
+  showPlayIcon?: boolean // 是否显示播放图标
+  showVideoIcon?: boolean // 是否显示图片左上角的播放视频图标
+  maskTitle?: string
+}
+export default class ImgCard extends PureComponent<ImgCardProps> {
   // 是否显示播放次数
   showPlayCount(): JSX.Element {
     let { playCount }: { playCount?: number | string } = this.props
@@ -42,12 +55,6 @@ export default class ImgCard extends PureComponent<ImgCardType> {
       <div className={style.mask}>{maskTitle}</div>
     )
   }
-  // 是否显示歌手
-  showArtists(): JSX.Element {
-    const { artists } = this.props
-    if (!artists) return (<></>)
-    return (<Artists artists={artists} color="#676767" hoverColor="#373737" />)
-  }
   // 是否显示时长
   showDuration(): JSX.Element {
     const { duration } = this.props
@@ -58,14 +65,6 @@ export default class ImgCard extends PureComponent<ImgCardType> {
     second = second > 10 ? second : '0' + second
     return (
       <span className={style['item-duration']}>{`${minute}:${second}`}</span>
-    )
-  }
-  // 是否显示电台描述
-  showRadio(): JSX.Element {
-    const { rcmdtext } = this.props 
-    if (!rcmdtext) return (<></>)
-    return (
-      <div className={style['radio-name']} title={rcmdtext}>{rcmdtext}</div>
     )
   }
   // 是否显示用户信息
@@ -83,12 +82,20 @@ export default class ImgCard extends PureComponent<ImgCardType> {
       </div>
     )
   }
+   // 是否显示电台描述
+   showRadio(): JSX.Element {
+    const { rcmdtext } = this.props 
+    if (!rcmdtext) return (<></>)
+    return (
+      <div className={style['radio-name']} title={rcmdtext}>{rcmdtext}</div>
+    )
+  }
   // 点击了用户详情
   goUserPage = (userId: number) => {
     console.log(userId)
   }
   render() {
-    const { name, picUrl, ellipsis, width, height } = this.props
+    const { picUrl, width, height } = this.props
     return (
       <Fragment>
         <div className={style['item-img']}>
@@ -108,10 +115,6 @@ export default class ImgCard extends PureComponent<ImgCardType> {
           {/* 是否显示用户信息 */}
           {this.showUserInfo()}
         </div>
-        {/* 项目名字 */}
-        <div className={ellipsis?style['item-name-ellipsis']:style['item-name']}>{name}</div>
-        {/* 歌手 */}
-        {this.showArtists()}
       </Fragment>
     )
   }

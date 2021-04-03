@@ -50,8 +50,8 @@ export default class Recommend extends PureComponent {
   }
   // 获取推荐歌单
   getRecommendSongList(res: Data) {
-    const recommendSongList: Array<ImgCardType> = []
-    res.forEach((value: ImgCardType) => {
+    const recommendSongList: Array<ImgCardItemType> = []
+    res.forEach((value: ImgCardItemType) => {
       const { id, picUrl, name, playCount } = value
       recommendSongList.push({
         id, picUrl: picUrl + 'param?x205y205', name, playCount
@@ -61,8 +61,8 @@ export default class Recommend extends PureComponent {
   }
   // 获取独家放送入口
   getExclusiveEntry(res: Data) {
-    const exclusiveEntry: Array<ImgCardType> = []
-    res.forEach((value: ImgCardType) => {
+    const exclusiveEntry: Array<ImgCardItemType> = []
+    res.forEach((value: ImgCardItemType) => {
       const { id, name, sPicUrl: picUrl } = value
       exclusiveEntry.push({
         id, name, picUrl: picUrl! + '?param=x362y204'
@@ -72,8 +72,8 @@ export default class Recommend extends PureComponent {
   }
   // 获取推荐MV
   getRecommendMV(res: Data) {
-    const recommendMV: Array<ImgCardType> = []
-    res.forEach((value: ImgCardType) => {
+    const recommendMV: Array<ImgCardItemType> = []
+    res.forEach((value: ImgCardItemType) => {
       const { id, name, picUrl, playCount, artists } = value
       recommendMV.push({
          id, name, picUrl: picUrl + '?param=x266y150', 
@@ -101,8 +101,8 @@ export default class Recommend extends PureComponent {
   }
   // 获取主播电台
   getRadios(res: Data) {
-    const radios: Array<ImgCardType> = []
-    res.forEach((value: ImgCardType) => {
+    const radios: Array<ImgCardItemType> = []
+    res.forEach((value: ImgCardItemType) => {
       const { id, name, rcmdtext, picUrl } = value
       radios.push({
         id, name: rcmdtext!, picUrl, rcmdtext: name

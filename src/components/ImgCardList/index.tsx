@@ -1,9 +1,9 @@
 import { PureComponent, Fragment } from 'react'
 import { Row, Col } from 'antd'
-import ImgCard from './ImgCard'
+import ImgCardItem from './ImgCardItem'
 import style from './index.module.scss'
-interface ImgCardListProps extends ImgCardIconType{
-  list: Array<ImgCardType>
+interface ImgCardListProps extends ImgCardItemIconType{
+  list: Array<ImgCardItemType>
   gutter?: number
   flex: string
   wrap?: boolean,
@@ -17,15 +17,15 @@ export default class ImgCardList extends PureComponent<ImgCardListProps> {
   render() {
     const { gutter, list, flex, wrap, ellipsis, showPlayIcon, 
       showVideoIcon, maskTitle, width, height } = this.props
-    const iconType: ImgCardIconType = {ellipsis, showPlayIcon, showVideoIcon, maskTitle}
+    const iconType: ImgCardItemIconType = {ellipsis, showPlayIcon, showVideoIcon, maskTitle}
     return (
       <Fragment>
         <Row gutter={gutter} wrap={wrap}>
           {
-            list.map((value: ImgCardType) => 
+            list.map((value: ImgCardItemType) => 
               <Col key={value.nid ? value.nid: value.id} className={style.col} 
                 flex={flex} style={{maxWidth: flex}}>
-                <ImgCard {...iconType} {...value} width={width+'px'} height={height+'px'} />
+                <ImgCardItem {...iconType} {...value} width={width+'px'} height={height+'px'} />
               </Col>
             )
           }

@@ -1,0 +1,16 @@
+@import 'assets/scss/ellipsis.scss';
+// 卡片名称
+.item-name {
+  width: 100%;
+  font-size: 14px;
+  line-height: 1.5em;
+  cursor: pointer;
+  &:hover {
+    color: #000;
+  }
+}
+// 名字溢出时是否用省略号代替
+.item-name-ellipsis {
+  @extend .item-name;
+  @include ellipsis;
+}
