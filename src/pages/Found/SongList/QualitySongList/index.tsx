@@ -6,7 +6,7 @@ import http from 'utils/http'
 import IconFont from 'components/IconFont'
 import NavTitle from 'components/NavTitle'
 import Category from 'components/Category'
-import HighQualityList from 'components/HighQualityList'
+import HighQualityList from './HighQualityList'
 import targetContext from 'pages/Found/context'
 import style from './index.module.scss'
 export default class QualitySongList extends PureComponent<RouteComponentProps> {
@@ -64,7 +64,7 @@ export default class QualitySongList extends PureComponent<RouteComponentProps> 
       more: boolean, playlists: Array<HighQualitySongList>
     }
     const { more, playlists } = res
-    if (!more) setTimeout(() => message.warning('没有更多了!'), 1000) 
+    if (!more) setTimeout(() => message.warning('没有更多了!'), 500) 
     this.getHighQualitySongList(playlists, more)
   }
   // 切换分类
