@@ -1,6 +1,6 @@
 import { PureComponent, Fragment } from 'react'
 import { RouteComponentProps } from 'react-router'
-import { message } from 'antd'
+import { message, BackTop } from 'antd'
 import InfiniteScroll from 'react-infinite-scroller'
 import http from 'utils/http'
 import IconFont from 'components/IconFont'
@@ -95,6 +95,8 @@ export default class QualitySongList extends PureComponent<RouteComponentProps> 
           hasMore={more} getScrollParent={()=>this.context}>
           <HighQualityList list={songList} />
         </InfiniteScroll>
+        <BackTop visibilityHeight={1000} target={()=>this.context}
+          style={{right: '30px', bottom: '100px'}} />
       </div>
     )
   }

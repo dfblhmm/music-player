@@ -12,7 +12,7 @@ export default class HighQualityList extends PureComponent<HighQualityListProps>
   render() {
     const { list } = this.props
     return (
-      <Row gutter={30} wrap>
+      <Row gutter={20} wrap>
         {
           list.map(value => (
             <Col key={value.id} className={style.item}>
