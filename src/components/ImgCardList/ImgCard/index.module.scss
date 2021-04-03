@@ -117,3 +117,20 @@
     }
   }
 }
+// 左上角精品icon
+.left-top-icon {
+  position: absolute;
+  left: 0;
+  top: 0;
+  padding: 15px;
+  background-color: #F3B068;
+  clip-path: polygon(0 0, 0% 100%, 100% 0);
+  .icon {
+    position: absolute;
+    left: 0;
+    top: 0;
+    color: #fff;
+    font-size: 16px;
+    transform: rotate(-45deg);
+  }
+}

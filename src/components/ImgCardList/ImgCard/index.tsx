@@ -16,6 +16,7 @@ interface ImgCardProps {
   showPlayIcon?: boolean // 是否显示播放图标
   showVideoIcon?: boolean // 是否显示图片左上角的播放视频图标
   maskTitle?: string
+  showQualityIcon?: boolean
 }
 export default class ImgCard extends PureComponent<ImgCardProps> {
   // 是否显示播放次数
@@ -82,12 +83,22 @@ export default class ImgCard extends PureComponent<ImgCardProps> {
       </div>
     )
   }
-   // 是否显示电台描述
-   showRadio(): JSX.Element {
+  // 是否显示电台描述
+  showRadio(): JSX.Element {
     const { rcmdtext } = this.props 
     if (!rcmdtext) return (<></>)
     return (
       <div className={style['radio-name']} title={rcmdtext}>{rcmdtext}</div>
+    )
+  }
+  // 是否显示精品Icon
+  showQualityIcon(): JSX.Element {
+    const { showQualityIcon } = this.props
+    if (!showQualityIcon) return (<></>)
+    return (
+      <div className={style['left-top-icon']}>
+        <IconFont type="icon-quality" className={style.icon} />
+      </div>
     )
   }
   // 点击了用户详情
@@ -98,7 +109,7 @@ export default class ImgCard extends PureComponent<ImgCardProps> {
     const { picUrl, width, height } = this.props
     return (
       <Fragment>
-        <div className={style['item-img']}>
+        <div className={style['item-img']} >
           <Image src={picUrl} preview={false} placeholder style={{width,height}} />
           {/* 是否显示播放图标 */}
           {this.showPlayIcon()}
@@ -114,6 +125,8 @@ export default class ImgCard extends PureComponent<ImgCardProps> {
           { this.showRadio() }
           {/* 是否显示用户信息 */}
           {this.showUserInfo()}
+          {/* 是否显示精品图标 */}
+          {this.showQualityIcon()}
         </div>
       </Fragment>
     )

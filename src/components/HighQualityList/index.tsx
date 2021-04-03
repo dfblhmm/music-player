@@ -1,28 +1,34 @@
 import { PureComponent } from 'react'
-import { Image, Row, Col } from 'antd'
-import IconFont from 'components/IconFont'
+import { Row, Col, Image } from 'antd'
+import ImgCard from 'components/ImgCardList/ImgCard'
 import style from './index.module.scss'
 interface HighQualityListProps {
   list: Array<HighQualitySongList>
 }
 export default class HighQualityList extends PureComponent<HighQualityListProps> {
+  loadMore = () => {
+    console.log('加载更多')
+  }
   render() {
     const { list } = this.props
     return (
-      <Row gutter={20} wrap style={{marginTop:'20px'}}>
+      <Row gutter={30} wrap>
         {
           list.map(value => (
             <Col key={value.id} className={style.item}>
               <div className={style['quality-img']}>
-                <Image src={value.coverImgUrl} preview={false} />
-                <div className={style['left-top-icon']}>
-                  <IconFont type="icon-quality" className={style.icon} />
-                </div>
+                <ImgCard picUrl={value.coverImgUrl} showPlayIcon 
+                  playCount={value.playCount} showQualityIcon />
               </div>
               <div className={style['quality-info']}>
-                <div className={style['quality-name']}>{value.name}</div>
-                <div className={style['quality-creator']}></div>
-                <div className={style['quality-desc']}>{value.tag}{value.copywriter}</div>
+                <div className={style['quality-name']} title={value.name}>{value.name}</div>
+                <div className={style['quality-creator']}>
+                  <span>by {value.creator.nickname}</span>
+                  <Image src={value.creator.avatarDetail?.identityIconUrl} preview={false} />
+                </div>
+                <div className={style['quality-desc']} title={value.copywriter}>
+                  <span className={style.tag}>{value.tag}</span>{value.copywriter}
+                </div>
               </div>
             </Col>
           ))
