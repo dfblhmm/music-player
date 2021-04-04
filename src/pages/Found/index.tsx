@@ -19,6 +19,7 @@ export default class Found extends PureComponent<RouteComponentProps> {
   // 更新当前菜单项
   updateMenuItem(pathname: string) {
     if (pathname === '/found') return this.setState({selectedKeys: ['recommend']})
+    if (pathname.indexOf('songlist')) return this.setState({selectedKeys: ['songlist']})
     const paths = pathname.split('/')
     const path = paths[paths.length - 1]
     this.setState({selectedKeys: [path]})
