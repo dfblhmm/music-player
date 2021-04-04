@@ -50,6 +50,7 @@ export default class Found extends PureComponent<RouteComponentProps> {
             <Menu.Item key="radio">主播电台</Menu.Item>
             <Menu.Item key="rank">排行榜</Menu.Item>
             <Menu.Item key="singer">歌手</Menu.Item>
+            <Menu.Item key="new-songs">最新音乐</Menu.Item>
           </Menu>
         </Affix>
         <targetContext.Provider value={this.target!}>
