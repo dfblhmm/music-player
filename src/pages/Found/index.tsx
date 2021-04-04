@@ -18,10 +18,10 @@ export default class Found extends PureComponent<RouteComponentProps> {
   }
   // 更新当前菜单项
   updateMenuItem(pathname: string) {
-    // if (pathname === '/found') return this.setState({selectedKeys: ['recommend']})
-    // const paths = pathname.split('/')
-    // const path = paths[paths.length - 1]
-    // this.setState({selectedKeys: [path]})
+    if (pathname === '/found') return this.setState({selectedKeys: ['recommend']})
+    const paths = pathname.split('/')
+    const path = paths[paths.length - 1]
+    this.setState({selectedKeys: [path]})
   }
   componentWillUnmount() {
     this.updateMenuItem = () => undefined
@@ -51,7 +51,7 @@ export default class Found extends PureComponent<RouteComponentProps> {
             <Menu.Item key="singer">歌手</Menu.Item>
           </Menu>
         </Affix>
-        <targetContext.Provider value={this.target as HTMLElement}>
+        <targetContext.Provider value={this.target!}>
           <Switch>
             <Route path="/found/recommend" component={Recommend} />
             <Route path="/found/songlist" component={SongList} />

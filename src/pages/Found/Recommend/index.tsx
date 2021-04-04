@@ -1,8 +1,8 @@
 import { PureComponent } from 'react'
-import http from 'utils/http'
-import Carousel from 'components/Carousel'
-import ImgCardList from 'components/ImgCardList'
-import NavTitle from 'components/NavTitle'
+import http from '@/utils/http'
+import Carousel from '@/components/Carousel'
+import ImgCardList from '@/components/ImgCardList'
+import NavTitle from '@/components/NavTitle'
 import NewSong from './NewSong'
 export default class Recommend extends PureComponent {
   state = {

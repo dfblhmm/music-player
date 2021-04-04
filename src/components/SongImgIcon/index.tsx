@@ -1,6 +1,6 @@
 import { PureComponent } from 'react'
 import { Image } from 'antd'
-import IconFont from 'components/IconFont'
+import IconFont from '@/components/IconFont'
 import style from './index.module.scss'
 interface SongImgIconProps {
   flex: string

@@ -1,8 +1,6 @@
 import { Fragment, PureComponent } from 'react'
 import { Link } from 'react-router-dom'
-import { connect } from 'react-redux'
-import { updatePath } from 'redux/actions/navLink'
-import IconFont from 'components/IconFont'
+import IconFont from '@/components/IconFont'
 import style from './index.module.scss'
 interface NavTitleProps{
   to?: string
@@ -27,8 +25,3 @@ export default class NavTitle extends PureComponent<NavTitleProps> {
     )
   }
 }
-
-// export default connect(
-//   state => {},
-//   {updatePath}
-// )(NavTitle)

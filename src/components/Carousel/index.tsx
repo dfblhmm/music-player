@@ -2,7 +2,7 @@ import { MouseEventHandler, PureComponent } from 'react'
 import { Image } from 'antd'
 import { nanoid } from 'nanoid'
 import './index.scss'
-import IconFont from 'components/IconFont'
+import IconFont from '@/components/IconFont'
 interface PrevNext {
   prev: number
   next: number

@@ -1,6 +1,6 @@
 import { Fragment, PureComponent } from 'react'
-import ImgCard from 'components/ImgCardList/ImgCard'
-import Artists from 'components/Artists'
+import ImgCard from '../ImgCard'
+import Artists from '@/components/Artists'
 import style from './index.module.scss'
 export default class ImgCardItem extends PureComponent<ImgCardItemType> {
   // 是否显示歌手

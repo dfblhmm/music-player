@@ -1,8 +1,8 @@
 import { Fragment, PureComponent } from 'react'
 import { Row, Col } from 'antd'
 import { CaretRightOutlined } from '@ant-design/icons'
-import SongImgIcon from 'components/SongImgIcon'
-import Artists from 'components/Artists'
+import SongImgIcon from '@/components/SongImgIcon'
+import Artists from '@/components/Artists'
 import style from './index.module.scss'
 interface SongsProps {
   songItems: Array<SongItem>

@@ -1,1 +1,1 @@
-export const LINK = 'LINK'
+export {}
