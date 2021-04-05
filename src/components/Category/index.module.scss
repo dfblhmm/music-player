@@ -65,6 +65,8 @@ $color: #ec4141;
         li {
           color: #373737;
           padding: 10px 10px;
+          flex: 16.6%;
+          max-width: 16.6%;
           cursor: pointer;
           position: relative;
           transition: color .3s;
