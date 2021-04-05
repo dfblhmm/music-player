@@ -120,10 +120,10 @@ export default class Recommend extends PureComponent {
         <NavTitle to="/found/songlist" title="推荐歌单" />
         <ImgCardList list={recommendSongList} flex="20%" wrap showPlayIcon />
         {/* 独家放送入口 */}
-        <NavTitle to="/" title="独家放送" />
+        <NavTitle to="/found/exclusive" title="独家放送" />
         <ImgCardList list={exclusiveEntry} flex="1" showVideoIcon />
         {/* 最新音乐 */}
-        <NavTitle to="/" title="最新音乐" />
+        <NavTitle to="/found/new-songs" title="最新音乐" />
         <NewSong songItems={newSongs} />
         {/* 推荐MV */}
         <NavTitle to="/" title="推荐MV" />

@@ -18,10 +18,12 @@
   border-right: 1px solid #E1E1E1;
 }
 .ant-layout-content {
-  overflow-x: hidden;
+  // overflow-x: hidden;
+  overflow: hidden;
 }
 // 自定义滚动条
-.found-container, .ant-layout-sider {
+.found-container, .ant-layout-sider,
+.exclusive-container {
   overflow-x: hidden;
   overflow-y: auto;
   // 自定义滚动条
@@ -41,6 +43,6 @@
   }
 }
 
-.found-container {
+.found-container, .exclusive-container {
   height: 100%;
 }

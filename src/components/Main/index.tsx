@@ -10,21 +10,23 @@ const FM = lazy(() => import('@pages/FM'))
 const MyCloud = lazy(() => import('@pages/MyCloud'))
 const MyRadio = lazy(() => import('@pages/MyRadio'))
 const MyCollection = lazy(() => import('@pages/MyCollection'))
+const Exclusive = lazy(() => import('@pages/Exclusive'))
 export default class ContentContainer extends PureComponent {
   render() {
     return (
       <Fragment>
         <Suspense fallback={<Spin className={style.spin} />}>
           <Switch>
-              <Route path="/found" component={Found} />
-              <Route path="/video" component={Video} />
-              <Route path="/friends" component={Friends} />
-              <Route path="/fm" component={FM}/>
-              <Route path="/my-cloud" component={MyCloud} />
-              <Route path="/my-radio" component={MyRadio}/>
-              <Route path="/my-collection" component={MyCollection} />
-              <Redirect to="/found" />
-            </Switch>
+            <Route path="/found/exclusive" component={Exclusive} />
+            <Route path="/found" component={Found} />
+            <Route path="/video" component={Video} />
+            <Route path="/friends" component={Friends} />
+            <Route path="/fm" component={FM}/>
+            <Route path="/my-cloud" component={MyCloud} />
+            <Route path="/my-radio" component={MyRadio}/>
+            <Route path="/my-collection" component={MyCollection} />
+            <Redirect to="/found" />
+          </Switch>
         </Suspense>
       </Fragment>
     )
