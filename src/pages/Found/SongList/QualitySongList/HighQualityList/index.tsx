@@ -1,6 +1,6 @@
 import { PureComponent } from 'react'
 import { Row, Col, Image } from 'antd'
-import ImgCard from '@/components/ImgCardList/ImgCard'
+import ImgCard from '@components/ImgCardList/ImgCard'
 import style from './index.module.scss'
 interface HighQualityListProps {
   list: Array<HighQualitySongList>

@@ -1,6 +1,6 @@
 import { PureComponent, MouseEvent } from 'react'
 import { Card } from 'antd'
-import IconFont from '@/components/IconFont'
+import IconFont from '@components/IconFont'
 import style from './index.module.scss'
 import { nanoid } from 'nanoid'
 interface CategoryProps {

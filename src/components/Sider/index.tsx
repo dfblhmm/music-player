@@ -1,10 +1,10 @@
 import { PureComponent, Fragment } from 'react'
 import { Link } from 'react-router-dom'
 import { Menu, Collapse } from 'antd'
-import './index.scss'
-// 获取IconFont字体图标
-import IconFont from '@/components/IconFont'
 import { CaretRightOutlined } from '@ant-design/icons'
+// 获取IconFont字体图标
+import IconFont from '@components/IconFont'
+import './index.scss'
 const { Panel } = Collapse
 export default class SiderContainer extends PureComponent {
   // 点击了导航条

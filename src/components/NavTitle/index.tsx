@@ -1,6 +1,6 @@
 import { Fragment, PureComponent } from 'react'
 import { Link } from 'react-router-dom'
-import IconFont from '@/components/IconFont'
+import IconFont from '@components/IconFont'
 import style from './index.module.scss'
 interface NavTitleProps{
   to?: string

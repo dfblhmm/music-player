@@ -3,13 +3,13 @@ import { Switch, Route, Redirect } from 'react-router-dom'
 import { Spin } from 'antd'
 import style from './index.module.scss'
 // 按需加载路由组件
-const Found = lazy(() => import('@/pages/Found'))
-const Video = lazy(() => import('@/pages/Video'))
-const Friends = lazy(() => import('@/pages/Friends'))
-const FM = lazy(() => import('@/pages/FM'))
-const MyCloud = lazy(() => import('@/pages/MyCloud'))
-const MyRadio = lazy(() => import('@/pages/MyRadio'))
-const MyCollection = lazy(() => import('@/pages/MyCollection'))
+const Found = lazy(() => import('@pages/Found'))
+const Video = lazy(() => import('@pages/Video'))
+const Friends = lazy(() => import('@pages/Friends'))
+const FM = lazy(() => import('@pages/FM'))
+const MyCloud = lazy(() => import('@pages/MyCloud'))
+const MyRadio = lazy(() => import('@pages/MyRadio'))
+const MyCollection = lazy(() => import('@pages/MyCollection'))
 export default class ContentContainer extends PureComponent {
   render() {
     return (

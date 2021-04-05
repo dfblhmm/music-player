@@ -1,7 +1,7 @@
 import { Fragment, PureComponent } from 'react'
 import { Image } from 'antd'
 import { UserOutlined } from '@ant-design/icons'
-import IconFont from '@/components/IconFont'
+import IconFont from '@components/IconFont'
 import style from './index.module.scss'
 interface ImgCardProps {
   width?: string
