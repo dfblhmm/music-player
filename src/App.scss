@@ -3,6 +3,7 @@
   width: 100%;
   overflow: hidden;
   min-width: 1536px;
+  user-select: none;
 }
 .ant-layout .ant-layout,
 .ant-layout .ant-layout-sider {
@@ -45,4 +46,8 @@
 
 .found-container, .exclusive-container {
   height: 100%;
+}
+
+.ant-image {
+  flex: 1;
 }

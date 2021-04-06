@@ -4,8 +4,6 @@ import { UserOutlined } from '@ant-design/icons'
 import IconFont from '@components/IconFont'
 import style from './index.module.scss'
 interface ImgCardProps {
-  width?: string
-  height?: string
   picUrl: string
   sPicUrl?: string
   playCount?: number
@@ -106,11 +104,11 @@ export default class ImgCard extends PureComponent<ImgCardProps> {
     console.log(userId)
   }
   render() {
-    const { picUrl, width, height } = this.props
+    const { picUrl } = this.props
     return (
       <Fragment>
         <div className={style['item-img']} >
-          <Image src={picUrl} preview={false} placeholder style={{width,height}} />
+          <Image src={picUrl} preview={false} placeholder />
           {/* 是否显示播放图标 */}
           {this.showPlayIcon()}
           {/* 是否展示播放次数 */}

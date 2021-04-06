@@ -20,8 +20,6 @@ interface Artist {
 }
 // 图片卡片组件
 interface ImgCardItemType extends ImgCardItemIconType {
-  width?: string
-  height?: string
   id: number
   nid?: string // 当id重复时使用nanoid进行替换
   picUrl: string
@@ -61,8 +59,4 @@ interface HighQualitySongList {
   coverImgUrl: string // 歌单封面
   playCount: number // 歌单播放数
   updateTime?: number
-}
-// 点击了NavTitle时的事件
-interface ClickNavLink {
-  clickLink?: (to: string) => void
 }

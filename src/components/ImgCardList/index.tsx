@@ -5,10 +5,9 @@ import style from './index.module.scss'
 interface ImgCardListProps extends ImgCardItemIconType{
   list: Array<ImgCardItemType>
   gutter?: number
-  flex: string
+  flex?: string
   wrap?: boolean,
   width?: number
-  height?: number
 }
 export default class ImgCardList extends PureComponent<ImgCardListProps> {
   static defaultProps = {
@@ -16,7 +15,7 @@ export default class ImgCardList extends PureComponent<ImgCardListProps> {
   }
   render() {
     const { gutter, list, flex, wrap, ellipsis, showPlayIcon, 
-      showVideoIcon, maskTitle, width, height } = this.props
+      showVideoIcon, maskTitle, width } = this.props
     const iconType: ImgCardItemIconType = {ellipsis, showPlayIcon, showVideoIcon, maskTitle}
     return (
       <Fragment>
@@ -24,8 +23,8 @@ export default class ImgCardList extends PureComponent<ImgCardListProps> {
           {
             list.map((value: ImgCardItemType) => 
               <Col key={value.nid ? value.nid: value.id} className={style.col} 
-                flex={flex} style={{maxWidth: flex}}>
-                <ImgCardItem {...iconType} {...value} width={width+'px'} height={height+'px'} />
+                flex={flex} style={{maxWidth: flex, width}}>
+                <ImgCardItem {...iconType} {...value} />
               </Col>
             )
           }

@@ -174,7 +174,7 @@ export default class SongListHome extends PureComponent<RouteComponentProps> {
           changeCategory={this.changeCategory} btnTitle={'全部歌单'} categoryItemStyle={{flex:'"16.6%"'}}
           btnElement={btnElement} width={746} hotCategoryList={hotCategoryList} />
         {/* 歌单区域 */}
-        <ImgCardList flex="20%" wrap list={songList} showPlayIcon width={205} height={205} />
+        <ImgCardList flex="20%" wrap list={songList} showPlayIcon />
         {/* 回到顶部 */}
         <BackTop visibilityHeight={1000} target={()=>this.context}
           style={{right: '30px', bottom: '100px'}} />

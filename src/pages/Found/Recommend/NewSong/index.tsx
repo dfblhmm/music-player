@@ -8,9 +8,13 @@ interface SongsProps {
   songItems: Array<SongItem>
 }
 export default class NewSong extends PureComponent<SongsProps> {
-  
+  // 获取歌名title提示
+  songTitle(name: string, alias?: string): string {
+    return alias ? name + `（${alias}）` : name 
+  }
   render() {
     const { songItems } = this.props
+    const { songTitle } = this
     return (
       <Fragment>
         <Row gutter={20} wrap style={{marginLeft: 0}}>
@@ -19,7 +23,7 @@ export default class NewSong extends PureComponent<SongsProps> {
               <Col className={style.col} key={value.id}>
                 <SongImgIcon flex="16%" src={value.picUrl} />
                 <div className={style['song-info-container']}>
-                  <div className={style['song-name']} title={`${value.name}（${value.alias}）`}>
+                  <div className={style['song-name']} title={songTitle(value.name,value.alias)}>
                     {value.name}{value.alias ? <span style={{color: '#929292'}}>（{value.alias}）</span> : <Fragment></Fragment>}
                   </div>
                   <div className={style['song-info']}>
