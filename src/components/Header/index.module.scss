@@ -26,13 +26,10 @@
       justify-content: space-between;
       // Icon箭头
       .icon {
-        color: #ED6464;
         font-size: 13px;
         cursor: pointer;
+        color: #fff;
         &:first-child {margin-right: 15px;}
-        &.open-navigation {
-          color: #fff;
-        }
       }
     }
   }

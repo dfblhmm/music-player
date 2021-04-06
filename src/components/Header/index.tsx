@@ -5,47 +5,17 @@ import { LeftOutlined, RightOutlined } from '@ant-design/icons'
 import logo from '@assets/images/logo.png'
 import style from './index.module.scss'
 class HeaderContainer extends PureComponent<RouteComponentProps> {
-  state = {
-    routerLength: this.props.history.length,
-    go: false,
-    back: false,
-    routes: [this.props.location.pathname]
-  }
-  componentDidMount() {
-    const { history: { listen } } = this.props
-    listen(() => this.routeChange())
-  }
-  // 路由后退
-  back = () => {
-    const { history: { goBack } } = this.props
-    goBack()
-    this.setState({ go: true })
-  }
-  // 路由前进
+  // 前进按钮
   forward = () => {
     const { history: { goForward } } = this.props
     goForward()
   }
-  // 路由发生改变
-  routeChange() {
-    const { history: { length }, location: { pathname } } = this.props
-    if (length > this.state.routerLength) this.setState({ back: true })
-    const { routes } = this.state
-    if (pathname === routes[routes.length - 1]) this.setState({ go: false })
-    if (!routes.includes(pathname)) routes.push(pathname)
-    this.setState({ go: false, routes: [...routes] })
-  }
-  // 路由导航类名
-  navigationClass = (direction: string): string => {
-    const { go, back } = this.state
-    if (direction === 'back') {
-      return back ? (style.icon + ' ' + style['open-navigation']) : style.icon 
-    } else {
-      return go ? (style.icon + ' ' + style['open-navigation']) : style.icon 
-    }
+  // 后退按钮
+  back = () => {
+    const { history: { goBack } } = this.props
+    goBack()
   }
   render() {
-    const { navigationClass } = this
     return (
       <Fragment>
         <Row>
@@ -55,13 +25,15 @@ class HeaderContainer extends PureComponent<RouteComponentProps> {
               <span>网易云音乐</span>
             </Link>
             <div className={style['router-navigation']} >
-              <LeftOutlined className={navigationClass('back')}
+              <LeftOutlined className={style['icon']}
                 title="后退" onClick={this.back} />
-              <RightOutlined className={navigationClass('go')}
+              <RightOutlined className={style.icon}
                 title="前进" onClick={this.forward} />
             </div>
           </Col>
-          <Col span={8} offset={4}>col-8</Col>
+          <Col span={8} offset={4}>
+            
+          </Col>
           <Col span={8}>col-8</Col>
         </Row>
       </Fragment>
