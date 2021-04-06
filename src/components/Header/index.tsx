@@ -2,6 +2,7 @@ import { PureComponent, Fragment } from 'react'
 import { Link, RouteComponentProps, withRouter } from 'react-router-dom'
 import { Row, Col } from 'antd'
 import { LeftOutlined, RightOutlined } from '@ant-design/icons'
+import Search from '@components/Search'
 import logo from '@assets/images/logo.png'
 import style from './index.module.scss'
 class HeaderContainer extends PureComponent<RouteComponentProps> {
@@ -32,7 +33,7 @@ class HeaderContainer extends PureComponent<RouteComponentProps> {
             </div>
           </Col>
           <Col span={8} offset={4}>
-            
+            <Search />
           </Col>
           <Col span={8}>col-8</Col>
         </Row>

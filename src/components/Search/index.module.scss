@@ -1,0 +1,61 @@
+@import '@assets/scss/scroller.scss';
+// 搜索框
+.search {
+  width: 200px;
+  height: 25px;
+  border-radius: 10px;
+  background-color: #ec4141;
+  :global .ant-input {
+    background-color: #ec4141;
+    color: #fff;
+    &::placeholder {
+      color: #E76464;
+    }
+  }
+}
+// 热搜列表
+.hot-search-list {
+  position: absolute;
+  left: -20%;
+  top: 120%;
+  z-index: 50;
+  width: 352px;
+  height: 450px;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  @include scroller;
+  font-size: 12px;
+  box-shadow: 0 0 2px 1px rgba(0,0,0,.1);
+  border-radius: 5px;
+  // 排行
+  .rank {
+    padding: 0 20px;
+    font-size: 15px;
+  }
+  :global .ant-list-item-meta-avatar {
+    margin-right: 0;
+  }
+  :global .ant-list-item {
+    border: 0;
+    cursor: pointer;
+    &:hover { background-color: #F2F2F2;}
+    .ant-list-item-meta-avatar { color: #ccc; }
+    .ant-list-item-meta-title {
+      font-size: 12px;
+      :global img {
+        height: 12px;
+        margin-left: 5px;
+      }
+    }
+    .ant-list-item-meta-description { font-size: 12px; }
+    &:nth-of-type(1), &:nth-of-type(2), &:nth-of-type(3) {
+      .ant-list-item-meta-avatar {
+        color: #FF3A3A;
+      }
+      .ant-list-item-meta-title {
+        font-weight: bold;
+        color: #333;
+      }
+    } 
+  }
+}
