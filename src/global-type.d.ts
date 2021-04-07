@@ -18,6 +18,8 @@ interface Artist {
   id: number
   name: string
 }
+// 基本项目信息
+interface ItemType extends Artist {}
 // 图片卡片组件
 interface ImgCardItemType extends ImgCardItemIconType {
   id: number

@@ -1,4 +1,5 @@
 @import '@assets/scss/scroller.scss';
+@import '@assets/scss/ellipsis.scss';
 // 搜索框
 .search {
   width: 200px;
@@ -13,20 +14,31 @@
     }
   }
 }
-// 热搜列表
-.hot-search-list {
+@mixin common {
   position: absolute;
   left: -20%;
-  top: 120%;
+  top: 80%;
   z-index: 50;
-  width: 352px;
-  height: 450px;
   background-color: #fff;
   border: 1px solid #ccc;
-  @include scroller(4px);
   font-size: 12px;
   box-shadow: 0 0 2px 1px rgba(0,0,0,.1);
   border-radius: 5px;
+}
+@mixin list-item {
+  border: 0;
+  height: 28px;
+  line-height: 28px;
+  padding: 0;
+  padding-left: 10px;
+  font-size: 12px;
+}
+// 热搜列表
+.hot-search-list {
+  @include common;
+  @include scroller(4px);
+  width: 352px;
+  height: 450px;
   // 排行
   .rank {
     padding: 0 20px;
@@ -58,5 +70,29 @@
         color: #333;
       }
     } 
+  }
+}
+
+// 搜索建议
+.search-suggestion {
+  @include common;
+  width: 352px;
+  cursor: pointer;
+  // 搜索的关键字
+  .keywords {
+    @include list-item;
+  }
+  // 列表头部
+  :global .ant-list-header {
+    background-color: #F5F5F7;
+    @include list-item;
+  }
+  :global .ant-list-item {
+    @include list-item;
+    @include ellipsis;
+    padding-left: 25px;
+    &:hover {
+      background-color: #F5F5F7;
+    }
   }
 }

@@ -15,7 +15,7 @@ interface CategoryProps {
   categoryItemStyle?: {flex: string, fontSize?: string} // 每个子分类的flex占比和字体大小
 }
 export default class Category extends PureComponent<CategoryProps> {
-  card?: HTMLElement | null
+  card!: HTMLElement | null
   state = {
     showCard: false    
   }
@@ -23,13 +23,15 @@ export default class Category extends PureComponent<CategoryProps> {
     // 点击了卡片之外的区域，隐藏卡片
     const { categoryList } = this.props
     if (!categoryList) return
-    window.onclick = () => {
-      if (this.card) this.setState({showCard: false}) 
-    }
+    window.addEventListener('click', this.closeCard)
   }
   componentWillUnmount() {
     // 移除事件监听
-    window.onclick = null
+    window.removeEventListener('click', this.closeCard)
+  }
+  // 关闭卡片
+  closeCard = () => {
+    this.setState({ showCard: false })
   }
   // 是否显示分类选择区域
   showAllCategory(): JSX.Element {

@@ -1,7 +1,8 @@
-import { PureComponent } from 'react'
+import { PureComponent, ChangeEvent, FocusEvent, Fragment } from 'react'
 import { Input, List } from 'antd'
-import { SearchOutlined } from '@ant-design/icons'
+import { SearchOutlined, UserOutlined } from '@ant-design/icons'
 import http from '@utils/http'
+import IconFont from '@components/IconFont'
 import style from './index.module.scss'
 interface HotList {
   searchWord: string // 搜索关键字
@@ -9,18 +10,35 @@ interface HotList {
   content: string // 描述词
   iconUrl: string | null  // Icon图标地址
 }
+interface CommonType {
+  id: number
+  name: string
+  alias?: Array<string>
+  artists?: Array<{id: number, name: string}>
+}
+interface SuggestInfo {
+  artists?: Array<Artist>
+  albums?: Array<CommonType>
+  playlists?: Array<ItemType>
+  songs?: Array<CommonType>
+}
 export default class Search extends PureComponent {
   state = {
-    input: '',
+    keywords: '',
     list: [],
-    showList: false,
+    suggest: {},
+    showList: false, // 是否显示当前搜索
     type: 0 // 0表示热搜列表，1表示搜索建议
   }
   componentDidMount() {
-    window.onclick = () => this.setState({ showList: false })
+    window.addEventListener('click', this.closeList)
   }
   componentWillUnmount() {
-    window.onclick = null
+    window.removeEventListener('click', this.closeList)
+  }
+  // 关闭热搜与搜索建议区域
+  closeList = () => {
+    this.setState({ showList: false })
   }
   // 获取热搜列表数据
   async getHotList() {
@@ -28,7 +46,7 @@ export default class Search extends PureComponent {
     this.setState({ list: res.data })
   }
   // 热搜列表
-  hotSearch() {
+  hotSearch(): JSX.Element {
     const { list, showList }: { list: Array<HotList>, showList: boolean } = this.state 
     return (
       <List itemLayout="horizontal" dataSource={list} bordered={false}
@@ -50,19 +68,87 @@ export default class Search extends PureComponent {
       />
     )
   }
-  // 表单聚焦
+  // 获取搜索建议数据
+  async getSearchSuggest(keywords: string) {
+    const res = await http('/search/suggest', { keywords })
+    this.setState({ suggest: res.result })
+  }
+  // 搜索建议
+  formatArtists(artists: Array<Artist>): JSX.Element {
+    return (
+      <Fragment>
+        {
+          artists.map(value => <span key={value.id}>{value.name}&nbsp;</span>)
+        }
+      </Fragment>
+    )
+  }
+  // 歌曲
+  songs(): JSX.Element {
+    const { songs } = this.state.suggest as SuggestInfo
+    if (!songs) return (<></>)
+    const header = (
+      <Fragment>
+        <IconFont type="icon-music" style={{marginRight:'3px'}} />单曲
+      </Fragment>
+    )
+    return (
+      <List header={header} dataSource={songs}
+        renderItem={item => 
+          <List.Item key={item.id}>
+            {item.name}
+            {item.alias?.length ? `（${item.alias[0]}）` : <></>} - &nbsp;
+            {this.formatArtists(item.artists!)}
+          </List.Item>} />
+    )
+  }
+  // 歌手 
+  artists(): JSX.Element {
+    const { artists } = this.state.suggest as SuggestInfo
+    if (!artists) return (<></>)
+    const header = (
+      <Fragment>
+        <UserOutlined style={{marginRight:'3px'}} />歌手
+      </Fragment>
+    )
+    return (
+      <List header={header} dataSource={artists}
+        renderItem={item => <List.Item key={item.id}>{item.name}</List.Item>} />
+    )
+  }
+  searchSuggest(): JSX.Element {
+    const { showList, keywords } = this.state
+    return (
+      <div className={style['search-suggestion']} style={{display: showList ? 'block' : 'none'}}>
+        <div className={style['keywords']}>
+          搜"<span style={{color: '#5984B3'}}>{keywords}</span>"相关的结果&gt;
+        </div>
+        {/* 单曲匹配结果 */}
+        {this.songs()}
+        {/* 歌手匹配结果 */}
+        {this.artists()}
+      </div>
+    )
+  }
+  // 搜索框聚焦
   focus = () => {
     this.setState({ showList: true })
-    if(this.state.list.length === 0)this.getHotList()
+    const { list, type } = this.state
+    if (list.length === 0 && type === 0) this.getHotList()
   }
-  // 表单离开
-  blur = () => {
+  // 搜索框离开
+  blur = (e: FocusEvent<HTMLInputElement>) => {
+    const { value } = e.target
+    if (value.trim()) return
     this.setState({ type: 0 })
   }
   // 用户输入
-  input = () => {
-    this.setState({ type: 1 })
-    console.log('搜索')
+  input = (e: ChangeEvent<HTMLInputElement>) => {
+    // 获取用户输入
+    const { value } = e.target
+    if (!value.trim()) return this.setState({ type: 0 })
+    this.setState({ type: 1, keywords: value })
+    window.setTimeout(() => this.getSearchSuggest(value), 1000)
   }
   render() {
     const { type } = this.state
@@ -71,7 +157,7 @@ export default class Search extends PureComponent {
       <div style={{position: 'relative'}}>
         <Input placeholder="搜索" bordered={false} className={style.search} onBlur={this.blur}
           prefix={icon} onFocus={this.focus} onClick={e => e.stopPropagation()} onChange={this.input} />
-        {type === 0 ? this.hotSearch(): <></>}
+        {type === 0 ? this.hotSearch(): this.searchSuggest()}
       </div>
     )
   }
