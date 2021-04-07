@@ -18,7 +18,7 @@ interface CommonType {
 }
 interface SuggestInfo {
   artists?: Array<Artist>
-  albums?: Array<CommonType>
+  albums?: Array<{id: number, name: string, artist: Artist}>
   playlists?: Array<ItemType>
   songs?: Array<CommonType>
 }
@@ -87,11 +87,7 @@ export default class Search extends PureComponent {
   songs(): JSX.Element {
     const { songs } = this.state.suggest as SuggestInfo
     if (!songs) return (<></>)
-    const header = (
-      <Fragment>
-        <IconFont type="icon-music" style={{marginRight:'3px'}} />单曲
-      </Fragment>
-    )
+    const header = this.createHeader('music', '单曲')
     return (
       <List header={header} dataSource={songs}
         renderItem={item => 
@@ -116,6 +112,37 @@ export default class Search extends PureComponent {
         renderItem={item => <List.Item key={item.id}>{item.name}</List.Item>} />
     )
   }
+  // 专辑
+  albums(): JSX.Element {
+    const { albums } = this.state.suggest as SuggestInfo
+    if (!albums) return (<></>)
+    const header = this.createHeader('album', '专辑')
+    return (
+      <List header={header} dataSource={albums}
+        renderItem={item => 
+          <List.Item key={item.id}>
+            {item.name} - &nbsp;{item.artist.name}
+          </List.Item>} />
+    )
+  }
+  // 歌单
+  songlist(): JSX.Element {
+    const { playlists } = this.state.suggest as SuggestInfo
+    if (!playlists) return (<></>)
+    const header = this.createHeader('songlist', '歌单')
+    return (
+      <List header={header} dataSource={playlists}
+        renderItem={item => <List.Item key={item.id}>{item.name}</List.Item>} />
+    )
+  }
+  // Header Icon
+  createHeader(icon: string, itemName: string): JSX.Element {
+    return (
+      <Fragment>
+        <IconFont type={`icon-${icon}`} style={{marginRight:'3px'}} />{itemName}
+      </Fragment>
+    )
+  }
   searchSuggest(): JSX.Element {
     const { showList, keywords } = this.state
     return (
@@ -127,6 +154,10 @@ export default class Search extends PureComponent {
         {this.songs()}
         {/* 歌手匹配结果 */}
         {this.artists()}
+        {/* 专辑匹配结果 */}
+        {this.albums()}
+        {/* 歌单匹配结果 */}
+        {this.songlist()}
       </div>
     )
   }
