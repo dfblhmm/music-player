@@ -20,13 +20,12 @@
   border-right: 1px solid #E1E1E1;
 }
 .ant-layout-content {
-  // overflow-x: hidden;
   overflow: hidden;
 }
 // 自定义滚动条
 .found-container, .ant-layout-sider,
 .exclusive-container {
-  @include scroller;
+  @include scroller(5px);
 }
 
 .found-container, .exclusive-container {

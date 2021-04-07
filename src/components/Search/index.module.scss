@@ -23,7 +23,7 @@
   height: 450px;
   background-color: #fff;
   border: 1px solid #ccc;
-  @include scroller;
+  @include scroller(4px);
   font-size: 12px;
   box-shadow: 0 0 2px 1px rgba(0,0,0,.1);
   border-radius: 5px;
@@ -39,6 +39,7 @@
     border: 0;
     cursor: pointer;
     &:hover { background-color: #F2F2F2;}
+    .ant-list-item-meta { align-items: center; }
     .ant-list-item-meta-avatar { color: #ccc; }
     .ant-list-item-meta-title {
       font-size: 12px;

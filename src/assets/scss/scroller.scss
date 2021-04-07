@@ -1,10 +1,10 @@
-@mixin scroller {
+@mixin scroller($size) {
   overflow-x: hidden;
   overflow-y: auto;
   // 自定义滚动条
   &::-webkit-scrollbar {
-    width: 5px;
-    height: 5px;
+    width: $size;
+    height: $size;
     background-color: #fff;
   }
   &::-webkit-scrollbar-track {
