@@ -2,7 +2,7 @@ import { PureComponent, Fragment } from 'react'
 import { Link, RouteComponentProps, withRouter } from 'react-router-dom'
 import { Row, Col } from 'antd'
 import { LeftOutlined, RightOutlined } from '@ant-design/icons'
-import Search from '@components/Search'
+import Search from './Search'
 import logo from '@assets/images/logo.png'
 import style from './index.module.scss'
 class HeaderContainer extends PureComponent<RouteComponentProps> {
