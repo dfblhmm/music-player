@@ -1,3 +1,4 @@
+import { nanoid } from 'nanoid'
 import { PureComponent, Fragment, MouseEventHandler } from 'react'
 import style from './index.module.scss'
 interface ArtistsProps {
@@ -31,7 +32,7 @@ export default class Artists extends PureComponent<ArtistsProps> {
       <div className={style.artists}>
         {
           artists.map((value: Artist, index) => (
-            <Fragment key={value.id}>
+            <Fragment key={value.id ? value.id: nanoid()}>
               <span style={this.hasInfo(value.id)} onMouseEnter={this.hover(value.id)}
                 onMouseLeave={this.leave(value.id)} title={value.name}>{value.name}
               </span>

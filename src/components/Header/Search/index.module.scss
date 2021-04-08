@@ -40,6 +40,13 @@
   @include scroller(4px);
   width: 352px;
   height: 450px;
+  // 头部
+  :global .ant-list-header {
+    font-size: 15px;
+    padding: 8px 20px;
+    border: 0;
+    color: #818181;
+  }
   // 排行
   .rank {
     padding: 0 20px;
@@ -49,6 +56,7 @@
     margin-right: 0;
   }
   :global .ant-list-item {
+    padding: 8px 0;
     border: 0;
     cursor: pointer;
     &:hover { background-color: #F2F2F2;}

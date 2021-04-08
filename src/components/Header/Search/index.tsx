@@ -49,7 +49,7 @@ export default class Search extends PureComponent {
   hotSearch(): JSX.Element {
     const { list, showList }: { list: Array<HotList>, showList: boolean } = this.state 
     return (
-      <List itemLayout="horizontal" dataSource={list} bordered={false}
+      <List itemLayout="horizontal" dataSource={list} bordered={false} header="热搜榜"
         className={style['hot-search-list']} style={{display: showList? 'block': 'none'}}
         renderItem={(item,index) => (
           <List.Item onClick={e => e.stopPropagation()}>
