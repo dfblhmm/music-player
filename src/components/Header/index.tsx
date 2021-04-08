@@ -1,11 +1,15 @@
 import { PureComponent, Fragment } from 'react'
 import { Link, RouteComponentProps, withRouter } from 'react-router-dom'
-import { Row, Col } from 'antd'
-import { LeftOutlined, RightOutlined } from '@ant-design/icons'
+import { Row, Col, Avatar } from 'antd'
+import { LeftOutlined, RightOutlined, CaretDownOutlined } from '@ant-design/icons'
 import Search from './Search'
+import Login from './Login'
 import logo from '@assets/images/logo.png'
 import style from './index.module.scss'
 class HeaderContainer extends PureComponent<RouteComponentProps> {
+  state = {
+    visible: false
+  }
   // 前进按钮
   forward = () => {
     const { history: { goForward } } = this.props
@@ -17,6 +21,7 @@ class HeaderContainer extends PureComponent<RouteComponentProps> {
     goBack()
   }
   render() {
+    const { visible } = this.state
     return (
       <Fragment>
         <Row>
@@ -32,10 +37,14 @@ class HeaderContainer extends PureComponent<RouteComponentProps> {
                 title="前进" onClick={this.forward} />
             </div>
           </Col>
-          <Col span={8} offset={4}>
-            <Search />
+          <Col span={8} offset={4} className={style.col}><Search /></Col>
+          <Col span={8} className={style.col}>
+            <Avatar size={28} style={{cursor: 'pointer'}} />
+            <span className={style.username}  >
+              未登录<CaretDownOutlined style={{marginLeft: '3px'}} />
+            </span>
+            <Login visible={visible} />
           </Col>
-          <Col span={8}>col-8</Col>
         </Row>
       </Fragment>
     )
