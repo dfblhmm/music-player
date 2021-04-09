@@ -26,7 +26,6 @@ class HeaderContainer extends PureComponent<RouteComponentProps, StateType> {
     // 已登录
     this.getUserInfo(profile)
   }
-  
   // 前进按钮
   forward = () => {
     const { history: { goForward } } = this.props
@@ -78,13 +77,13 @@ class HeaderContainer extends PureComponent<RouteComponentProps, StateType> {
                 title="前进" onClick={this.forward} />
             </div>
           </Col>
-          <Col span={8} offset={4} className={style.col}><Search /></Col>
-          <Col span={8} className={style.col}>
+          <Col span={9} offset={4} className={style.col}><Search /></Col>
+          <Col span={7} className={style.col}>
             <Avatar size={28} style={{cursor: 'pointer'}} src={avatarUrl} />
             <span className={style.username} onClick={this.clickUserName} >
               {nickname ? nickname : '未登录'}<CaretDownOutlined style={{marginLeft: '3px'}} />
             </span>
-            {visible ? <Login loginSuccess={this.loginSuccess} close={this.closeModal} /> : <></>}
+            <Login visible={visible} loginSuccess={this.loginSuccess} close={this.closeModal} />
           </Col>
         </Row>
       </Fragment>

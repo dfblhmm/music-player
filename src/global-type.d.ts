@@ -62,3 +62,7 @@ interface HighQualitySongList {
   playCount: number // 歌单播放数
   updateTime?: number
 }
+// 登录成功的处理
+interface LoginSuccessProps {
+  loginSuccess: () => void
+}
