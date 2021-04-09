@@ -1,3 +1,4 @@
+// 二维码登录
 .ewm-login-container {
   display: flex;
   flex-direction: column;
@@ -13,9 +14,41 @@
     width: 100%;
     justify-content: center;
     align-items: center;
-    img {
+    .tip, .ewm {
       width: 50%;
       padding: 0 15px;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      img {
+        width: 100%;
+      }
+    }
+    // 二维码失效时的遮罩层
+    .ewm .mask{
+      position: absolute;
+      width: calc(100% - 30px);
+      height: 100%;
+      background-color: rgba(0,0,0,.8);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      font-size: 13px;
+      h2 {
+        color: #fff;
+        margin-bottom: 10px;
+      }
+      button {
+        background-color: #0C73C2;
+        border-radius: 5px;
+        padding: 2px 5px;
+        outline: 0;
+        border: 0;
+        color: #fff;
+        cursor: pointer;
+      }
     }
   }
   // APP提示
@@ -24,6 +57,7 @@
     margin: 20px 0;
     span { color: #0C73C2; cursor: pointer; }
   }
+  // 其他登录方式
   .other-loginType {
     font-size: 12px;
     color: #666;
