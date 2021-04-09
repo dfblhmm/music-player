@@ -6,9 +6,6 @@ interface HighQualityListProps {
   list: Array<HighQualitySongList>
 }
 export default class HighQualityList extends PureComponent<HighQualityListProps> {
-  loadMore = () => {
-    console.log('加载更多')
-  }
   render() {
     const { list } = this.props
     return (
