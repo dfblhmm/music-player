@@ -134,3 +134,6 @@
     transform: rotate(-45deg);
   }
 }
+:global .ant-image {
+  flex: 1;
+}

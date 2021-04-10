@@ -42,7 +42,36 @@
     align-items: center;
     // 登录表单
     .login-form {
-      margin-top: 20px;
+      margin-top: 30px;
+      padding: 0 30px;
+      // 输入框
+      .input-container {
+        border: 1px solid #E5E5E5;
+        border-radius: 5px;
+      }
+      :global .ant-input-affix-wrapper { border-bottom: 1px solid #E5E5E5; }
+      :global .ant-input {
+        font-size: 13px;
+        padding: 5px 0;
+      }
+      // 登录按钮
+      .login-btn {
+        width: 100%;
+        margin-top: 10px;
+        border-radius: 5px;
+      }
+      // 表单校验错误提示
+      .validate {
+        text-align: right;
+        margin-top: 10px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        .error-tip {
+          color: #D12E68;
+          font-size: 12px;
+        }
+      }
     }
   }
 }
