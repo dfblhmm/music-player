@@ -29,7 +29,7 @@ export default class Login extends PureComponent<LoginProps, LoginType> {
     return (
       <Fragment>
         <Modal visible={visible} mask={false} footer={null} centered 
-          width={352} onCancel={this.close} destroyOnClose>
+          width={370} onCancel={this.close} destroyOnClose>
             {
                type === 0 ? 
                 <EwmLogin loginSuccess={loginSuccess} changeLoginType={changeLoginType} />

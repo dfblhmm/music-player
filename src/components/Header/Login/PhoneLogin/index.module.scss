@@ -43,7 +43,7 @@
     // 登录表单
     .login-form {
       margin-top: 30px;
-      padding: 0 30px;
+      padding: 0 25px;
       // 输入框
       .input-container {
         border: 1px solid #E5E5E5;
@@ -55,23 +55,67 @@
         padding: 5px 0;
       }
       // 登录按钮
-      .login-btn {
+      .btn {
         width: 100%;
         margin-top: 10px;
         border-radius: 5px;
       }
       // 表单校验错误提示
       .validate {
-        text-align: right;
         margin-top: 10px;
         display: flex;
         justify-content: space-between;
         align-items: center;
+        height: 20px;
+        // 忘记密码
+        span {
+          color: #ec4141;
+          font-size: 13px;
+          cursor: pointer;
+        }
+        // 校验失败提示
         .error-tip {
           color: #D12E68;
           font-size: 12px;
+          flex: 1;
+          text-align: right;
+        }
+        // 密码规则提示
+        .validateTip {
+          color: #9F9F9F;
+          font-size: 12px;
+          text-align: center;
         }
       }
+      // 注册
+      .register {
+        margin-top: 10px;
+        text-align: center;
+        span { text-decoration: underline; cursor: pointer; }
+      }
+    }
+  }
+  // 返回登录界面
+  .back {
+    position: absolute;
+    left: 10px;
+    top: 10px;
+    font-size: 13px;
+    cursor: pointer;
+  }
+  // 验证码
+  .validate-code {
+    h2 {
+      font-size: 13px;
+      margin-bottom: 30px;
+    }
+    // 验证码获取
+    .code {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      button {margin-left: 40px;}
+      margin-bottom: 20px;
     }
   }
 }
