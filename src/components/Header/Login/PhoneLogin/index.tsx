@@ -80,14 +80,14 @@ export default class PhoneLogin extends PureComponent<Props, State> {
   // 功能按钮
   btn(): JSX.Element {
     const { type } = this.state
-    const { login, register } = this
+    const { login, register, fetchCodeValidate } = this
     switch (type) {
       case 1:
-        return (<Button type="primary" className={style.btn} onClick={register} >注册</Button>)
+        return (<Button type="primary" className={style.btn} onClick={register}>注册</Button>)
       case 2: 
         return (<Button type="primary" className={style.btn}>下一步</Button>)
       case 3:
-        return (<Button type="primary" className={style.btn}>完成</Button>)
+        return (<Button type="primary" className={style.btn} onClick={fetchCodeValidate} >完成</Button>)
       default:
         return (<Button type="primary" className={style.btn} onClick={login}>登录</Button>)
     }
@@ -102,14 +102,22 @@ export default class PhoneLogin extends PureComponent<Props, State> {
     // 手机号验证和密码验证都通过，跳转至验证码界面
     this.setState({ type: 3, validateTip: '' })
   }
-  // 返回登录界面
-  backToLogin(): JSX.Element {
+  // 验证验证码
+  fetchCodeValidate = () => {
+
+  }
+  // 返回登录界面节点
+  backToLoginNode(): JSX.Element {
     const { type } = this.state
     if (!type) return (<></>)
     return (
-      <div className={style.back} 
-        onClick={() => this.setState({ validateTip: '', type: 0 })} >&lt;&nbsp;返回登录</div>
+      <div className={style.back} onClick={this.backLogin} >&lt;&nbsp;返回登录</div>
     )
+  }
+  // 返回登录界面处理函数
+  backLogin = () => {
+    this.timer && window.clearInterval(this.timer)
+    this.setState({ validateTip: '', type: 0 })
   }
   // 验证码
   validateCode(): JSX.Element {
@@ -120,14 +128,19 @@ export default class PhoneLogin extends PureComponent<Props, State> {
         <h2>为了安全，我们会向您的手机发送短信验证码</h2>
         <div className={style.code}>
           <Input prefix={<IconFont type="icon-key" />} size="small" />
-          <Button type="primary" onClick={this.getCode}>{btnTitle}</Button>
+          <Button type="primary" onClick={this.getCode} 
+            className={style['code-btn']}>{btnTitle}</Button>
         </div>
-
       </div>
     )
   }
   // 获取验证码
-  getCode = () => {
+  getCode = async () => {
+    // 获取验证码
+    const phone = this.phone!.input.value
+    const res = await http('/captcha/sent', { phone }, 'POST')
+    console.log(res)
+    // 开启定时器
     window.setTimeout(() => this.setState({ btnTitle: '00:59' }), 1000)
     this.timer = window.setInterval(() => this.setState(state => {
       return { btnTitle: this.formatTime(state.btnTitle) }
@@ -155,7 +168,7 @@ export default class PhoneLogin extends PureComponent<Props, State> {
           <div className={style.tipText}>扫码登录更安全<span></span></div>
         </div>
         {/* 返回登录界面 */}
-        {this.backToLogin()}
+        {this.backToLoginNode()}
         <div className={style['login-area']}>
           <Image src={phoneTip} preview={false}/>
           {/* 登录区域 */}
