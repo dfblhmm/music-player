@@ -1,5 +1,5 @@
 import { combineReducers } from 'redux'
-import login from './login'
+import loginStatus from './loginStatus'
 export default combineReducers({
-  isLogin: login
+  isLogin: loginStatus
 })
