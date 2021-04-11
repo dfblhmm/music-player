@@ -1,4 +1,4 @@
-import axios, { AxiosRequestConfig, AxiosResponse, Method } from 'axios'
+import axios, { AxiosError, AxiosRequestConfig, AxiosResponse, Method } from 'axios'
 import Nprogress from 'nprogress'
 import 'nprogress/nprogress.css'
 import { message } from 'antd'
@@ -35,9 +35,9 @@ export default function http(url: string, data = {}, method: Method = 'get'): Pr
     res.then((res: AxiosResponse) => {
       // 如果请求成功
       resolve(res.data)
-    }).catch(() => {
+    }).catch((err: AxiosError) => {
       // 如果请求失败
-      message.error('请求出错，请重试')
+      message.error(err.response?.data.message)
     })
   })  
 }
