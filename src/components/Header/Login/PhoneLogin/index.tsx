@@ -1,5 +1,5 @@
 import { PureComponent } from 'react'
-import { Input, Button, Image } from 'antd'
+import { Input, Button, Image, message } from 'antd'
 import http from '@utils/http'
 import IconFont from '@components/IconFont'
 import ewm from '@assets/images/ewm.png'
@@ -12,15 +12,18 @@ interface State {
   validateTip: string,
   type: number // 0代表登录，1代表注册，2代表重设密码，3代表获取验证码界面
   btnTitle: string
+  captchaType: number // 验证类型，1代表注册验证，2代表修改密码验证
 }
 export default class PhoneLogin extends PureComponent<Props, State> { 
   phone!: Input | null
   password!: Input | null
   timer!: number | null
+  captcha?: Input | null
   state = {
     validateTip: '',
-    type: 3,
-    btnTitle: '获取验证码'
+    type: 0,
+    btnTitle: '获取验证码',
+    captchaType: 0
   }
   // 登录
   login = async () => {
@@ -61,12 +64,13 @@ export default class PhoneLogin extends PureComponent<Props, State> {
   }
   // 忘记密码
   resetPassword = () => {
-    
+    this.setState({ validateTip: '', type: 2 })
   }
   // 表单聚焦
   focus = () => {
     this.setState({ validateTip: '' })
   }
+  // 验证提示
   validate(): JSX.Element {
     const { type, validateTip } = this.state
     if (!type) return (<span onClick={this.resetPassword}>忘记密码?</span>)
@@ -80,31 +84,39 @@ export default class PhoneLogin extends PureComponent<Props, State> {
   // 功能按钮
   btn(): JSX.Element {
     const { type } = this.state
-    const { login, register, fetchCodeValidate } = this
+    const { login, register, verifyCaptcha } = this
     switch (type) {
       case 1:
-        return (<Button type="primary" className={style.btn} onClick={register}>注册</Button>)
+        return (<Button type="primary" className={style.btn} onClick={()=>register(type)}>注册</Button>)
       case 2: 
-        return (<Button type="primary" className={style.btn}>下一步</Button>)
+        return (<Button type="primary" className={style.btn} onClick={()=>register(type)}>下一步</Button>)
       case 3:
-        return (<Button type="primary" className={style.btn} onClick={fetchCodeValidate} >完成</Button>)
+        return (<Button type="primary" className={style.btn} onClick={verifyCaptcha}>完成</Button>)
       default:
         return (<Button type="primary" className={style.btn} onClick={login}>登录</Button>)
     }
   }
   // 注册
-  register = () => {
+  register = async(captchaType: number) => {
     const phone = this.phone!.input.value
     const password = this.password!.input.value
-    const phoneValidate = this.validatePhone(phone)
+    const phoneValidate =  await this.validatePhone(phone)
     if (!phoneValidate) return
     if (!this.validatePassword(password)) return
     // 手机号验证和密码验证都通过，跳转至验证码界面
-    this.setState({ type: 3, validateTip: '' })
+    this.setState({ type: 3, validateTip: '', captchaType })
   }
   // 验证验证码
-  fetchCodeValidate = () => {
-
+  verifyCaptcha = async() => {
+    const captcha = this.captcha!.input.value
+    const phone = this.phone!.input.value
+    const res = await http('/captcha/verify', { phone, captcha }, 'POST')
+    if (res.data) {
+      const { captchaType } = this.state
+      captchaType === 1 && message.success('注册成功')
+      captchaType === 2 && message.success('密码修改成功')
+      this.setState({ type: 0 })
+    }
   }
   // 返回登录界面节点
   backToLoginNode(): JSX.Element {
@@ -120,28 +132,28 @@ export default class PhoneLogin extends PureComponent<Props, State> {
     this.setState({ validateTip: '', type: 0 })
   }
   // 验证码
-  validateCode(): JSX.Element {
+  captchaNode(): JSX.Element {
     const { type, btnTitle } = this.state
     if (type !== 3) return (<></>)
     return (
-      <div className={style['validate-code']}>
+      <div className={style['captcha']}>
         <h2>为了安全，我们会向您的手机发送短信验证码</h2>
         <div className={style.code}>
-          <Input prefix={<IconFont type="icon-key" />} size="small" />
-          <Button type="primary" onClick={this.getCode} 
+          <Input prefix={<IconFont type="icon-key" />} size="small" ref={c => this.captcha = c} />
+          <Button type="primary" onClick={this.getCaptcha} 
             className={style['code-btn']}>{btnTitle}</Button>
         </div>
       </div>
     )
   }
   // 获取验证码
-  getCode = async () => {
+  getCaptcha = async () => {
     // 获取验证码
     const phone = this.phone!.input.value
     const res = await http('/captcha/sent', { phone }, 'POST')
-    console.log(res)
+    if (!res.data) return message.error(res.message) // 验证码发送失败
     // 开启定时器
-    window.setTimeout(() => this.setState({ btnTitle: '00:59' }), 1000)
+    this.setState({ btnTitle: '00:59' })
     this.timer = window.setInterval(() => this.setState(state => {
       return { btnTitle: this.formatTime(state.btnTitle) }
     }), 1000)
@@ -180,7 +192,7 @@ export default class PhoneLogin extends PureComponent<Props, State> {
                 allowClear placeholder="请输入登录密码" bordered={false} onFocus={this.focus} />
             </div>
             {/* 获取验证码 */}
-            {this.validateCode()}
+            {this.captchaNode()}
             {/* 表单校验提示 */}
             <div className={style['validate']} style={{display: type === 3 ? 'none' : 'flex'}} >
               {this.validate()}
