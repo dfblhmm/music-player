@@ -1,4 +1,4 @@
-interface LinkAction<T> {
+interface Action<T> {
   type: string
   data: T
 }

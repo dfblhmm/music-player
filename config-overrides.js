@@ -22,6 +22,7 @@ module.exports = override(
     '@containers': resolve(__dirname, 'src/containers'),
     '@pages': resolve(__dirname, 'src/pages'),
     '@utils': resolve(__dirname, 'src/utils'),
+    '@redux': resolve(__dirname, 'src/redux')
   })
 )
 

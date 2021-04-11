@@ -1,17 +1,22 @@
 import { PureComponent, Fragment } from 'react'
 import { Link } from 'react-router-dom'
+import { connect } from 'react-redux'
 import { Menu, Collapse } from 'antd'
 import { CaretRightOutlined } from '@ant-design/icons'
 // 获取IconFont字体图标
 import IconFont from '@components/IconFont'
 import './index.scss'
 const { Panel } = Collapse
-export default class SiderContainer extends PureComponent {
+interface IProps {
+  isLogin: boolean
+}
+class SiderContainer extends PureComponent<IProps> {
   // 点击了导航条
   handleMenuClick = (e: {key: unknown}) => {
     console.log(e.key)
   }
   render() {
+    console.log(this.props.isLogin)
     return (
       <Fragment>
         <Menu
@@ -55,3 +60,8 @@ export default class SiderContainer extends PureComponent {
     )
   }
 }
+
+const mapStateToProps = (state: { isLogin: boolean }) => ({isLogin: state.isLogin}) 
+export default connect(
+  mapStateToProps
+)(SiderContainer)
