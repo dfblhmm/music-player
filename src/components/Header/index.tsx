@@ -1,18 +1,23 @@
 import { PureComponent, Fragment } from 'react'
 import { Link, RouteComponentProps, withRouter } from 'react-router-dom'
+import { connect } from 'react-redux'
 import { Row, Col, Avatar, message } from 'antd'
 import { LeftOutlined, RightOutlined, CaretDownOutlined } from '@ant-design/icons'
 import http from '@/utils/http'
 import Search from './Search'
 import Login from './Login'
+import { loginStatus } from '@redux/actions/loginStatus'
 import logo from '@assets/images/logo.png'
 import style from './index.module.scss'
+interface IProps extends RouteComponentProps {
+  loginStatus: typeof mapDispatchToProps['loginStatus']
+}
 interface StateType {
   visible: boolean
   accountInfo: { avatarUrl: string, nickname: string, userId: number },
   loginStatus: boolean
 }
-class HeaderContainer extends PureComponent<RouteComponentProps, StateType> {
+class HeaderContainer extends PureComponent<IProps, StateType> {
   state = {
     visible: false,
     accountInfo: { avatarUrl: '', nickname: '', userId: 0 },
@@ -50,6 +55,8 @@ class HeaderContainer extends PureComponent<RouteComponentProps, StateType> {
     const profile: StateType['accountInfo'] = res.profile
     message.success(`${profile.nickname}，欢迎回来`)
     this.getUserInfo(profile)
+    // 更新全局的登录状态
+    this.props.loginStatus(true)
   }
   // 点击用户名
   clickUserName = () => {
@@ -91,4 +98,7 @@ class HeaderContainer extends PureComponent<RouteComponentProps, StateType> {
   }
 }
 
-export default withRouter(HeaderContainer)
+const mapDispatchToProps = { loginStatus }
+export default withRouter(connect(
+  null, mapDispatchToProps
+)(HeaderContainer))

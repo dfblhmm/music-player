@@ -15,8 +15,15 @@ class SiderContainer extends PureComponent<IProps> {
   handleMenuClick = (e: {key: unknown}) => {
     console.log(e.key)
   }
+  // 创建的歌单
+  createdSonglist(): JSX.Element {
+    const { isLogin } = this.props
+    if (!isLogin) return (<></>)
+    return (
+      <p className="collapse-item"><IconFont type="icon-songlist" />1</p>
+    )
+  }
   render() {
-    console.log(this.props.isLogin)
     return (
       <Fragment>
         <Menu
@@ -50,7 +57,7 @@ class SiderContainer extends PureComponent<IProps> {
           >
           <Panel header="创建的歌单" key="1">
             <p className="collapse-item"><IconFont type="icon-like" />我喜欢的音乐</p>
-            <p className="collapse-item"><IconFont type="icon-songlist" />1</p>
+            {this.createdSonglist()}
           </Panel>
           <Panel header="创建的歌单" key="2">
             <p className="collapse-item"><IconFont type="icon-songlist" />1</p>
