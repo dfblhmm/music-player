@@ -1,2 +1,2 @@
 import { LOGINSTATUS } from '../constant'
-export const loginStatus = (data: boolean): Action<boolean> => ({ type: LOGINSTATUS, data })
+export const changeLogin = (data: LoginType): Action<LoginType> => ({ type: LOGINSTATUS, data })

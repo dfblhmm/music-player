@@ -13,8 +13,8 @@ interface ImgCardProps {
   creatorInfo?: {userId: number, nickname: string, avatarDetail?: {identityIconUrl: string}}
   showPlayIcon?: boolean // 是否显示播放图标
   showVideoIcon?: boolean // 是否显示图片左上角的播放视频图标
-  maskTitle?: string
-  showQualityIcon?: boolean
+  maskTitle?: string // 是否显示遮罩层提示
+  showQualityIcon?: boolean // 是否显示精品图标
 }
 export default class ImgCard extends PureComponent<ImgCardProps> {
   // 是否显示播放次数

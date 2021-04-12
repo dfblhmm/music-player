@@ -8,17 +8,23 @@ import IconFont from '@components/IconFont'
 import './index.scss'
 const { Panel } = Collapse
 interface IProps {
-  isLogin: boolean
+  loginInfo: LoginType
 }
 class SiderContainer extends PureComponent<IProps> {
   // 点击了导航条
   handleMenuClick = (e: {key: unknown}) => {
     console.log(e.key)
   }
+  // 获取用户歌单
+  async getUserSonglist() {
+    
+  }
   // 创建的歌单
   createdSonglist(): JSX.Element {
-    const { isLogin } = this.props
+    const { isLogin, uid } = this.props.loginInfo
+    console.log(isLogin, uid)
     if (!isLogin) return (<></>)
+    this.getUserSonglist()
     return (
       <p className="collapse-item"><IconFont type="icon-songlist" />1</p>
     )
@@ -68,7 +74,10 @@ class SiderContainer extends PureComponent<IProps> {
   }
 }
 
-const mapStateToProps = (state: { isLogin: boolean }) => ({isLogin: state.isLogin}) 
+const mapStateToProps = (state: GlobalState) => {
+  const { loginInfo } = state
+  return { loginInfo }
+}
 export default connect(
   mapStateToProps
 )(SiderContainer)
