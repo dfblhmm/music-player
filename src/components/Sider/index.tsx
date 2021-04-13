@@ -25,14 +25,13 @@ class SiderContainer extends PureComponent<IProps, IState> {
   componentDidUpdate(prevProps: IProps) {
     const prevLogin = prevProps.loginInfo.isLogin
     const login = this.props.loginInfo.isLogin
-    prevLogin !== login && login && this.getUserSonglist(this.props.loginInfo.uid)
-    prevLogin !== login && !login && this.setState({ createdSonglist: [], collectedSonglist: [] })
+    if (prevLogin === login) return
+    login && this.getUserSonglist(this.props.loginInfo.uid)
+    !login && this.setState({ createdSonglist: [], collectedSonglist: [] })
   }
   // 点击了导航条
   handleMenuClick = async(e: {key: unknown}) => {
     console.log(e.key)
-    // const res = await http('/logout')
-    // console.log(res)
   }
   // 获取用户歌单
   async getUserSonglist(uid: number) {
@@ -108,6 +107,7 @@ class SiderContainer extends PureComponent<IProps, IState> {
 
 const mapStateToProps = (state: GlobalState) => {
   const { loginInfo } = state
+  console.log('sider',loginInfo)
   return { loginInfo }
 }
 export default connect(

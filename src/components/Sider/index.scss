@@ -95,7 +95,6 @@
     background-color: #fff2f0;
   }
   @include ellipsis;
-  // transition: background 0.3s cubic-bezier(0.645, 0.045, 0.355, 1);
   // 图标
   .anticon {
     @include iconfont;

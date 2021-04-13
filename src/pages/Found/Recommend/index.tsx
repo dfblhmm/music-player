@@ -1,17 +1,36 @@
 import { PureComponent } from 'react'
+import { connect } from 'react-redux'
+import { RouteComponentProps, withRouter } from 'react-router-dom'
 import http from '@utils/http'
 import Carousel from '@components/Carousel'
 import ImgCardList from '@components/ImgCardList'
 import NavTitle from '@components/NavTitle'
 import NewSong from './NewSong'
-export default class Recommend extends PureComponent {
+interface IProps extends RouteComponentProps{
+  loginInfo: LoginType
+}
+class Recommend extends PureComponent<IProps> {
   state = {
     banners: [],
     recommendSongList: [],
     exclusiveEntry: [],
     recommendMV: [],
     newSongs: [],
-    radios: []
+    radios: [],
+    isLogin: this.props.loginInfo.isLogin
+  }
+  async componentDidUpdate(prevProps: IProps) {
+    const prevLogin = prevProps.loginInfo.isLogin
+    const login = this.props.loginInfo.isLogin
+    // if (prevLogin === login) return
+    // if (login) {
+    //   const res = await http('/recommend/resource', { limit: 9 })
+    //   this.getRecommendSongList(res.recommend)
+    // } else {
+    //   const res = await http('/personalized', { limit: 10 })
+    //   this.getRecommendSongList(res.result)
+    // }
+    // console.log(prevLogin)
   }
   async componentDidMount() {
     // 并发获取数据
@@ -26,7 +45,7 @@ export default class Recommend extends PureComponent {
     // 获取轮播图数据
     this.getBanners(res[0].banners)
     // 获取推荐歌单
-    this.getRecommendSongList(res[1].result)
+    // this.getRecommendSongList(res[1].result)
     // 获取独家放送入口
     this.getExclusiveEntry(res[2].result)
     // 获取推荐MV
@@ -37,9 +56,9 @@ export default class Recommend extends PureComponent {
     this.getRadios(res[5].djRadios) 
   }
   // 获取轮播图数据
-  getBanners(res: Data) {
+  getBanners(res: Array<Banners>) {
     const banners: Array<Banners> = []
-    res.forEach((value: Banners) => {
+    res.forEach(value => {
       const { targetId, imageUrl, targetType, titleColor, typeTitle, url } = value
       banners.push({ 
         targetId, imageUrl: imageUrl + '?param?x566y200', 
@@ -49,7 +68,7 @@ export default class Recommend extends PureComponent {
     this.setState({banners})
   }
   // 获取推荐歌单
-  getRecommendSongList(res: Data) {
+  getRecommendSongList(res: Array<ImgCardItemType>) {
     const recommendSongList: Array<ImgCardItemType> = []
     res.forEach((value: ImgCardItemType) => {
       const { id, picUrl, name, playCount } = value
@@ -57,12 +76,12 @@ export default class Recommend extends PureComponent {
         id, picUrl: picUrl + 'param?x205y205', name, playCount
       })
     })
-    this.setState({recommendSongList})
+    this.setState({ recommendSongList })
   }
   // 获取独家放送入口
-  getExclusiveEntry(res: Data) {
+  getExclusiveEntry(res: Array<ImgCardItemType>) {
     const exclusiveEntry: Array<ImgCardItemType> = []
-    res.forEach((value: ImgCardItemType) => {
+    res.forEach(value => {
       const { id, name, sPicUrl: picUrl } = value
       exclusiveEntry.push({
         id, name, picUrl: picUrl! + '?param=x362y204'
@@ -71,9 +90,9 @@ export default class Recommend extends PureComponent {
     this.setState({exclusiveEntry})
   }
   // 获取推荐MV
-  getRecommendMV(res: Data) {
+  getRecommendMV(res: Array<ImgCardItemType>) {
     const recommendMV: Array<ImgCardItemType> = []
-    res.forEach((value: ImgCardItemType) => {
+    res.forEach(value => {
       const { id, name, picUrl, playCount, artists } = value
       recommendMV.push({
          id, name, picUrl: picUrl + '?param=x266y150', 
@@ -100,9 +119,9 @@ export default class Recommend extends PureComponent {
     this.setState({newSongs})
   }
   // 获取主播电台
-  getRadios(res: Data) {
+  getRadios(res: Array<ImgCardItemType>) {
     const radios: Array<ImgCardItemType> = []
-    res.forEach((value: ImgCardItemType) => {
+    res.forEach(value => {
       const { id, name, rcmdtext, picUrl } = value
       radios.push({
         id, name: rcmdtext!, picUrl, rcmdtext: name
@@ -135,3 +154,12 @@ export default class Recommend extends PureComponent {
     )
   }
 }
+
+const mapStateToProps = (state: GlobalState) => {
+  const { loginInfo } = state
+  console.log('recommend',loginInfo)
+  return { loginInfo }
+}
+export default withRouter(
+  connect(mapStateToProps)(Recommend)
+)
