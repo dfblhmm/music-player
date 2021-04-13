@@ -107,7 +107,6 @@ class SiderContainer extends PureComponent<IProps, IState> {
 
 const mapStateToProps = (state: GlobalState) => {
   const { loginInfo } = state
-  console.log('sider',loginInfo)
   return { loginInfo }
 }
 export default connect(

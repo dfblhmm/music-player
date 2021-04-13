@@ -28,6 +28,7 @@ interface ImgCardItemType extends ImgCardItemIconType {
   sPicUrl?: string
   name: string
   playCount?: number
+  playcount?: number
   artists?: Array<Artist> // 歌手数组
   duration?: number // 资源的时长
   rcmdtext?: string // 电台类型

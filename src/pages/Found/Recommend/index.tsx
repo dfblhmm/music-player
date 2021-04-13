@@ -1,12 +1,11 @@
 import { PureComponent } from 'react'
 import { connect } from 'react-redux'
-import { RouteComponentProps, withRouter } from 'react-router-dom'
 import http from '@utils/http'
 import Carousel from '@components/Carousel'
 import ImgCardList from '@components/ImgCardList'
 import NavTitle from '@components/NavTitle'
 import NewSong from './NewSong'
-interface IProps extends RouteComponentProps{
+interface IProps {
   loginInfo: LoginType
 }
 class Recommend extends PureComponent<IProps> {
@@ -17,20 +16,20 @@ class Recommend extends PureComponent<IProps> {
     recommendMV: [],
     newSongs: [],
     radios: [],
-    isLogin: this.props.loginInfo.isLogin
+    isLogin: false
   }
-  async componentDidUpdate(prevProps: IProps) {
-    const prevLogin = prevProps.loginInfo.isLogin
+  async componentDidUpdate(prevProps: IProps, state: { isLogin: false }) {
+    // const prevLogin = prevProps.loginInfo.isLogin
     const login = this.props.loginInfo.isLogin
-    // if (prevLogin === login) return
-    // if (login) {
-    //   const res = await http('/recommend/resource', { limit: 9 })
-    //   this.getRecommendSongList(res.recommend)
-    // } else {
-    //   const res = await http('/personalized', { limit: 10 })
-    //   this.getRecommendSongList(res.result)
-    // }
-    // console.log(prevLogin)
+    if (state.isLogin === login) return
+    if (login) {
+      const res = await http('/recommend/resource', { limit: 9 })
+      this.getRecommendSongList(res.recommend)
+    } else {
+      const res = await http('/personalized', { limit: 10 })
+      this.getRecommendSongList(res.result)
+    }
+    this.setState({ isLogin: true })
   }
   async componentDidMount() {
     // 并发获取数据
@@ -70,10 +69,11 @@ class Recommend extends PureComponent<IProps> {
   // 获取推荐歌单
   getRecommendSongList(res: Array<ImgCardItemType>) {
     const recommendSongList: Array<ImgCardItemType> = []
-    res.forEach((value: ImgCardItemType) => {
-      const { id, picUrl, name, playCount } = value
+    res.forEach(value => {
+      const { id, picUrl, name, playCount, playcount } = value
       recommendSongList.push({
-        id, picUrl: picUrl + 'param?x205y205', name, playCount
+        id, picUrl: picUrl + 'param?x205y205', name,
+        playCount: playCount ? playCount : playcount
       })
     })
     this.setState({ recommendSongList })
@@ -157,9 +157,6 @@ class Recommend extends PureComponent<IProps> {
 
 const mapStateToProps = (state: GlobalState) => {
   const { loginInfo } = state
-  console.log('recommend',loginInfo)
   return { loginInfo }
 }
-export default withRouter(
-  connect(mapStateToProps)(Recommend)
-)
+export default connect(mapStateToProps)(Recommend)
