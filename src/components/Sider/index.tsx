@@ -3,30 +3,62 @@ import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { Menu, Collapse } from 'antd'
 import { CaretRightOutlined } from '@ant-design/icons'
-// 获取IconFont字体图标
+import http from '@utils/http'
 import IconFont from '@components/IconFont'
 import './index.scss'
 const { Panel } = Collapse
 interface IProps {
   loginInfo: LoginType
 }
-class SiderContainer extends PureComponent<IProps> {
+interface IState {
+  createdSonglist: Array<ItemType>
+  collectedSonglist: Array<ItemType>
+}
+interface Playlist extends ItemType {
+  userId: number
+}
+class SiderContainer extends PureComponent<IProps, IState> {
+  state: IState = {
+    createdSonglist: [],
+    collectedSonglist: [],
+  }
+  componentDidUpdate(prevProps: IProps) {
+    const prevLogin = prevProps.loginInfo.isLogin
+    const login = this.props.loginInfo.isLogin
+    prevLogin !== login && login && this.getUserSonglist(this.props.loginInfo.uid)
+    prevLogin !== login && !login && this.setState({ createdSonglist: [], collectedSonglist: [] })
+  }
   // 点击了导航条
-  handleMenuClick = (e: {key: unknown}) => {
+  handleMenuClick = async(e: {key: unknown}) => {
     console.log(e.key)
+    // const res = await http('/logout')
+    // console.log(res)
   }
   // 获取用户歌单
-  async getUserSonglist() {
-    
+  async getUserSonglist(uid: number) {
+    const { playlist } = await http('/user/playlist', { uid }) as { playlist: Array<Playlist> }
+    playlist.splice(0, 1)
+    const createdSonglist = playlist.filter(value => value.userId === uid)
+    const collectedSonglist = playlist.filter(value => value.userId !== uid)
+    this.setState({ createdSonglist, collectedSonglist })
   }
-  // 创建的歌单
-  createdSonglist(): JSX.Element {
-    const { isLogin, uid } = this.props.loginInfo
-    console.log(isLogin, uid)
+  // 用户歌单
+  createdSonglist(type: string): JSX.Element {
+    const { isLogin } = this.props.loginInfo
     if (!isLogin) return (<></>)
-    this.getUserSonglist()
+    let list: Array<ItemType> = []
+    if (type === 'create') list = this.state.createdSonglist
+    else list = this.state.collectedSonglist
     return (
-      <p className="collapse-item"><IconFont type="icon-songlist" />1</p>
+      <Fragment>
+        {
+          list.map(value => 
+            <p className="collapse-item" key={value.id} title={value.name}>
+              <IconFont type="icon-songlist" />{value.name}
+            </p>
+          )
+        }
+      </Fragment>
     )
   }
   render() {
@@ -58,15 +90,15 @@ class SiderContainer extends PureComponent<IProps> {
             </Link>
           </Menu.Item>
         </Menu>
-        <Collapse ghost expandIconPosition="right" style={{marginTop: '10px'}}
+        <Collapse ghost expandIconPosition="right" style={{marginTop: '10px'}} defaultActiveKey={['1']}
           expandIcon={({ isActive }) => <CaretRightOutlined rotate={isActive ? 90 : 0} />}
           >
           <Panel header="创建的歌单" key="1">
             <p className="collapse-item"><IconFont type="icon-like" />我喜欢的音乐</p>
-            {this.createdSonglist()}
+            {this.createdSonglist('create')}
           </Panel>
           <Panel header="创建的歌单" key="2">
-            <p className="collapse-item"><IconFont type="icon-songlist" />1</p>
+            {this.createdSonglist('collect')}
           </Panel>
         </Collapse>
       </Fragment>
