@@ -1,11 +1,12 @@
 import { PureComponent } from 'react'
-import { connect } from 'react-redux'
+import { RouteComponentProps } from 'react-router-dom'
+import LoginStatus from '@containers/LoginStatus'
 import http from '@utils/http'
 import Carousel from '@components/Carousel'
 import ImgCardList from '@components/ImgCardList'
 import NavTitle from '@components/NavTitle'
 import NewSong from './NewSong'
-interface IProps {
+interface IProps extends RouteComponentProps{
   loginInfo: LoginType
 }
 class Recommend extends PureComponent<IProps> {
@@ -15,13 +16,12 @@ class Recommend extends PureComponent<IProps> {
     exclusiveEntry: [],
     recommendMV: [],
     newSongs: [],
-    radios: [],
-    isLogin: false
+    radios: []
   }
-  async componentDidUpdate(prevProps: IProps, state: { isLogin: false }) {
-    // const prevLogin = prevProps.loginInfo.isLogin
+  async componentDidUpdate(prevProps: IProps) {
+    const preLogin = prevProps.loginInfo.isLogin
     const login = this.props.loginInfo.isLogin
-    if (state.isLogin === login) return
+    if (preLogin === login) return
     if (login) {
       const res = await http('/recommend/resource', { limit: 9 })
       this.getRecommendSongList(res.recommend)
@@ -29,7 +29,6 @@ class Recommend extends PureComponent<IProps> {
       const res = await http('/personalized', { limit: 10 })
       this.getRecommendSongList(res.result)
     }
-    this.setState({ isLogin: true })
   }
   async componentDidMount() {
     // 并发获取数据
@@ -155,8 +154,5 @@ class Recommend extends PureComponent<IProps> {
   }
 }
 
-const mapStateToProps = (state: GlobalState) => {
-  const { loginInfo } = state
-  return { loginInfo }
-}
-export default connect(mapStateToProps)(Recommend)
+export default LoginStatus(Recommend)
+
