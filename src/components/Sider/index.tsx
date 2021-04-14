@@ -1,8 +1,8 @@
 import { PureComponent, Fragment } from 'react'
 import { Link } from 'react-router-dom'
-import { connect } from 'react-redux'
 import { Menu, Collapse } from 'antd'
 import { CaretRightOutlined } from '@ant-design/icons'
+import LoginStatus from '@containers/LoginStatus'
 import http from '@utils/http'
 import IconFont from '@components/IconFont'
 import './index.scss'
@@ -105,10 +105,4 @@ class SiderContainer extends PureComponent<IProps, IState> {
   }
 }
 
-const mapStateToProps = (state: GlobalState) => {
-  const { loginInfo } = state
-  return { loginInfo }
-}
-export default connect(
-  mapStateToProps
-)(SiderContainer)
+export default LoginStatus(SiderContainer)

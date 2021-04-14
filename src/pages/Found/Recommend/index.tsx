@@ -1,5 +1,5 @@
 import { PureComponent } from 'react'
-import { RouteComponentProps } from 'react-router-dom'
+import { RouteComponentProps, withRouter } from 'react-router-dom'
 import LoginStatus from '@containers/LoginStatus'
 import http from '@utils/http'
 import Carousel from '@components/Carousel'
@@ -154,5 +154,5 @@ class Recommend extends PureComponent<IProps> {
   }
 }
 
-export default LoginStatus(Recommend)
+export default withRouter(LoginStatus(Recommend))
 
