@@ -23,7 +23,7 @@ class Recommend extends PureComponent<IProps> {
     const login = this.props.loginInfo.isLogin
     if (preLogin === login) return
     if (login) {
-      const res = await http('/recommend/resource', { limit: 9 })
+      const res = await http('/recommend/resource')
       this.getRecommendSongList(res.recommend)
     } else {
       const res = await http('/personalized', { limit: 10 })
@@ -37,7 +37,7 @@ class Recommend extends PureComponent<IProps> {
       { url: '/personalized', data: { limit: 10 } },
       { url: '/personalized/privatecontent' },
       { url: '/personalized/mv' },
-      { url: 'personalized/newsong', data: { limit: 9 } },
+      { url: 'personalized/newsong', data: { limit: 12 } },
       { url: '/dj/hot', data: { limit: 6 } } 
     ])
     // 获取轮播图数据
