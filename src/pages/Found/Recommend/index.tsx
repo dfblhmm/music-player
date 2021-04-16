@@ -62,7 +62,7 @@ class Recommend extends PureComponent<IProps> {
     this.setState({banners})
   }
   // 获取推荐歌单
-  getRecommendSongList(res: Array<ImgCardItemType>) {
+  getRecommendSongList(res: Array<ImgCardItemType>, isLogin?: boolean) {
     const recommendSongList: Array<ImgCardItemType> = []
     res.forEach(value => {
       const { id, picUrl, name, playCount, playcount } = value
@@ -71,18 +71,21 @@ class Recommend extends PureComponent<IProps> {
         playCount: playCount ? playCount : playcount
       })
     })
+    // 是否加入日推歌单
+    if (isLogin) {
+      recommendSongList.pop()
+      recommendSongList.unshift({ 
+        id: nanoid(), name: '每日推荐歌单', picUrl, 
+        maskTitle: '根据您的音乐口味生成|每日更新'  
+      })
+    }
     this.setState({ recommendSongList })
   }
   // 根据登录状态更新推荐歌单
   async updateRecommendSongList(login: boolean) {
     if (login) {
-      const res = await http('/recommend/resource') as { recommend: Array<ImgCardItemType> }
-      res.recommend.pop()
-      res.recommend.unshift({ 
-        id: nanoid(), name: '每日推荐歌单', picUrl, 
-        maskTitle: '根据您的音乐口味生成|每日更新'  
-      })
-      this.getRecommendSongList(res.recommend)
+      const res = await http('/recommend/resource')
+      this.getRecommendSongList(res.recommend, login)
     } else {
       const res = await http('/personalized', { limit: 10 })
       this.getRecommendSongList(res.result)
