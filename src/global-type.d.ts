@@ -22,7 +22,7 @@ interface Artist {
 interface ItemType extends Artist {}
 // 图片卡片组件
 interface ImgCardItemType extends ImgCardItemIconType {
-  id: number
+  id: number | string
   nid?: string // 当id重复时使用nanoid进行替换
   picUrl: string
   sPicUrl?: string

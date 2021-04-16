@@ -1,11 +1,13 @@
 import { PureComponent } from 'react'
 import { RouteComponentProps, withRouter } from 'react-router-dom'
+import { nanoid } from 'nanoid'
 import LoginStatus from '@containers/LoginStatus'
 import http from '@utils/http'
 import Carousel from '@components/Carousel'
 import ImgCardList from '@components/ImgCardList'
 import NavTitle from '@components/NavTitle'
 import NewSong from './NewSong'
+import picUrl from '@assets/images/daily.jpg'
 interface IProps extends RouteComponentProps{
   loginInfo: LoginType
 }
@@ -22,19 +24,13 @@ class Recommend extends PureComponent<IProps> {
     const preLogin = prevProps.loginInfo.isLogin
     const login = this.props.loginInfo.isLogin
     if (preLogin === login) return
-    if (login) {
-      const res = await http('/recommend/resource')
-      this.getRecommendSongList(res.recommend)
-    } else {
-      const res = await http('/personalized', { limit: 10 })
-      this.getRecommendSongList(res.result)
-    }
+    // 更新推荐歌单
+    this.updateRecommendSongList(login)
   }
   async componentDidMount() {
     // 并发获取数据
     const res = await http.all([
       { url: '/banner' },
-      { url: '/personalized', data: { limit: 10 } },
       { url: '/personalized/privatecontent' },
       { url: '/personalized/mv' },
       { url: 'personalized/newsong', data: { limit: 12 } },
@@ -42,16 +38,16 @@ class Recommend extends PureComponent<IProps> {
     ])
     // 获取轮播图数据
     this.getBanners(res[0].banners)
-    // 获取推荐歌单
-    // this.getRecommendSongList(res[1].result)
     // 获取独家放送入口
-    this.getExclusiveEntry(res[2].result)
+    this.getExclusiveEntry(res[1].result)
     // 获取推荐MV
-    this.getRecommendMV(res[3].result)
+    this.getRecommendMV(res[2].result)
     // 获取最新音乐
-    this.getNewSongs(res[4].result)
+    this.getNewSongs(res[3].result)
     // 获取主播电台
-    this.getRadios(res[5].djRadios) 
+    this.getRadios(res[4].djRadios) 
+    // 获取推荐歌单
+    this.updateRecommendSongList(this.props.loginInfo.isLogin)
   }
   // 获取轮播图数据
   getBanners(res: Array<Banners>) {
@@ -76,6 +72,21 @@ class Recommend extends PureComponent<IProps> {
       })
     })
     this.setState({ recommendSongList })
+  }
+  // 根据登录状态更新推荐歌单
+  async updateRecommendSongList(login: boolean) {
+    if (login) {
+      const res = await http('/recommend/resource') as { recommend: Array<ImgCardItemType> }
+      res.recommend.pop()
+      res.recommend.unshift({ 
+        id: nanoid(), name: '每日推荐歌单', picUrl, 
+        maskTitle: '根据您的音乐口味生成|每日更新'  
+      })
+      this.getRecommendSongList(res.recommend)
+    } else {
+      const res = await http('/personalized', { limit: 10 })
+      this.getRecommendSongList(res.result)
+    }
   }
   // 获取独家放送入口
   getExclusiveEntry(res: Array<ImgCardItemType>) {
