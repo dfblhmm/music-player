@@ -139,7 +139,7 @@ export default class Search extends PureComponent {
   createHeader(icon: string, itemName: string): JSX.Element {
     return (
       <Fragment>
-        <IconFont type={`icon-${icon}`} style={{marginRight:'3px'}} />{itemName}
+        <IconFont type={`icon-${icon}`} style={{marginRight:'3px', fontSize:'14px'}} />{itemName}
       </Fragment>
     )
   }
