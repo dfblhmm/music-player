@@ -64,7 +64,8 @@ class Recommend extends PureComponent<IProps> {
   // 获取推荐歌单
   getRecommendSongList(res: Array<ImgCardItemType>, isLogin?: boolean) {
     const recommendSongList: Array<ImgCardItemType> = []
-    res.forEach(value => {
+    res.forEach((value, index) => {
+      if (index > 8) return
       const { id, picUrl, name, playCount, playcount } = value
       recommendSongList.push({
         id, picUrl: picUrl + 'param?x205y205', name,
@@ -73,7 +74,6 @@ class Recommend extends PureComponent<IProps> {
     })
     // 是否加入日推歌单
     if (isLogin) {
-      recommendSongList.pop()
       recommendSongList.unshift({ 
         id: nanoid(), name: '每日推荐歌单', picUrl, 
         maskTitle: '根据您的音乐口味生成|每日更新'  
