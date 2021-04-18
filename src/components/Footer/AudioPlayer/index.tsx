@@ -1,27 +1,35 @@
 import { PureComponent } from 'react'
 import { Tooltip, Slider } from 'antd'
 import IconFont from '@components/IconFont'
+import formatTime from '@utils/formatTime'
 import style from './index.module.scss'
 const src = 'https://m701.music.126.net/20210417232317/91c81a6cc641b190f4b03f71e48aae42/jdyyaac/5558/5653/005a/b24d390feda9ed36089b70644163775d.m4a'
 interface IState {
   playMode: number // 播放模式
   playStatus: boolean // 播放状态
   visible: boolean // 是否显示切换播放模式时的文字提示
+  currentTime: number // 当前的歌曲时间
+  isDrag: boolean // 是否正在拖拽滑块
 }
 interface IProps {
   // 正在播放歌曲的信息
-  onPlayInfo: {
-    id: number, // 歌曲id
-    url: string // 歌曲链接
-    duration: number // 歌曲时长
-  }
+  // onPlayInfo: {
+  //   id: number, // 歌曲id
+  //   url: string // 歌曲链接
+  //   duration: number // 歌曲时长
+  // }
 }
 export default class AudioPlayer extends PureComponent<IProps, IState> {
   audio!: HTMLAudioElement | null
   state: IState = {
     playMode: 0,
     playStatus: false,
-    visible: false
+    visible: false,
+    currentTime: 0,
+    isDrag: false
+  }
+  componentDidMount() {
+    this.audio!.volume = 0.4 
   }
   // 改变播放模式
   changePlayMode(mode: number): JSX.Element {
@@ -66,14 +74,30 @@ export default class AudioPlayer extends PureComponent<IProps, IState> {
   }
   // 更新歌曲时间
   updateTime = () => {
-    console.log(this.audio?.currentTime)
+    if (this.state.isDrag) return
+    const currentTime = this.audio!.currentTime
+    this.setState({ currentTime: Math.floor(currentTime) })
+  }
+  // 通过滑块改变歌曲的当前时间
+  changeTime = (currentTime: number) => {
+    this.setState({ currentTime, isDrag: true })
+  }
+  // 放开滑块后，更新当前歌曲播放进度
+  afterChange = (currentTime: number) => {
+    this.audio!.currentTime = currentTime
+    this.setState({ currentTime, isDrag: false })
+  }
+  // 播放完毕
+  end = () => {
+    this.setState({ playStatus: false })
   }
   render() {
-    const { playMode, playStatus } = this.state
-    const { updateTime, playControl } = this
+    const { playMode, playStatus, currentTime } = this.state
+    const { updateTime, playControl, changeTime } = this
     return (
       <div className={style['audio-container']}>
-        <audio src={src} ref={c => this.audio = c} onTimeUpdate={updateTime}></audio>
+        <audio src={src} ref={c => this.audio = c} onTimeUpdate={updateTime}
+          onEnded={this.end}></audio>
         <div className={style['play-control']}>
           {this.changePlayMode(playMode)}
           <IconFont type="icon-prev-song" className={style.icon} title="上一首" />
@@ -82,9 +106,11 @@ export default class AudioPlayer extends PureComponent<IProps, IState> {
           <IconFont type="icon-next-song" className={style.icon} title="下一首" />
         </div>
         <div className={style['progress-bar']}>
-          <span>00:00</span>
-          <Slider tooltipVisible={false} max={100} min={0} vertical style={{width:'100%'}} />
-          <span>04:00</span>
+          <span>{formatTime(currentTime)}</span>
+          <Slider tooltipVisible={false} max={271} min={0} value={currentTime}
+            onChange={(value: number) => changeTime(value)} 
+            onAfterChange={(value: number) => this.afterChange(value)} />
+          <span>{formatTime(271)}</span>
         </div>
       </div>
     )

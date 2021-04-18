@@ -2,6 +2,7 @@ import { Fragment, PureComponent } from 'react'
 import { Image } from 'antd'
 import { UserOutlined } from '@ant-design/icons'
 import IconFont from '@components/IconFont'
+import formatTime from '@/utils/formatTime'
 import style from './index.module.scss'
 interface ImgCardProps {
   picUrl: string
@@ -58,12 +59,9 @@ export default class ImgCard extends PureComponent<ImgCardProps> {
   showDuration(): JSX.Element {
     const { duration } = this.props
     if (!duration) return (<></>)
-    let minute: number | string = Math.floor(duration / 60000)
-    let second: number | string = Math.floor(duration / 1000 % 60)
-    minute = minute > 10 ? minute : '0' + minute
-    second = second > 10 ? second : '0' + second
+    const time = formatTime(duration / 1000)
     return (
-      <span className={style['item-duration']}>{`${minute}:${second}`}</span>
+      <span className={style['item-duration']}>{time}</span>
     )
   }
   // 是否显示用户信息

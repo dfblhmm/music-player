@@ -22,6 +22,11 @@
 .ant-layout-content {
   overflow: hidden;
 }
+.ant-layout-footer {
+  padding: 0;
+  height: 72px;
+  border-top: 1px solid #E1E1E1;
+}
 // 自定义滚动条
 .found-container, .ant-layout-sider,
 .exclusive-container {

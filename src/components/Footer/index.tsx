@@ -5,7 +5,7 @@ export default class FooterContainer extends PureComponent {
   render() {
     return (
       <Fragment>
-        <Row>
+        <Row style={{height: '100%'}}>
           <Col span={8}>播放图片</Col>
           <Col span={8}><AudioPlayer /></Col>
           <Col span={8}>歌单</Col>
