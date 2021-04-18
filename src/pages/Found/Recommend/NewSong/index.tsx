@@ -21,7 +21,7 @@ export default class NewSong extends PureComponent<SongsProps> {
           {
             songItems.map((value: SongItem) => (
               <Col className={style.col} key={value.id}>
-                <SongImgIcon flex="16%" src={value.picUrl} />
+                <SongImgIcon flex="16%" src={value.picUrl} id={value.id} />
                 <div className={style['song-info-container']}>
                   <div className={style['song-name']} title={songTitle(value.name,value.alias)}>
                     {value.name}{value.alias ? <span style={{color: '#929292'}}>（{value.alias}）</span> : <Fragment></Fragment>}

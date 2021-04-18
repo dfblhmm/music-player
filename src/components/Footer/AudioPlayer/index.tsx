@@ -3,7 +3,6 @@ import { Tooltip, Slider } from 'antd'
 import IconFont from '@components/IconFont'
 import formatTime from '@utils/formatTime'
 import style from './index.module.scss'
-const src = 'https://m701.music.126.net/20210417232317/91c81a6cc641b190f4b03f71e48aae42/jdyyaac/5558/5653/005a/b24d390feda9ed36089b70644163775d.m4a'
 interface IState {
   playMode: number // 播放模式
   playStatus: boolean // 播放状态
@@ -12,12 +11,7 @@ interface IState {
   isDrag: boolean // 是否正在拖拽滑块
 }
 interface IProps {
-  // 正在播放歌曲的信息
-  // onPlayInfo: {
-  //   id: number, // 歌曲id
-  //   url: string // 歌曲链接
-  //   duration: number // 歌曲时长
-  // }
+  onPlayInfo: onPlayInfoType
 }
 export default class AudioPlayer extends PureComponent<IProps, IState> {
   audio!: HTMLAudioElement | null
@@ -31,6 +25,14 @@ export default class AudioPlayer extends PureComponent<IProps, IState> {
   componentDidMount() {
     this.audio!.volume = 0.4 
   }
+  componentDidUpdate(prevProps: IProps) {
+    const preSrc = prevProps.onPlayInfo.src
+    const src = this.props.onPlayInfo.src
+    if (preSrc === src) return
+    this.audio?.play()
+    this.setState({ playStatus: true })
+  }
+  
   // 改变播放模式
   changePlayMode(mode: number): JSX.Element {
     // 模式0代表列表循环，1代表单曲循环，2代表随机播放，3代表顺序播放
@@ -91,26 +93,35 @@ export default class AudioPlayer extends PureComponent<IProps, IState> {
   end = () => {
     this.setState({ playStatus: false })
   }
+  // 上一首
+  prev = () => {
+
+  }
+  // 下一首
+  next = () => {
+
+  }
   render() {
     const { playMode, playStatus, currentTime } = this.state
-    const { updateTime, playControl, changeTime } = this
+    const { updateTime, playControl, changeTime, afterChange, prev, next } = this
+    const { src, duration } = this.props.onPlayInfo
     return (
       <div className={style['audio-container']}>
         <audio src={src} ref={c => this.audio = c} onTimeUpdate={updateTime}
           onEnded={this.end}></audio>
         <div className={style['play-control']}>
           {this.changePlayMode(playMode)}
-          <IconFont type="icon-prev-song" className={style.icon} title="上一首" />
+          <IconFont type="icon-prev-song" className={style.icon} title="上一首" onClick={prev} />
           <IconFont type={playStatus ? 'icon-pause' : 'icon-play'} onClick={playControl}
             className={style['play-icon']} title={playStatus ? '暂停' : '播放'} />
-          <IconFont type="icon-next-song" className={style.icon} title="下一首" />
+          <IconFont type="icon-next-song" className={style.icon} title="下一首" onClick={next} />
         </div>
         <div className={style['progress-bar']}>
           <span>{formatTime(currentTime)}</span>
-          <Slider tooltipVisible={false} max={271} min={0} value={currentTime}
+          <Slider tooltipVisible={false} max={duration} min={0} value={currentTime}
             onChange={(value: number) => changeTime(value)} 
-            onAfterChange={(value: number) => this.afterChange(value)} />
-          <span>{formatTime(271)}</span>
+            onAfterChange={(value: number) => afterChange(value)} />
+          <span>{formatTime(duration)}</span>
         </div>
       </div>
     )

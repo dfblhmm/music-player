@@ -6,10 +6,15 @@ interface Action<T> {
 interface LoginType {
   isLogin: boolean // 登录状态
   uid: number // 用户id
-  // accountInfo: { avatarUrl: string, nickname: string, userId: number }
 }
-
+// 歌曲信息
+interface onPlayInfoType {
+  id: number // 歌曲id
+  src: string // 歌曲地址
+  duration: number // 歌曲时长
+}
 // 全局状态
 interface GlobalState {
-  loginInfo: LoginType
+  loginInfo: LoginType,
+  onPlayInfo: onPlayInfoType
 }

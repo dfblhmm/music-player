@@ -6,7 +6,7 @@ import { LeftOutlined, RightOutlined, CaretDownOutlined } from '@ant-design/icon
 import http from '@/utils/http'
 import Search from './Search'
 import Login from './Login'
-import { changeLogin } from '@redux/actions/loginStatus'
+import { changeLogin } from '@/redux/actions/loginInfo'
 import logo from '@assets/images/logo.png'
 import style from './index.module.scss'
 interface IProps extends RouteComponentProps {

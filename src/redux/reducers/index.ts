@@ -1,5 +1,6 @@
 import { combineReducers } from 'redux'
-import loginStatus from './loginStatus'
+import loginInfo from './loginInfo'
+import onPlayInfo from './onPlayInfo'
 export default combineReducers({
-  loginInfo: loginStatus
+  loginInfo, onPlayInfo
 })
