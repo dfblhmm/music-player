@@ -1,26 +1,19 @@
 import { PureComponent } from 'react'
 import { Image } from 'antd'
-import { connect } from 'react-redux'
-import { updatePlayInfo } from '@redux/actions/onPlayInfo'
-import http from '@/utils/http'
+import updateSong from '@containers/UpdateSong'
 import IconFont from '@components/IconFont'
 import style from './index.module.scss'
 interface IProps {
   flex: string
   src: string
   id: number
-  updatePlayInfo: (onPlayInfo: onPlayInfoType) => void
+  updatePlayInfo: (id: number) => void
 }
 class SongImgIcon extends PureComponent<IProps> {
   // 播放音乐
   play = async() => {
     const { id } = this.props
-    const res = await http('/song/url', { id })
-    const detail = await http('/song/detail', { ids: id })
-    const onPlayInfo: onPlayInfoType = {
-      id, src: res.data[0].url, duration: Math.floor(detail.songs[0].dt / 1000)
-    }
-    this.props.updatePlayInfo(onPlayInfo)
+    this.props.updatePlayInfo(id)
   }
   render() {
     const { flex, src } = this.props
@@ -33,4 +26,4 @@ class SongImgIcon extends PureComponent<IProps> {
   }
 }
 
-export default connect(null, { updatePlayInfo })(SongImgIcon)
+export default updateSong(SongImgIcon)

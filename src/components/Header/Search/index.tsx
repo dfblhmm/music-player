@@ -1,8 +1,7 @@
 import { PureComponent, ChangeEvent, FocusEvent, Fragment } from 'react'
 import { Input, List } from 'antd'
 import { SearchOutlined, UserOutlined } from '@ant-design/icons'
-import { connect } from 'react-redux'
-import { updatePlayInfo } from '@redux/actions/onPlayInfo'
+import updateSong from '@containers/UpdateSong'
 import http from '@utils/http'
 import IconFont from '@components/IconFont'
 import style from './index.module.scss'
@@ -25,7 +24,7 @@ interface SuggestInfo {
   songs?: Array<CommonType>
 }
 interface IProps {
-  updatePlayInfo: (info: onPlayInfoType) => void
+  updatePlayInfo: (id: number) => void
 }
 class Search extends PureComponent<IProps> {
   state = {
@@ -93,24 +92,16 @@ class Search extends PureComponent<IProps> {
     const { songs } = this.state.suggest as SuggestInfo
     if (!songs) return (<></>)
     const header = this.createHeader('music', '单曲')
+    const { updatePlayInfo } = this.props
     return (
       <List header={header} dataSource={songs}
         renderItem={item => 
-          <List.Item key={item.id} onClick={() => this.play(item.id)}>
+          <List.Item key={item.id} onClick={() => updatePlayInfo(item.id)}>
             {item.name}
             {item.alias?.length ? `（${item.alias[0]}）` : <></>} - &nbsp;
             {this.formatArtists(item.artists!)}
           </List.Item>} />
     )
-  }
-  // 播放歌曲
-  play = async(id: number) => {
-    const res = await http('/song/url', { id })
-    const detail = await http('/song/detail', { ids: id })
-    const onPlayInfo: onPlayInfoType = {
-      id, src: res.data[0].url, duration: Math.floor(detail.songs[0].dt / 1000)
-    }
-    this.props.updatePlayInfo(onPlayInfo)
   }
   // 歌手 
   artists(): JSX.Element {
@@ -208,4 +199,4 @@ class Search extends PureComponent<IProps> {
   }
 }
 
-export default connect(null, { updatePlayInfo })(Search)
+export default updateSong(Search)
