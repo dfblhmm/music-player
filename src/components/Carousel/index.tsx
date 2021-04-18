@@ -29,17 +29,20 @@ export default class Carousel extends PureComponent<BannersProps> {
     showDot: true
   }
   componentDidMount() {
-    // 组件挂载完成
-    // 浏览器窗口处于活动状态
-    window.onfocus = this.autoplay
-    // 浏览器窗口处于不活跃状态
-    window.onblur = this.pause
+    this.autoplay()
+    // 页面显示
+    document.addEventListener('visibilitychange', this.controlCarousel)
+  }
+  // 页面显示/隐藏时开启/关闭轮播
+  controlCarousel = () => {
+    const visibilityState = document.visibilityState
+    if (visibilityState === 'visible') this.autoplay()
+    else this.pause()
   }
   componentWillUnmount() {
     // 组件销毁，关闭定时器，移除事件
     this.pause()
-    window.onfocus = null
-    window.onblur = null
+    document.removeEventListener('visibilitychange', this.controlCarousel)
   }
   // 开启轮播
   autoplay = () => {
