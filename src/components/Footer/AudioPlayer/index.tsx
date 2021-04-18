@@ -30,7 +30,7 @@ export default class AudioPlayer extends PureComponent<IProps, IState> {
     const src = this.props.onPlayInfo.src
     if (preSrc === src) return
     this.audio?.play()
-    this.setState({ playStatus: true })
+    this.setState({ playStatus: true, currentTime: 0 })
   }
   
   // 改变播放模式
@@ -108,7 +108,7 @@ export default class AudioPlayer extends PureComponent<IProps, IState> {
     return (
       <div className={style['audio-container']}>
         <audio src={src} ref={c => this.audio = c} onTimeUpdate={updateTime}
-          onEnded={this.end}></audio>
+          onEnded={this.end} preload="auto"></audio>
         <div className={style['play-control']}>
           {this.changePlayMode(playMode)}
           <IconFont type="icon-prev-song" className={style.icon} title="上一首" onClick={prev} />

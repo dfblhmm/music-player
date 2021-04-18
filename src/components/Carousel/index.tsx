@@ -16,9 +16,9 @@ interface BannersProps {
   showDot: boolean
 }
 export default class Carousel extends PureComponent<BannersProps> {
+  timer?: number 
   state = {
     activeIndex: 0,
-    timer : 0
   }
   static defaultProps: BannersProps = {
     banners: [],
@@ -31,27 +31,26 @@ export default class Carousel extends PureComponent<BannersProps> {
   componentDidMount() {
     // 组件挂载完成
     // 浏览器窗口处于活动状态
-    window.addEventListener('focus', this.autoplay)
+    window.onfocus = this.autoplay
     // 浏览器窗口处于不活跃状态
-    window.addEventListener('blur', this.pause)
+    window.onblur = this.pause
   }
   componentWillUnmount() {
     // 组件销毁，关闭定时器，移除事件
     this.pause()
-    window.removeEventListener('focus', this.autoplay)
-    window.removeEventListener('blur', this.pause)
+    window.onfocus = null
+    window.onblur = null
   }
   // 开启轮播
   autoplay = () => {
     // 组件挂载完成，开启轮播
     if (!this.props.autoplay) return
     const { toggleTime } = this.props
-    const timer = window.setInterval(this.changeCurrent('next'), toggleTime)
-    this.setState({ timer })
+    this.timer = window.setInterval(this.changeCurrent('next'), toggleTime)
   }
   // 停止轮播
   pause = () => {
-    window.clearInterval(this.state.timer)
+    window.clearInterval(this.timer)
   }
   // 获取当前轮播图的前后项 
   getPrevAndNext = (): PrevNext => {
