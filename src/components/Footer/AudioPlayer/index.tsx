@@ -30,9 +30,9 @@ export default class AudioPlayer extends PureComponent<IProps, IState> {
     const src = this.props.onPlayInfo.src
     if (preSrc === src) return
     this.audio?.play()
+    this.updateTime()
     this.setState({ playStatus: true, currentTime: 0 })
   }
-  
   // 改变播放模式
   changePlayMode(mode: number): JSX.Element {
     // 模式0代表列表循环，1代表单曲循环，2代表随机播放，3代表顺序播放
@@ -78,7 +78,7 @@ export default class AudioPlayer extends PureComponent<IProps, IState> {
   updateTime = () => {
     if (this.state.isDrag) return
     const currentTime = this.audio!.currentTime
-    this.setState({ currentTime: Math.floor(currentTime) })
+    this.setState({ currentTime })
   }
   // 通过滑块改变歌曲的当前时间
   changeTime = (currentTime: number) => {

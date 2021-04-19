@@ -76,7 +76,7 @@ class Recommend extends PureComponent<IProps> {
     if (isLogin) {
       recommendSongList.unshift({ 
         id: nanoid(), name: '每日推荐歌单', picUrl, 
-        maskTitle: '根据您的音乐口味生成|每日更新'  
+        maskTitle: '根据您的音乐口味生成 | 每日更新'  
       })
     }
     this.setState({ recommendSongList })
