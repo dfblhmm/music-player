@@ -24,7 +24,7 @@ interface SuggestInfo {
   songs?: Array<CommonType>
 }
 interface IProps {
-  updatePlayInfo: (id: number) => void
+  updatePlayInfo: (id: number, type: number) => void
 }
 class Search extends PureComponent<IProps> {
   state = {
@@ -96,7 +96,7 @@ class Search extends PureComponent<IProps> {
     return (
       <List header={header} dataSource={songs}
         renderItem={item => 
-          <List.Item key={item.id} onClick={() => updatePlayInfo(item.id)}>
+          <List.Item key={item.id} onClick={() => updatePlayInfo(item.id, 0)}>
             {item.name}
             {item.alias?.length ? `（${item.alias[0]}）` : <></>} - &nbsp;
             {this.formatArtists(item.artists!)}

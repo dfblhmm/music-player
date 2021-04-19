@@ -1,5 +1,6 @@
 import { PureComponent } from 'react'
 import { Tooltip, Slider } from 'antd'
+import updateSong from '@containers/UpdateSong'
 import IconFont from '@components/IconFont'
 import formatTime from '@utils/formatTime'
 import style from './index.module.scss'
@@ -12,8 +13,9 @@ interface IState {
 }
 interface IProps {
   onPlayInfo: onPlayInfoType
+  updatePlayInfo: (id: number, type: number) => void
 }
-export default class AudioPlayer extends PureComponent<IProps, IState> {
+class AudioPlayer extends PureComponent<IProps, IState> {
   audio!: HTMLAudioElement | null
   state: IState = {
     playMode: 0,
@@ -95,11 +97,13 @@ export default class AudioPlayer extends PureComponent<IProps, IState> {
   }
   // 上一首
   prev = () => {
-
+    const { updatePlayInfo, onPlayInfo: { id } } = this.props
+    updatePlayInfo(id, 2)
   }
   // 下一首
   next = () => {
-
+    const { updatePlayInfo, onPlayInfo: { id } } = this.props
+    updatePlayInfo(id, 1)
   }
   render() {
     const { playMode, playStatus, currentTime } = this.state
@@ -127,3 +131,5 @@ export default class AudioPlayer extends PureComponent<IProps, IState> {
     )
   }
 }
+
+export default updateSong(AudioPlayer)
