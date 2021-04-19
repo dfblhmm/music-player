@@ -13,8 +13,13 @@ interface onPlayInfoType {
   src: string // 歌曲地址
   duration: number // 歌曲时长
 }
+interface PlayListType {
+  id: number
+  songInfo: onPlayInfoType
+}
 // 全局状态
 interface GlobalState {
   loginInfo: LoginType,
   onPlayInfo: onPlayInfoType
+  playList: Array<PlayListType>
 }
