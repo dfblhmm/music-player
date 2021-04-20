@@ -2,6 +2,7 @@ import { PureComponent, Fragment } from 'react'
 import { Row, Col } from 'antd'
 import { connect } from 'react-redux'
 import AudioPlayer from './AudioPlayer'
+import AlbumPic from './AlbumPic'
 interface IProps {
   onPlayInfo: onPlayInfoType
   playList: PlayListType[]
@@ -9,12 +10,17 @@ interface IProps {
 class FooterContainer extends PureComponent<IProps> {
   render() {
     const { onPlayInfo, playList } = this.props
+    const { id, src, duration, alias, artists, name, picUrl } = onPlayInfo
+    const songInfo = { id, src, duration }
+    const albumInfo = { alias, artists, name, picUrl }
     return (
       <Fragment>
         <Row style={{height: '100%'}}>
-          <Col span={8}>播放图片</Col>
           <Col span={8}>
-            <AudioPlayer onPlayInfo={onPlayInfo} playList={playList} />
+            <AlbumPic {...albumInfo} />
+          </Col>
+          <Col span={8}>
+            <AudioPlayer {...songInfo} playList={playList} />
           </Col>
           <Col span={8}>歌单</Col>
         </Row>

@@ -1,10 +1,13 @@
 import { UPDATEPLAYINFO } from '../constant'
 const initState: onPlayInfoType = {
-  id: 0,
-  src: '',
-  duration: 0
+  id: 0, // 歌曲id
+  src: '', // 歌曲地址
+  duration: 0, // 歌曲时长
+  picUrl: '', // 歌曲专辑图
+  artists: [], // 歌手
+  name: '', // 歌曲名
+  alias: '' // 歌曲来源
 }
-
 export default function onPlayInfo(preState = initState, action: Action<onPlayInfoType>): onPlayInfoType {
   const { type, data } = action
   if (type !== UPDATEPLAYINFO) return preState

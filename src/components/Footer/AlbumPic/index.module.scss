@@ -1,0 +1,27 @@
+@import '@assets/scss/ellipsis.scss';
+.album {
+  height: 100%;
+  padding-left: 20px;
+  display: flex;
+  align-items: center;
+  width: 50%;
+  .pic {
+    width: 55px;
+    border-radius: 5px;
+    overflow: hidden;
+    cursor: pointer;
+  }
+  .info {
+    padding-left: 10px;
+    max-width: calc(100% - 55px);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    .song-name {
+      @include ellipsis;
+      margin-bottom: 5px;
+      font-size: 14px;
+      .alias { color: #999; }
+    }
+  }
+}

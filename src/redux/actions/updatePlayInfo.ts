@@ -11,7 +11,14 @@ const getSong = (id: number): onPlayInfoType | null => {
   if (index === -1) return null
   return playList[index].songInfo
 }
-
+type Detail = {
+  id: 0, // 歌曲id
+  dt: 0, // 歌曲时长
+  al: { picUrl: string }, // 歌曲专辑图
+  ar: [], // 歌手
+  name: string, // 歌曲名
+  alia: Array<string> // 歌曲来源
+}
 export const updatePlayInfo = (id: number, song?: onPlayInfoType) => {
   return async(dispatch: any) => {
     if (song) return dispatch(updatePlayInfoHandle(song)) 
@@ -19,11 +26,16 @@ export const updatePlayInfo = (id: number, song?: onPlayInfoType) => {
     if (info) return dispatch(updatePlayInfoHandle(info))
     const res = await http.all([
       { url: '/song/url', data: { id } },
-      { url: '/song/detail', data: { ids: id }  }
+      { url: '/song/detail', data: { ids: id } }
     ])
     const src = res[0].data[0].url
-    const duration = Math.floor(res[1].songs[0].dt / 1000)
-    const songInfo: onPlayInfoType = { src, duration, id }
+    const detail: Detail = res[1].songs[0]
+    const duration = Math.floor(detail.dt / 1000)
+    const { name, al: { picUrl }, ar, alia } = detail
+    const songInfo: onPlayInfoType = { 
+      src, duration, id, name, artists: ar, 
+      picUrl: picUrl + '?param=x55y55', alias: alia[0] 
+    }
     // 更新当前播放歌曲信息
     dispatch(updatePlayInfoHandle(songInfo))
     // 将当前歌曲添加到播放列表

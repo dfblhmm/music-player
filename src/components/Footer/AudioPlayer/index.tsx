@@ -12,7 +12,9 @@ interface IState {
   isDrag: boolean // 是否正在拖拽滑块
 }
 interface IProps extends PlaySongFunc {
-  onPlayInfo: onPlayInfoType,
+  src: string
+  id: number
+  duration: number
   playList: PlayListType[]
 }
 class AudioPlayer extends PureComponent<IProps, IState> {
@@ -28,8 +30,8 @@ class AudioPlayer extends PureComponent<IProps, IState> {
     this.audio!.volume = 0.4 
   }
   componentDidUpdate(prevProps: IProps) {
-    const preSrc = prevProps.onPlayInfo.src
-    const src = this.props.onPlayInfo.src
+    const preSrc = prevProps.src
+    const src = this.props.src
     if (preSrc === src) return
     this.audio?.play()
     this.updateTime()
@@ -135,13 +137,13 @@ class AudioPlayer extends PureComponent<IProps, IState> {
   }
   // 获取当前歌曲在播放列表中的索引
   getCurrentIndex(): number {
-    const { playList, onPlayInfo: { id } } = this.props
+    const { playList, id } = this.props
     return playList.findIndex(value => value.id === id)
   }
   render() {
     const { playMode, playStatus, currentTime } = this.state
     const { updateTime, playControl, changeTime, afterChange, prev, next } = this
-    const { src, duration } = this.props.onPlayInfo
+    const { src, duration } = this.props
     return (
       <div className={style['audio-container']}>
         <audio src={src} ref={c => this.audio = c} onTimeUpdate={updateTime}

@@ -147,7 +147,7 @@ class Recommend extends PureComponent<IProps> {
     return (
       <div style={{padding: '0 90px'}}>
         {/* 轮播图 */}
-        <Carousel banners={banners} />
+        <Carousel banners={banners} autoplay={false} />
         {/* 推荐歌单 */}
         <NavTitle to="/found/songlist" title="推荐歌单" />
         <ImgCardList list={recommendSongList} flex="20%" wrap showPlayIcon />

@@ -4,25 +4,29 @@ import style from './index.module.scss'
 interface ArtistsProps {
   artists: Array<Artist>
   color: string
-  hoverColor: string
+  hoverColor?: string
+  fontSize?: number
 }
 export default class Artists extends PureComponent<ArtistsProps> {
   hasInfo(id: number) {
     const { color } = this.props
-    if (!id) return { fontSize: '12px', color }
-    else return { fontSize: '12px', cursor: 'pointer', color, transition: 'color .2s ease' }
+    const fontSize = this.props.fontSize ? `${this.props.fontSize}px` : '12px'
+    if (!id) return { fontSize, color }
+    else return { fontSize, cursor: 'pointer', color, transition: 'color .2s ease' }
   }
   // 鼠标悬停改变颜色
   hover = (id: number): MouseEventHandler => {
     return e => {
-      if (!id) return
-      (e.target as HTMLSpanElement).style.color = this.props.hoverColor
+      const { hoverColor } = this.props
+      if (!hoverColor || !id) return
+      (e.target as HTMLSpanElement).style.color = this.props.hoverColor!
     }
   }
   // 鼠标离开
   leave = (id: number): MouseEventHandler => {
     return e => {
-      if (!id) return
+      const { hoverColor } = this.props
+      if (!hoverColor || !id) return
       (e.target as HTMLSpanElement).style.color = this.props.color
     }
   }
