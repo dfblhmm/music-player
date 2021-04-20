@@ -11,9 +11,9 @@ interface IState {
   currentTime: number // 当前的歌曲时间
   isDrag: boolean // 是否正在拖拽滑块
 }
-interface IProps {
-  onPlayInfo: onPlayInfoType
-  updatePlayInfo: (id: number, type: number) => void
+interface IProps extends PlaySongFunc {
+  onPlayInfo: onPlayInfoType,
+  playList: PlayListType[]
 }
 class AudioPlayer extends PureComponent<IProps, IState> {
   audio!: HTMLAudioElement | null
@@ -93,17 +93,50 @@ class AudioPlayer extends PureComponent<IProps, IState> {
   }
   // 播放完毕
   end = () => {
-    this.setState({ playStatus: false })
+    const playMode = this.state.playMode % 4
+    const index = this.getCurrentIndex()
+    const { playList } = this.props
+    if (playMode === 3 && index === playList.length - 1) return this.setState({ playStatus: false })
+    if (playMode === 1 || playList.length === 1) {
+      this.audio?.play()
+      this.setState({ playStatus: true })
+      return
+    }
+    this.next()
+  }
+  // 切换歌曲
+  toggleSong(toggle: 'next' | 'prev') {
+    const { playMode } = this.state
+    const { playList, updatePlayInfo } = this.props
+    const length = playList.length
+    if (length <= 1) return
+    // 非随机播放模式
+    if (playMode % 4 !== 2) {
+      let index = this.getCurrentIndex()
+      if (toggle === 'prev') index = index === 0 ? playList.length - 1 : index - 1
+      else index = index === length - 1 ? 0 : index + 1
+      updatePlayInfo(0, playList[index].songInfo)
+    } else {
+      // 随机播放模式
+      while(true) {
+        const index = Math.floor(Math.random() * length)
+        updatePlayInfo(0, playList[index].songInfo)
+        break
+      }
+    }
   }
   // 上一首
   prev = () => {
-    const { updatePlayInfo, onPlayInfo: { id } } = this.props
-    updatePlayInfo(id, 2)
+    this.toggleSong('prev')
   }
   // 下一首
   next = () => {
-    const { updatePlayInfo, onPlayInfo: { id } } = this.props
-    updatePlayInfo(id, 1)
+    this.toggleSong('next')
+  }
+  // 获取当前歌曲在播放列表中的索引
+  getCurrentIndex(): number {
+    const { playList, onPlayInfo: { id } } = this.props
+    return playList.findIndex(value => value.id === id)
   }
   render() {
     const { playMode, playStatus, currentTime } = this.state

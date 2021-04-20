@@ -1,6 +1,7 @@
 import { MouseEventHandler, PureComponent } from 'react'
 import { Image } from 'antd'
 import { nanoid } from 'nanoid'
+import updateSong from '@containers/UpdateSong'
 import './index.scss'
 import IconFont from '@components/IconFont'
 interface PrevNext {
@@ -15,7 +16,9 @@ interface BannersProps {
   showArrow: boolean
   showDot: boolean
 }
-export default class Carousel extends PureComponent<BannersProps> {
+interface IProps extends BannersProps, PlaySongFunc {
+}
+class Carousel extends PureComponent<IProps> {
   timer?: number 
   state = {
     activeIndex: 0,
@@ -90,11 +93,15 @@ export default class Carousel extends PureComponent<BannersProps> {
     }
   }
   // 点击了轮播图
-  handleClickImg = (index: number): MouseEventHandler => {
+  handleClickImg = (index: number, value: Banners): MouseEventHandler => {
     const { prev, next } = this.getPrevAndNext()
     if (index === prev) return this.changeCurrent('prev')
     if (index === next) return this.changeCurrent('next')
-    return () => console.log(index)
+    return () => {
+      const { targetId, targetType, url } = value
+      if (targetId && targetType === 1) return this.props.updatePlayInfo(targetId) 
+      if (url) window.open(url)
+    }
   }
   render() {
     const { activeIndex } = this.state
@@ -109,7 +116,7 @@ export default class Carousel extends PureComponent<BannersProps> {
             const { titleColor, typeTitle } = value
             return (
               <div key={index} className={this.getCurrentClassName(index)} style={{height: height - 25 + 'px'}}
-                 onClick={this.handleClickImg(index)}>
+                 onClick={this.handleClickImg(index, value)}>
                 <Image src={value.imageUrl} placeholder preview={false} />
                 <span className="banner-title" 
                   style={{backgroundColor: titleColor==='red' ? '#CC4A4A' : '#4A79CC'}}>{typeTitle}
@@ -134,3 +141,5 @@ export default class Carousel extends PureComponent<BannersProps> {
     )
   }
 }
+
+export default updateSong(Carousel)

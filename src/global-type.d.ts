@@ -67,3 +67,7 @@ interface HighQualitySongList {
 interface LoginSuccessProps {
   loginSuccess: () => void
 }
+
+interface PlaySongFunc {
+  updatePlayInfo: (id: number, songInfo?: onPlayInfoType) => void
+}

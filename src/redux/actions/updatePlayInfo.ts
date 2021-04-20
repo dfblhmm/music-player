@@ -5,21 +5,18 @@ import http from '@utils/http'
 const updatePlayInfoHandle = (data: onPlayInfoType): Action<onPlayInfoType> => {
   return { type: UPDATEPLAYINFO, data }
 }
-const getSong = (id: number, type: number): PlayListType | null => {
+const getSong = (id: number): onPlayInfoType | null => {
   const { playList } = store.getState()
   let index = playList.findIndex(value => value.id === id)
-  if (index === -1 && !type) return null
-  type === 1 && index++
-  type === 2 && index--
-  index = index > playList.length - 1 ? 0 : index
-  index = index < 0 ? playList.length - 1 : index  
-  return { id, songInfo: playList[index].songInfo }
+  if (index === -1) return null
+  return playList[index].songInfo
 }
 
-export const updatePlayInfo = (id: number, type: number) => {
+export const updatePlayInfo = (id: number, song?: onPlayInfoType) => {
   return async(dispatch: any) => {
-    const info = getSong(id, type)
-    if (info) return dispatch(updatePlayInfoHandle(info.songInfo)) 
+    if (song) return dispatch(updatePlayInfoHandle(song)) 
+    const info = id && getSong(id)
+    if (info) return dispatch(updatePlayInfoHandle(info))
     const res = await http.all([
       { url: '/song/url', data: { id } },
       { url: '/song/detail', data: { ids: id }  }
