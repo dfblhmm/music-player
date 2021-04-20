@@ -2,9 +2,9 @@ import axios, { AxiosError, AxiosRequestConfig, AxiosResponse, Method } from 'ax
 import Nprogress from 'nprogress'
 import 'nprogress/nprogress.css'
 import { message } from 'antd'
-
+const regExp = /\/search\/suggest/
 axios.interceptors.request.use((config: AxiosRequestConfig) => {
-  Nprogress.start()
+  if (!regExp.test(config.url!)) Nprogress.start()
   return config
 })
 

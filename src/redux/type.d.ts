@@ -7,11 +7,24 @@ interface LoginType {
   isLogin: boolean // 登录状态
   uid: number // 用户id
 }
+// 付费方式
+type ChargeType = {
+  rate: 128000 | 192000 | 320000 | 999000 | 0,
+  chargeType: 0 | 1
+}
+// 试听片段
+type freeTrialInfoType = {
+  start: number,
+  end: number
+} 
 // 歌曲信息
-interface onPlayInfoType extends AlbumType{
+interface onPlayInfoType extends AlbumType {
   id: number // 歌曲id
   src: string // 歌曲地址
   duration: number // 歌曲时长
+  chargeInfoList: Array<ChargeType> // 付费方式
+  freeTrialInfo?: freeTrialInfoType // 试听片段
+  isVip: boolean // 是否为付费
 }
 interface AlbumType {
   picUrl: string // 歌曲专辑图

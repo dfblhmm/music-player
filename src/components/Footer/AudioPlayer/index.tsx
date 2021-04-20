@@ -1,5 +1,5 @@
 import { PureComponent } from 'react'
-import { Tooltip, Slider } from 'antd'
+import { Tooltip, Slider, message } from 'antd'
 import updateSong from '@containers/UpdateSong'
 import IconFont from '@components/IconFont'
 import formatTime from '@utils/formatTime'
@@ -16,6 +16,8 @@ interface IProps extends PlaySongFunc {
   id: number
   duration: number
   playList: PlayListType[]
+  freeTrialInfo?: freeTrialInfoType
+  isVip: boolean
 }
 class AudioPlayer extends PureComponent<IProps, IState> {
   audio!: HTMLAudioElement | null
@@ -33,6 +35,8 @@ class AudioPlayer extends PureComponent<IProps, IState> {
     const preSrc = prevProps.src
     const src = this.props.src
     if (preSrc === src) return
+    const { isVip, freeTrialInfo } = this.props
+    if (!isVip && !freeTrialInfo) return message.error('该歌曲为付费歌曲~~~')
     this.audio?.play()
     this.updateTime()
     this.setState({ playStatus: true, currentTime: 0 })
@@ -82,7 +86,9 @@ class AudioPlayer extends PureComponent<IProps, IState> {
   updateTime = () => {
     if (this.state.isDrag) return
     const currentTime = this.audio!.currentTime
-    this.setState({ currentTime })
+    const { freeTrialInfo } = this.props
+    freeTrialInfo && this.setState({ currentTime: freeTrialInfo.start + currentTime })
+    !freeTrialInfo && this.setState({ currentTime })
   }
   // 通过滑块改变歌曲的当前时间
   changeTime = (currentTime: number) => {
@@ -140,9 +146,18 @@ class AudioPlayer extends PureComponent<IProps, IState> {
     const { playList, id } = this.props
     return playList.findIndex(value => value.id === id)
   }
+  // 视听片段
+  getFreeTrialInfo = () => {
+    const { freeTrialInfo } = this.props
+    if (freeTrialInfo) {
+      const { start, end } = freeTrialInfo
+      return { [start]: '', [end]: '' }
+    }
+    return undefined
+  }
   render() {
     const { playMode, playStatus, currentTime } = this.state
-    const { updateTime, playControl, changeTime, afterChange, prev, next } = this
+    const { updateTime, playControl, changeTime, afterChange, prev, next, getFreeTrialInfo } = this
     const { src, duration } = this.props
     return (
       <div className={style['audio-container']}>
@@ -158,7 +173,7 @@ class AudioPlayer extends PureComponent<IProps, IState> {
         <div className={style['progress-bar']}>
           <span>{formatTime(currentTime)}</span>
           <Slider tooltipVisible={false} max={duration} min={0} value={currentTime}
-            onChange={(value: number) => changeTime(value)} 
+            onChange={(value: number) => changeTime(value)} marks={getFreeTrialInfo()}
             onAfterChange={(value: number) => afterChange(value)} />
           <span>{formatTime(duration)}</span>
         </div>

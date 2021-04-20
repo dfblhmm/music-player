@@ -19,7 +19,7 @@
     justify-content: center;
     .song-name {
       @include ellipsis;
-      margin-bottom: 5px;
+      margin-bottom: 8px;
       font-size: 14px;
       .alias { color: #999; }
     }

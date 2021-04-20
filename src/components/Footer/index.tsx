@@ -10,8 +10,10 @@ interface IProps {
 class FooterContainer extends PureComponent<IProps> {
   render() {
     const { onPlayInfo, playList } = this.props
-    const { id, src, duration, alias, artists, name, picUrl } = onPlayInfo
-    const songInfo = { id, src, duration }
+    const 
+      { id, src, duration, alias, artists, name, 
+        picUrl, freeTrialInfo, isVip } = onPlayInfo
+    const songInfo = { id, src, duration, freeTrialInfo, isVip }
     const albumInfo = { alias, artists, name, picUrl }
     return (
       <Fragment>
