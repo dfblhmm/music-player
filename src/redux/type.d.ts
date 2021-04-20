@@ -31,6 +31,8 @@ interface AlbumType {
   artists: Array<Artist> // 歌手
   name: string // 歌曲名
   alias: string // 歌曲来源
+  isVip: boolean // 是否付费
+  freeTrialInfo?: freeTrialInfoType // 是否可以试听
 }
 interface PlayListType {
   id: number

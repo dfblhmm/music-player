@@ -39,13 +39,12 @@ export const updatePlayInfo = (id: number, song?: onPlayInfoType) => {
     const { url, freeTrialInfo } = res[0].data[0] as urlDetail
     const detail: Detail = res[1].songs[0]
     const { chargeInfoList, pl } = res[1].privileges[0] as Privileges
-    console.log(res[1].privileges[0])
     const duration = Math.floor(detail.dt / 1000)
     const { name, al: { picUrl }, ar, alia } = detail
     const songInfo: onPlayInfoType = { 
       src: url, duration, id, name, artists: ar, 
       picUrl: picUrl + '?param=x55y55', alias: alia[0],
-      chargeInfoList, freeTrialInfo, isVip: pl !== 0
+      chargeInfoList, freeTrialInfo, isVip: pl === 0
     }
     // 更新当前播放歌曲信息
     dispatch(updatePlayInfoHandle(songInfo))

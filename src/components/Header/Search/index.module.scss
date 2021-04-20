@@ -10,9 +10,9 @@
     background-color: #ec4141;
     color: #fff;
     font-size: 12px;
-    &::placeholder {
-      color: #E76464;
-    }
+    user-select: auto;
+    &::selection { background-color: skyblue; }
+    &::placeholder { color: #E76464; }
   }
 }
 @mixin common {

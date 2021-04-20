@@ -36,7 +36,7 @@ class AudioPlayer extends PureComponent<IProps, IState> {
     const src = this.props.src
     if (preSrc === src) return
     const { isVip, freeTrialInfo } = this.props
-    if (!isVip && !freeTrialInfo) return message.error('该歌曲为付费歌曲~~~')
+    if (isVip && !freeTrialInfo) return message.error('该歌曲为付费歌曲~~~')
     this.audio?.play()
     this.updateTime()
     this.setState({ playStatus: true, currentTime: 0 })
