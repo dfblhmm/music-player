@@ -8,7 +8,8 @@ const initState: onPlayInfoType = {
   name: '', // 歌曲名
   alias: '', // 歌曲来源
   chargeInfoList: [], // 付费方式
-  isVip: false
+  isVip: false,
+  cs: false
 }
 export default function onPlayInfo(preState = initState, action: Action<onPlayInfoType>): onPlayInfoType {
   const { type, data } = action

@@ -37,7 +37,7 @@ export default function http(url: string, data = {}, method: Method = 'get'): Pr
       resolve(res.data)
     }).catch((err: AxiosError) => {
       // 如果请求失败
-      message.error(err.response?.data.message)
+      message.error(err.response?.data.msg)
     })
   })  
 }

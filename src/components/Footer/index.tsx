@@ -12,9 +12,9 @@ class FooterContainer extends PureComponent<IProps> {
     const { onPlayInfo, playList } = this.props
     const 
       { id, src, duration, alias, artists, name, 
-        picUrl, freeTrialInfo, isVip } = onPlayInfo
-    const songInfo = { id, src, duration, freeTrialInfo, isVip }
-    const albumInfo = { alias, artists, name, picUrl, isVip, freeTrialInfo }
+        picUrl, freeTrialInfo, isVip, cs } = onPlayInfo
+    const songInfo = { id, src, duration, freeTrialInfo, isVip, cs }    
+    const albumInfo = { alias, artists, name, picUrl, freeTrialInfo, isVip }
     return (
       <Fragment>
         <Row style={{height: '100%'}}>

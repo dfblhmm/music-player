@@ -65,7 +65,7 @@ class Recommend extends PureComponent<IProps> {
   getRecommendSongList(res: Array<ImgCardItemType>, isLogin?: boolean) {
     const recommendSongList: Array<ImgCardItemType> = []
     res.forEach((value, index) => {
-      if (index > 8) return
+      if (index > 8 && isLogin) return
       const { id, picUrl, name, playCount, playcount } = value
       recommendSongList.push({
         id, picUrl: picUrl + 'param?x205y205', name,

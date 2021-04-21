@@ -1,9 +1,7 @@
 import { Image } from 'antd'
 import Artists from '@components/Artists'
 import style from './index.module.scss'
-interface IProps extends AlbumType{
-}
-export default function AlbumPic(props: IProps) {
+export default function AlbumPic(props: AlbumType) {
   const { alias, artists, picUrl, name, freeTrialInfo, isVip } = props
   return (
     <div className={style.album}>

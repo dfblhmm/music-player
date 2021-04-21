@@ -18,6 +18,7 @@ interface IProps extends PlaySongFunc {
   playList: PlayListType[]
   freeTrialInfo?: freeTrialInfoType
   isVip: boolean
+  cs: boolean
 }
 class AudioPlayer extends PureComponent<IProps, IState> {
   audio!: HTMLAudioElement | null
@@ -35,8 +36,8 @@ class AudioPlayer extends PureComponent<IProps, IState> {
     const preSrc = prevProps.src
     const src = this.props.src
     if (preSrc === src) return
-    const { isVip, freeTrialInfo } = this.props
-    if (isVip && !freeTrialInfo) return message.error('该歌曲为付费歌曲~~~')
+    const { isVip, freeTrialInfo, cs } = this.props
+    if (isVip && !freeTrialInfo && !cs) return message.error('该歌曲为付费歌曲~~~')
     this.audio?.play()
     this.updateTime()
     this.setState({ playStatus: true, currentTime: 0 })
