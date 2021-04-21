@@ -16,6 +16,7 @@ interface ImgCardProps {
   showVideoIcon?: boolean // 是否显示图片左上角的播放视频图标
   maskTitle?: string // 是否显示遮罩层提示
   showQualityIcon?: boolean // 是否显示精品图标
+  id?: number | string
 }
 export default class ImgCard extends PureComponent<ImgCardProps> {
   // 是否显示播放次数
@@ -33,11 +34,16 @@ export default class ImgCard extends PureComponent<ImgCardProps> {
   }
   // 是否显示播放图标
   showPlayIcon(): JSX.Element {
-    const { showPlayIcon } = this.props
+    const { showPlayIcon, id } = this.props
     if(!showPlayIcon) return (<></>)
     return (
-      <IconFont type="icon-play-item" className={style.play} title="播放"/>
+      <IconFont type="icon-play-item" className={style.play} 
+        title="播放" onClick={() => this.play(id!)} />
     )
+  }
+  // 播放歌单
+  play = (id: number | string) => {
+    console.log(id)
   }
   // 是否显示视频播放图标
   showVideoIcon(): JSX.Element {

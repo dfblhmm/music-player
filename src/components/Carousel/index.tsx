@@ -4,7 +4,7 @@ import { nanoid } from 'nanoid'
 import updateSong from '@containers/UpdateSong'
 import './index.scss'
 import IconFont from '@components/IconFont'
-interface PrevNext {
+type PrevNext = {
   prev: number
   next: number
 }

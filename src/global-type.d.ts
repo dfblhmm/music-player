@@ -14,7 +14,7 @@ interface Banners {
   url: string | null // 对应的url地址 
 }
 // 歌手信息
-interface Artist {
+type Artist = {
   id: number
   name: string
 }
@@ -64,10 +64,10 @@ interface HighQualitySongList {
   updateTime?: number
 }
 // 登录成功的处理
-interface LoginSuccessProps {
+type LoginSuccessProps = {
   loginSuccess: () => void
 }
 
-interface PlaySongFunc {
+type PlaySongFunc = {
   updatePlayInfo: (id: number, songInfo?: onPlayInfoType) => void
 }

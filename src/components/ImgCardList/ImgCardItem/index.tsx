@@ -12,9 +12,9 @@ export default class ImgCardItem extends PureComponent<ImgCardItemType> {
   render() {
     const { ellipsis, name } = this.props
     const { picUrl, playCount, duration, rcmdtext, creatorInfo,
-      showPlayIcon, showVideoIcon, maskTitle } = this.props
+      showPlayIcon, showVideoIcon, maskTitle, id } = this.props
     const ImgCardProps = { picUrl, playCount, duration, rcmdtext, creatorInfo,
-      showPlayIcon, showVideoIcon, maskTitle }
+      showPlayIcon, showVideoIcon, maskTitle, id: id as number }
     return (
       <Fragment>
         <ImgCard {...ImgCardProps} />
