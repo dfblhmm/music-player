@@ -18,10 +18,12 @@ type Detail = {
   ar: [], // 歌手
   name: string, // 歌曲名
   alia: Array<string> // 歌曲来源
+  mv: number
 }
 type Privileges = {
   chargeInfoList: Array<ChargeType> // 付费方式
   cs: boolean // 是否为云盘歌曲
+  maxbr: number // 最大码率
 }
 type urlDetail = {
   url: string,
@@ -38,14 +40,14 @@ export const updatePlayInfo = (id: number, song?: onPlayInfoType) => {
     ])
     const { url, freeTrialInfo } = res[0].data[0] as urlDetail
     const detail: Detail = res[1].songs[0]
-    const { chargeInfoList, cs } = res[1].privileges[0] as Privileges
+    const { chargeInfoList, cs, maxbr } = res[1].privileges[0] as Privileges
     const duration = Math.floor(detail.dt / 1000)
-    const { name, al: { picUrl }, ar, alia } = detail
+    const { name, al: { picUrl }, ar, alia, mv } = detail
     const songInfo: onPlayInfoType = { 
       src: url, duration, id, name, artists: ar, 
       picUrl: picUrl + '?param=x55y55', alias: alia[0],
       chargeInfoList, freeTrialInfo, isVip: chargeInfoList[0]?.chargeType === 1,
-      cs
+      cs, maxbr, mv
     }
     // 更新当前播放歌曲信息
     dispatch(updatePlayInfoHandle(songInfo))

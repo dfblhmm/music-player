@@ -26,6 +26,8 @@ interface onPlayInfoType extends AlbumType {
   freeTrialInfo?: freeTrialInfoType // 试听片段
   isVip: boolean // 是否为付费
   cs: boolean // 是否为云盘歌曲
+  maxbr: number // 最大码率
+  mv: number
 }
 interface AlbumType {
   picUrl: string // 歌曲专辑图
