@@ -2,7 +2,7 @@ import { Fragment, PureComponent } from 'react'
 import { RouteComponentProps } from 'react-router'
 import { Image, BackTop, Pagination } from 'antd'
 import { nanoid } from 'nanoid'
-import targetContext from '../../context'
+import target from '@components/Main/context'
 import IconFont from '@components/IconFont'
 import http from '@utils/http'
 import Category from '@components/Category'
@@ -18,7 +18,7 @@ interface SongListType extends ImgCardItemType {
   coverImgUrl: string
 }
 export default class SongListHome extends PureComponent<RouteComponentProps> {
-  static contextType = targetContext
+  static contextType = target
   state = {
     categoryList: [], // 分类列表
     hotCategoryList: [], // 热门分类列表
