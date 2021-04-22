@@ -1,4 +1,5 @@
 @mixin scroller($size) {
+  height: 100%;
   overflow-x: hidden;
   overflow-y: auto;
   // 自定义滚动条

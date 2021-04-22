@@ -1,12 +1,12 @@
-import { PureComponent, lazy } from 'react'
+import { PureComponent, lazy, Fragment } from 'react'
 import { Route, Redirect, Switch, RouteComponentProps } from 'react-router-dom'
 import { Menu, Affix } from 'antd'
-import targetContext from './context'
+import target from '@components/Main/context'
 import './index.scss'
 const Recommend = lazy(() => import('./Recommend'))
 const SongList = lazy(() => import('./SongList'))
 export default class Found extends PureComponent<RouteComponentProps> {
-  target!: HTMLElement | null
+  static contextType = target
   state = {
     selectedKeys: ['/found/recommend'], // 当前选中的菜单项
   }
@@ -36,8 +36,8 @@ export default class Found extends PureComponent<RouteComponentProps> {
   render() {
     const { selectedKeys } = this.state
     return (
-      <div className="found-container" ref={c => this.target = c}>
-        <Affix offsetTop={0} target={() => this.target}>
+      <Fragment>
+        <Affix offsetTop={0} target={() => this.context}>
           <Menu selectedKeys={selectedKeys} mode="horizontal" onClick={e => this.handleClick(e)}>
             <Menu.Item key="/found/recommend">个性推荐</Menu.Item>
             <Menu.Item key="/found/songlist">歌单</Menu.Item>
@@ -47,14 +47,12 @@ export default class Found extends PureComponent<RouteComponentProps> {
             <Menu.Item key="/found/new-songs">最新音乐</Menu.Item>
           </Menu>
         </Affix>
-        <targetContext.Provider value={this.target!}>
-          <Switch>
-            <Route path="/found/recommend" component={Recommend} />
-            <Route path="/found/songlist" component={SongList} />
-            <Redirect to="/found/recommend" />
-          </Switch>
-        </targetContext.Provider>
-      </div>
+        <Switch>
+          <Route path="/found/recommend" component={Recommend} />
+          <Route path="/found/songlist" component={SongList} />
+          <Redirect to="/found/recommend" />
+        </Switch>
+      </Fragment>
     )
   }
 }

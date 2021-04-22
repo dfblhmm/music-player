@@ -1,6 +1,10 @@
+@import '@assets/scss/scroller.scss';
 .spin {
   position: fixed;
   left: 50%;
   top: 50%;
   transform: translate(-50%,-50%);
+}
+.container {
+  @include scroller(5px);
 }

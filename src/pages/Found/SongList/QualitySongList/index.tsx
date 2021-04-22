@@ -2,15 +2,15 @@ import { PureComponent, Fragment } from 'react'
 import { RouteComponentProps } from 'react-router'
 import { message, BackTop } from 'antd'
 import InfiniteScroll from 'react-infinite-scroller'
+import target from '@components/Main/context'
 import http from '@/utils/http'
 import IconFont from '@/components/IconFont'
 import NavTitle from '@/components/NavTitle'
 import Category from '@/components/Category'
 import HighQualityList from './HighQualityList'
-import targetContext from '@/pages/Found/context'
 import style from './index.module.scss'
 export default class QualitySongList extends PureComponent<RouteComponentProps> {
-  static contextType = targetContext
+  static contextType = target
   state = {
     categoryList: [],
     songList: [],

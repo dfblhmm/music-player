@@ -18,6 +18,7 @@
 }
 .ant-layout-sider {
   border-right: 1px solid #E1E1E1;
+  @include scroller(5px);
 }
 .ant-layout-content {
   overflow: hidden;
@@ -26,14 +27,5 @@
   padding: 0;
   height: 72px;
   border-top: 1px solid #E1E1E1;
-}
-// 自定义滚动条
-.found-container, .ant-layout-sider,
-.exclusive-container {
-  @include scroller(5px);
-}
-
-.found-container, .exclusive-container {
-  height: 100%;
 }
 
