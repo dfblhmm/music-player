@@ -50,7 +50,7 @@ export default class Category extends PureComponent<CategoryProps> {
     const { flex, fontSize } = this.props.categoryItemStyle!
     const liStyle = { flex, fontSize, maxWidth: flex }
     // 渲染子分类
-    const subCategory = (sub: Array<{name: string, hot: boolean}>): JSX.Element => 
+    const subCategory = (sub: Array<{name: string, hot: boolean}>): JSX.Element => (
        <ul className={style['sub-item-container']}>
          {
            sub.map(value => 
@@ -63,7 +63,7 @@ export default class Category extends PureComponent<CategoryProps> {
              </li>
            )
          }
-       </ul>
+       </ul>)
     const { showCard } = this.state
     cssStyle.display = showCard ? 'flex' : 'none'
     return (
@@ -77,9 +77,13 @@ export default class Category extends PureComponent<CategoryProps> {
               categoryList.map(value => 
                 <div className={style['category-item']} key={nanoid()}>
                   {/* 每个主分类 */}
-                  {value.category? <div className={style.category}>
-                    {value.icon ? <IconFont type={value.icon} className={style.icon} />
-                    :<></>}{value.category}</div>: <></>}
+                  {
+                    value.category && 
+                      <div className={style.category}>
+                        {value.icon && <IconFont type={value.icon} className={style.icon} />}
+                        {value.category}
+                      </div>
+                  }
                   {/* 对应的子分类 */}
                   {subCategory(value.sub)}
                 </div>
