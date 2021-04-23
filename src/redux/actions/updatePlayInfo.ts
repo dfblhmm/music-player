@@ -11,7 +11,7 @@ const getSong = (id: number): onPlayInfoType | null => {
   if (index === -1) return null
   return playList[index].songInfo
 }
-type Detail = {
+interface Detail  {
   id: 0, // 歌曲id
   dt: 0, // 歌曲时长
   al: { picUrl: string }, // 歌曲专辑图
@@ -20,12 +20,12 @@ type Detail = {
   alia: Array<string> // 歌曲来源
   mv: number
 }
-type Privileges = {
+interface Privileges {
   chargeInfoList: Array<ChargeType> // 付费方式
   cs: boolean // 是否为云盘歌曲
   maxbr: number // 最大码率
 }
-type urlDetail = {
+interface urlDetail {
   url: string,
   freeTrialInfo?: { start: number, end: number }
 }

@@ -10,9 +10,7 @@ export default function AlbumPic(props: AlbumType) {
         <div className={style['song-name-charge']} title={alias ? `${name}（${alias}）`: name}>
           <div className={style['song-name']}>
             <span className={style.name}>{name}</span>
-            {
-              alias ? <span className={style.alias}>{`（${alias}）`}</span> : <></>
-            }
+            {alias && <span className={style.alias}>{`（${alias}）`}</span>}
           </div>
           { isVip && <span className={style.vip}>VIP</span> }
           { freeTrialInfo && <span className={style.vip}>试听</span> }

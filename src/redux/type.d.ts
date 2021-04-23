@@ -8,12 +8,12 @@ interface LoginType {
   uid: number // 用户id
 }
 // 付费方式
-type ChargeType = {
+interface ChargeType {
   rate: 128000 | 192000 | 320000 | 999000 | 0,
   chargeType: 0 | 1
 }
 // 试听片段
-type freeTrialInfoType = {
+interface freeTrialInfoType {
   start: number,
   end: number
 } 

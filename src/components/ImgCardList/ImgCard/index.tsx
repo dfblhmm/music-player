@@ -73,8 +73,8 @@ export default class ImgCard extends PureComponent<ImgCardProps> {
       <div className={style['user-info-container']} onClick={()=>this.goUserPage(userId)}>
         <div className={style['user-info']} title={nickname}>
           <UserOutlined style={{marginRight:'4px',fontSize:'14px'}} />{nickname}
-          {avatarDetail ? <Image src={avatarDetail.identityIconUrl} preview={false}
-            className={style['identity-img']} /> : <></>}
+          {avatarDetail && <Image src={avatarDetail.identityIconUrl} preview={false}
+            className={style['identity-img']} />}
         </div>
       </div>
     )
