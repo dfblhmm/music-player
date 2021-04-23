@@ -24,7 +24,7 @@ export default class NewSong extends PureComponent<SongsProps> {
                 <SongImgIcon flex="16%" src={value.picUrl} id={value.id} />
                 <div className={style['song-info-container']}>
                   <div className={style['song-name']} title={songTitle(value.name,value.alias)}>
-                    {value.name}{value.alias ? <span style={{color: '#929292'}}>（{value.alias}）</span> : <Fragment></Fragment>}
+                    {value.name}{value.alias ? <span style={{color: '#929292'}}>（{value.alias}）</span> : <></>}
                   </div>
                   <div className={style['song-info']}>
                     {value.maxbr === 999000 ? <span className={style.isSQ}>SQ</span> : <></>}

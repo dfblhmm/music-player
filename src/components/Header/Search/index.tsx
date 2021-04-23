@@ -97,7 +97,7 @@ class Search extends PureComponent<IProps> {
         renderItem={item => 
           <List.Item key={item.id} onClick={() => updatePlayInfo(item.id)} title="播放单曲">
             {item.name}
-            {item.alias?.length && `（${item.alias[0]}）`} - &nbsp;
+            {item.alias?.length !==0 && `（${item.alias![0]}）`} - &nbsp;
             {this.formatArtists(item.artists!)}
           </List.Item>} />
     )
