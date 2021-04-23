@@ -74,8 +74,7 @@ class HeaderContainer extends PureComponent<IProps, StateType> {
         <Row>
           <Col span={4} className={style.col} >
             <Link to="/" className={style['logo-link']}>
-              <img src={logo} alt=""/>
-              <span>网易云音乐</span>
+              <img src={logo} alt=""/><span>网易云音乐</span>
             </Link>
             <div className={style['router-navigation']} >
               <LeftOutlined className={style['icon']}

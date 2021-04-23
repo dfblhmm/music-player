@@ -13,13 +13,18 @@ interface Banners {
   typeTitle: string // 轮播图对应的类型
   url: string | null // 对应的url地址 
 }
+<<<<<<< HEAD
 // 歌手信息
 type Artist = {
+=======
+// 基本项目信息
+interface ItemType {
+>>>>>>> test
   id: number
   name: string
 }
-// 基本项目信息
-interface ItemType extends Artist {}
+// 歌手信息
+interface Artist extends ItemType {}
 // 图片卡片组件
 interface ImgCardItemType extends ImgCardItemIconType {
   id: number | string

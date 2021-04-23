@@ -1,13 +1,13 @@
 import { nanoid } from 'nanoid'
 import { PureComponent, Fragment, MouseEventHandler } from 'react'
 import style from './index.module.scss'
-interface ArtistsProps {
+interface IProps {
   artists: Array<Artist>
   color: string
   hoverColor?: string
   fontSize?: number
 }
-export default class Artists extends PureComponent<ArtistsProps> {
+export default class Artists extends PureComponent<IProps> {
   hasInfo(id: number) {
     const { color } = this.props
     const fontSize = this.props.fontSize ? `${this.props.fontSize}px` : '12px'
@@ -40,9 +40,8 @@ export default class Artists extends PureComponent<ArtistsProps> {
               <span style={this.hasInfo(value.id)} onMouseEnter={this.hover(value.id)}
                 onMouseLeave={this.leave(value.id)} title={value.name}>{value.name}
               </span>
-              {index !== artists.length - 1 ? 
-                <span className={style.separator} style={{color}}>/</span>
-                : <></>}
+              {index !== artists.length - 1 && 
+                <span className={style.separator} style={{color}}>/</span>}
             </Fragment>
           ))
         }
