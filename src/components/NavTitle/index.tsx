@@ -1,18 +1,10 @@
 import { Link } from 'react-router-dom'
 import IconFont from '@components/IconFont'
 import style from './index.module.scss'
-<<<<<<< HEAD
 interface IProps{
   to?: string
   title: string
 }
-
-=======
-interface IProps {
-  to?: string
-  title: string
-}
->>>>>>> test
 export default function NavTitle(props: IProps) {
   const showNav = (): JSX.Element => {
     const { to, title } = props

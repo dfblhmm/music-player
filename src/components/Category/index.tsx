@@ -77,20 +77,12 @@ export default class Category extends PureComponent<CategoryProps> {
               categoryList.map(value => 
                 <div className={style['category-item']} key={nanoid()}>
                   {/* 每个主分类 */}
-<<<<<<< HEAD
                   {
                     value.category && 
                       <div className={style.category}>
                         {value.icon && <IconFont type={value.icon} className={style.icon} />}
                         {value.category}
                       </div>
-=======
-                  {value.category && 
-                    <div className={style.category}>
-                      {value.icon && <IconFont type={value.icon} className={style.icon} />}
-                      {value.category}
-                    </div>
->>>>>>> test
                   }
                   {/* 对应的子分类 */}
                   {subCategory(value.sub)}
