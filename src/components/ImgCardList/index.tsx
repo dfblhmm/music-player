@@ -14,9 +14,7 @@ export default class ImgCardList extends PureComponent<ImgCardListProps> {
     gutter: 20
   }
   render() {
-    const { gutter, list, flex, wrap, ellipsis, showPlayIcon, 
-      showVideoIcon, maskTitle, width } = this.props
-    const iconType: ImgCardItemIconType = {ellipsis, showPlayIcon, showVideoIcon, maskTitle}
+    const { gutter, list, flex, wrap, width, ...iconType } = this.props
     return (
       <Fragment>
         <Row gutter={gutter} wrap={wrap}>

@@ -9,10 +9,7 @@ export default function ImgCardItem(props: ImgCardItemType) {
       artists && <Artists artists={artists} color="#676767" hoverColor="#373737" />
     )
   }
-  const { picUrl, playCount, duration, rcmdtext, creatorInfo,
-    showPlayIcon, showVideoIcon, maskTitle, ellipsis, name } = props
-  const ImgCardProps = { picUrl, playCount, duration, rcmdtext, creatorInfo,
-    showPlayIcon, showVideoIcon, maskTitle }
+  const { ellipsis, name, ...ImgCardProps } = props
   return (
     <Fragment>
       <ImgCard {...ImgCardProps} />
