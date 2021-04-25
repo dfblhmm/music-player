@@ -8,11 +8,19 @@ import ImgCardList from '@components/ImgCardList'
 import NavTitle from '@components/NavTitle'
 import NewSong from './NewSong'
 import picUrl from '@assets/images/daily.jpg'
-interface IProps extends RouteComponentProps{
+interface IProps extends RouteComponentProps {
   loginInfo: LoginType
 }
-class Recommend extends PureComponent<IProps> {
-  state = {
+interface IState {
+  banners: Array<Banners>,
+  recommendSongList: Array<ImgCardItemType>,
+  exclusiveEntry: Array<ImgCardItemType>,
+  recommendMV: Array<ImgCardItemType>,
+  newSongs: Array<SongItem>,
+  radios: Array<ImgCardItemType>
+}
+class Recommend extends PureComponent<IProps, IState> {
+  state: IState = {
     banners: [],
     recommendSongList: [],
     exclusiveEntry: [],
@@ -59,7 +67,7 @@ class Recommend extends PureComponent<IProps> {
         targetType, titleColor, typeTitle, url
       })
     })
-    this.setState({banners})
+    this.setState({ banners })
   }
   // 获取推荐歌单
   getRecommendSongList(res: Array<ImgCardItemType>, isLogin?: boolean) {
@@ -73,12 +81,10 @@ class Recommend extends PureComponent<IProps> {
       })
     })
     // 是否加入日推歌单
-    if (isLogin) {
-      recommendSongList.unshift({ 
-        id: nanoid(), name: '每日推荐歌单', picUrl, 
-        maskTitle: '根据您的音乐口味生成 | 每日更新'  
-      })
-    }
+    isLogin && recommendSongList.unshift({ 
+      id: nanoid(), name: '每日推荐歌单', picUrl, 
+      maskTitle: '根据您的音乐口味生成 | 每日更新'  
+    })
     this.setState({ recommendSongList })
   }
   // 根据登录状态更新推荐歌单
@@ -100,7 +106,7 @@ class Recommend extends PureComponent<IProps> {
         id, name, picUrl: picUrl! + '?param=x362y204'
       })
     })
-    this.setState({exclusiveEntry})
+    this.setState({ exclusiveEntry })
   }
   // 获取推荐MV
   getRecommendMV(res: Array<ImgCardItemType>) {
@@ -112,7 +118,7 @@ class Recommend extends PureComponent<IProps> {
          playCount, artists, maskTitle: '最新热门MV推荐' 
       })
     })
-    this.setState({recommendMV})
+    this.setState({ recommendMV })
   }
   // 获取最新音乐
   getNewSongs(res: Data) {
@@ -128,8 +134,7 @@ class Recommend extends PureComponent<IProps> {
         maxbr, mvid, alias
       })
     })
-
-    this.setState({newSongs})
+    this.setState({ newSongs })
   }
   // 获取主播电台
   getRadios(res: Array<ImgCardItemType>) {
@@ -140,7 +145,7 @@ class Recommend extends PureComponent<IProps> {
         id, name: rcmdtext!, picUrl, rcmdtext: name
       })
     })
-    this.setState({radios})
+    this.setState({ radios })
   }
   render() {
     const { banners, recommendSongList, exclusiveEntry, recommendMV, newSongs, radios } = this.state

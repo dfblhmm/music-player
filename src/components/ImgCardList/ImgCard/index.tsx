@@ -7,7 +7,7 @@ import style from './index.module.scss'
 interface ImgCardProps {
   picUrl: string
   sPicUrl?: string
-  playCount?: number
+  playCount?: number // 播放次数
   duration?: number // 资源的时长
   rcmdtext?: string // 电台类型
   // 歌单作者头像信息

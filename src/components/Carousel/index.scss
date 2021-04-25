@@ -24,18 +24,21 @@
     z-index: 10;
     transform: translate3d(-50%, 0, -200px);
     transform-style: preserve-3d;
-    transition: transform .7s ease, z-index .5s ease;
+    transition: transform .7s ease, z-index .4s ease;
     border-radius: 15px;
     overflow: hidden;
+    // 上一张轮播图
     &.carousel-prev {
       transform: translate3d(-120%, 0, -200px);
       z-index: 14;
     }
+    // 当前轮播图
     &.carousel-active {
       transform: translate3d(-50%, 0, 0);
       z-index: 16;
       cursor: pointer;
     }
+    // 下一张轮播图
     &.carousel-next {
       transform: translate3d(20%, 0, -200px);
       z-index: 12;

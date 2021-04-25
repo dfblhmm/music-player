@@ -29,7 +29,7 @@ class Search extends PureComponent<IProps> {
   state = {
     keywords: '',
     list: [],
-    suggest: {},
+    suggest: {} as SuggestInfo,
     showList: false, // 是否显示当前搜索
     type: 0 // 0表示热搜列表，1表示搜索建议
   }
@@ -88,7 +88,7 @@ class Search extends PureComponent<IProps> {
   }
   // 歌曲
   songs(): JSX.Element {
-    const { songs } = this.state.suggest as SuggestInfo
+    const { songs } = this.state.suggest
     if (!songs) return (<></>)
     const header = this.createHeader('music', '单曲')
     const { updatePlayInfo } = this.props
@@ -104,7 +104,7 @@ class Search extends PureComponent<IProps> {
   }
   // 歌手 
   artists(): JSX.Element {
-    const { artists } = this.state.suggest as SuggestInfo
+    const { artists } = this.state.suggest 
     if (!artists) return (<></>)
     const header = (
       <Fragment>
@@ -118,7 +118,7 @@ class Search extends PureComponent<IProps> {
   }
   // 专辑
   albums(): JSX.Element {
-    const { albums } = this.state.suggest as SuggestInfo
+    const { albums } = this.state.suggest
     if (!albums) return (<></>)
     const header = this.createHeader('album', '专辑')
     return (
@@ -131,7 +131,7 @@ class Search extends PureComponent<IProps> {
   }
   // 歌单
   songlist(): JSX.Element {
-    const { playlists } = this.state.suggest as SuggestInfo
+    const { playlists } = this.state.suggest
     if (!playlists) return (<></>)
     const header = this.createHeader('songlist', '歌单')
     return (
