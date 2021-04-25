@@ -19,19 +19,19 @@ export default class Artists extends PureComponent<IProps> {
     return e => {
       const { hoverColor } = this.props
       if (!hoverColor || !id) return
-      (e.target as HTMLSpanElement).style.color = this.props.hoverColor!
+      (e.target as HTMLSpanElement).style.color = hoverColor!
     }
   }
   // 鼠标离开
   leave = (id: number): MouseEventHandler => {
     return e => {
-      const { hoverColor } = this.props
+      const { hoverColor, color } = this.props
       if (!hoverColor || !id) return
-      (e.target as HTMLSpanElement).style.color = this.props.color
+      (e.target as HTMLSpanElement).style.color = color
     }
   }
   render() {
-    const { artists, color } = this.props
+    const { artists, color, fontSize } = this.props
     return (
       <div className={style.artists}>
         {
@@ -41,7 +41,7 @@ export default class Artists extends PureComponent<IProps> {
                 onMouseLeave={this.leave(value.id)} title={value.name}>{value.name}
               </span>
               {index !== artists.length - 1 && 
-                <span className={style.separator} style={{color}}>/</span>}
+                <span className={style.separator} style={{color, fontSize}}>/</span>}
             </Fragment>
           ))
         }

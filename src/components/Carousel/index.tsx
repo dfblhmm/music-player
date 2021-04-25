@@ -18,10 +18,13 @@ interface BannersProps {
 }
 interface IProps extends BannersProps, PlaySongFunc {
 }
-class Carousel extends PureComponent<IProps> {
+interface IState {
+  activeIndex: number
+}
+class Carousel extends PureComponent<IProps, IState> {
   timer?: number 
-  state = {
-    activeIndex: 0,
+  state: IState = {
+    activeIndex: 0
   }
   static defaultProps: BannersProps = {
     banners: [],
@@ -32,9 +35,9 @@ class Carousel extends PureComponent<IProps> {
     showDot: true
   }
   componentDidMount() {
-    this.autoplay()
     // 页面显示
     document.addEventListener('visibilitychange', this.controlCarousel)
+    this.autoplay()
   }
   // 页面显示/隐藏时开启/关闭轮播
   controlCarousel = () => {
@@ -49,9 +52,9 @@ class Carousel extends PureComponent<IProps> {
   }
   // 开启轮播
   autoplay = () => {
+    const { autoplay, toggleTime } = this.props
     // 组件挂载完成，开启轮播
-    if (!this.props.autoplay) return
-    const { toggleTime } = this.props
+    if (!autoplay) return
     this.timer = window.setInterval(this.changeCurrent('next'), toggleTime)
   }
   // 停止轮播
@@ -67,14 +70,11 @@ class Carousel extends PureComponent<IProps> {
     return { prev, next }
   }
   // 更换当前的轮播图
-  changeCurrent = (direction: string): MouseEventHandler => {
+  changeCurrent = (direction: 'prev' | 'next'): MouseEventHandler => {
     return () => {
       const { prev, next } = this.getPrevAndNext()
-      if (direction === 'prev') {
-        this.setState({ activeIndex: prev })
-      } else {
-        this.setState({ activeIndex: next })
-      }
+      direction === 'prev' && this.setState({ activeIndex: prev })
+      direction === 'next' && this.setState({ activeIndex: next })
     }
   }
   // 获取当前的类名
@@ -100,14 +100,14 @@ class Carousel extends PureComponent<IProps> {
     return () => {
       const { targetId, targetType, url } = value
       if (targetId && targetType === 1) return this.props.updatePlayInfo(targetId) 
-      if (url) window.open(url)
+      url && window.open(url)
     }
   }
   render() {
     const { activeIndex } = this.state
     const { banners, height, showArrow, showDot } = this.props
     return (
-      <div className="carousel-container" style={{height: height + 'px'}} 
+      <div className="carousel-container" style={{ height }} 
         onMouseEnter={this.pause} onMouseLeave={this.autoplay}> 
         <IconFont type="icon-arrow-left" className="carousel-arrow" title="上一张" 
           style={{display: showArrow ? 'block':'none'}} onClick={this.changeCurrent('prev')}/>
@@ -115,7 +115,7 @@ class Carousel extends PureComponent<IProps> {
           banners.map((value, index) => {
             const { titleColor, typeTitle } = value
             return (
-              <div key={index} className={this.getCurrentClassName(index)} style={{height: height - 25 + 'px'}}
+              <div key={index} className={this.getCurrentClassName(index)} style={{ height: height - 25 }}
                  onClick={this.handleClickImg(index, value)}>
                 <Image src={value.imageUrl} placeholder preview={false} />
                 <span className="banner-title" 
@@ -126,12 +126,12 @@ class Carousel extends PureComponent<IProps> {
           })
         }
         <IconFont type="icon-arrow-right" className="carousel-arrow" title="下一张" 
-          style={{display: showArrow ? 'block':'none'}} onClick={this.changeCurrent('next')}/>
+          style={{display: showArrow ? 'block' : 'none'}} onClick={this.changeCurrent('next')}/>
         {/* 小圆点 */}
         <ul className="carousel-dot" style={{height: '25px', display: showDot ? 'flex':'none'}} >
           {
             banners.map((value, index) => 
-              <li key={nanoid()} onMouseOver={() =>this.setState({activeIndex: index})}>
+              <li key={nanoid()} onMouseOver={() => this.setState({activeIndex: index})}>
                 <span className={activeIndex === index ? 'carousel-active-dot': ''}></span>
               </li>
             )

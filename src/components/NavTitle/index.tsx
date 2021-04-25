@@ -6,14 +6,11 @@ interface IProps{
   title: string
 }
 export default function NavTitle(props: IProps) {
-  const showNav = (): JSX.Element => {
-    const { to, title } = props
-    if (!to) return (<h1 className={style.title}>{title}</h1>)
-    return (
-      <Link to={to} className={style['nav-title']}>
-        {title}<IconFont type="icon-arrow-right" className={style['nav-icon']} />
-      </Link>
-    )
-  }
-  return showNav()
+  const { to, title } = props
+  if (!to) return (<h1 className={style.title}>{title}</h1>)
+  return (
+    <Link to={to} className={style['nav-title']}>
+      {title}<IconFont type="icon-arrow-right" className={style['nav-icon']} />
+    </Link>
+  )
 }

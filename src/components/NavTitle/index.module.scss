@@ -2,10 +2,8 @@
   display: block;
   margin: 15px 0;
   color: #373737;
-  font: {
-    size: 20px;
-    weight: 600;
-  }
+  font-size: 20px;
+  font-weight: 600;
 }
 // 每个区域的标题
 .title {
@@ -18,8 +16,6 @@
   }
 }
 .nav-icon {
-  font: {
-    size: 17px;
-    weight: bold;
-  }
+  font-size: 17px;
+  font-weight: bold;
 }
