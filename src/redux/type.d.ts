@@ -48,7 +48,7 @@ interface PlayListType {
   songInfo: onPlayInfoType
 }
 
-// 歌曲src歌曲试听片段
+// 歌曲src及歌曲试听片段
 interface MusicSource {
   url: string // 歌曲Src
   freeTrialInfo?: { start: number, end: number } // 歌曲试听片段
