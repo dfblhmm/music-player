@@ -1,9 +1,9 @@
-import { ComponentProps } from 'react'
+import { ComponentType } from 'react'
 import { connect } from 'react-redux'
 const mapStateToProps = (state: GlobalState) => {
-  const { loginInfo } = state
-  return { loginInfo }
+  const { loginStatus } = state
+  return { loginStatus }
 }
-export default function LoginStatus(Component: ComponentProps<any>) {
+export default function LoginStatus(Component: ComponentType<any>) {
   return connect(mapStateToProps)(Component)
 }

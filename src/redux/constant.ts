@@ -1,4 +1,5 @@
-export const LOGIN_STATUS = 'loginStatus'
+export const LOGIN = 'login'
+export const LOGIN_OUT = 'loginOut'
 export const UPDATE_PLAY_INFO = 'updatePlayInfo'
 export const ADD = 'addToList'
 export const CLEAR = 'clearList'

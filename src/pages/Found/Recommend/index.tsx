@@ -28,7 +28,7 @@ class Recommend extends PureComponent<IProps, IState> {
     newSongs: [],
     radios: []
   }
-  async componentDidUpdate(prevProps: IProps) {
+  componentDidUpdate(prevProps: IProps) {
     const preLogin = prevProps.loginInfo.isLogin
     const login = this.props.loginInfo.isLogin
     if (preLogin === login) return

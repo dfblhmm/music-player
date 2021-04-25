@@ -56,7 +56,7 @@ interface MusicSource {
 
 // 全局状态
 interface GlobalState {
-  loginInfo: LoginType,
+  loginStatus: LoginType,
   onPlayInfo: onPlayInfoType
   playList: Array<PlayListType>
 }

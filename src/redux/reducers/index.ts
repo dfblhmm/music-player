@@ -1,7 +1,7 @@
 import { combineReducers } from 'redux'
-import loginInfo from './loginInfo'
+import loginStatus from './loginStatus'
 import onPlayInfo from './onPlayInfo'
 import playList from './playList'
 export default combineReducers({
-  loginInfo, onPlayInfo, playList
+  loginStatus, onPlayInfo, playList
 })

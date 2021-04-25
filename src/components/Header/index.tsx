@@ -6,11 +6,11 @@ import { LeftOutlined, RightOutlined, CaretDownOutlined } from '@ant-design/icon
 import http from '@/utils/http'
 import Search from './Search'
 import Login from './Login'
-import { changeLogin } from '@/redux/actions/loginInfo'
+import { login } from '@/redux/actions/loginStatus'
 import logo from '@assets/images/logo.png'
 import style from './index.module.scss'
 interface IProps extends RouteComponentProps {
-  changeLogin: typeof changeLogin
+  login: typeof login
 }
 interface StateType {
   visible: boolean
@@ -45,7 +45,7 @@ class HeaderContainer extends PureComponent<IProps, StateType> {
   getUserInfo(profile: StateType['accountInfo']) {
     const { avatarUrl, nickname, userId } = profile
     // 更新全局的登录状态
-    this.props.changeLogin({ isLogin: true, uid: userId })
+    this.props.login({ isLogin: true, uid: userId })
     this.setState({ 
       accountInfo: { avatarUrl: avatarUrl + '?param=x28y28', nickname, userId },
       loginStatus: true, visible: false 
@@ -97,7 +97,7 @@ class HeaderContainer extends PureComponent<IProps, StateType> {
   }
 }
 
-const mapDispatchToProps = { changeLogin }
+const mapDispatchToProps = { login }
 export default withRouter(connect(
   null, mapDispatchToProps
 )(HeaderContainer))
