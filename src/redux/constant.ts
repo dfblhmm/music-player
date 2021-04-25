@@ -1,4 +1,6 @@
-export const LOGINSTATUS = 'loginStatus'
-export const UPDATEPLAYINFO = 'updatePlayInfo'
+export const LOGIN_STATUS = 'loginStatus'
+export const UPDATE_PLAY_INFO = 'updatePlayInfo'
 export const ADD = 'addToList'
 export const CLEAR = 'clearList'
+export const GET_MUSIC = 'getMusic'
+export const RESET_MUSIC = 'resetMusic'
