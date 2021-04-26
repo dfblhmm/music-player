@@ -13,7 +13,7 @@ export default class App extends PureComponent {
         <Layout>
           <Header><HeaderContent/></Header>
           <Layout>
-            <Sider width="224px"><SiderContent/></Sider>
+            <Sider width="224px"><SiderContent /></Sider>
             <Content><MainContent/></Content>
           </Layout>
           <Footer><FooterContent/></Footer>
