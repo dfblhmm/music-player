@@ -1,31 +1,28 @@
 import { PureComponent, Fragment } from 'react'
 import { Link, RouteComponentProps, withRouter } from 'react-router-dom'
-import { connect } from 'react-redux'
 import { Row, Col, Avatar, message } from 'antd'
 import { LeftOutlined, RightOutlined, CaretDownOutlined } from '@ant-design/icons'
 import http from '@/utils/http'
 import Search from './Search'
 import Login from './Login'
-import { login } from '@/redux/actions/loginStatus'
+import loginStatus, { TypeOfDispatch } from '@containers/LoginStatus'
 import logo from '@assets/images/logo.png'
 import style from './index.module.scss'
-interface IProps extends RouteComponentProps {
-  login: typeof login
-}
-interface StateType {
+interface IProps extends RouteComponentProps, TypeOfDispatch {}
+interface IState {
   visible: boolean
   accountInfo: { avatarUrl: string, nickname: string, userId: number },
   loginStatus: boolean
 }
-class HeaderContainer extends PureComponent<IProps, StateType> {
-  state = {
+class HeaderContainer extends PureComponent<IProps, IState> {
+  state: IState = {
     visible: false,
     accountInfo: { avatarUrl: '', nickname: '', userId: 0 },
     loginStatus: false
   }
   async componentDidMount() {
     const res = await http('/login/status', { timerstamp: Date.now() })
-    const profile: StateType['accountInfo'] | null = res.data.profile
+    const profile: IState['accountInfo'] | null = res.data.profile
     // 未登录 
     if (!profile) return message.warning('您还未登录~~~')
     // 已登录
@@ -42,7 +39,7 @@ class HeaderContainer extends PureComponent<IProps, StateType> {
     goBack()
   }
   // 获取登录信息
-  getUserInfo(profile: StateType['accountInfo']) {
+  getUserInfo(profile: IState['accountInfo']) {
     const { avatarUrl, nickname, userId } = profile
     // 更新全局的登录状态
     this.props.login({ isLogin: true, uid: userId })
@@ -54,7 +51,7 @@ class HeaderContainer extends PureComponent<IProps, StateType> {
   // 登录成功，获取用户信息
   loginSuccess = async () => {
     const res = await http('/user/account')
-    const profile: StateType['accountInfo'] = res.profile
+    const profile: IState['accountInfo'] = res.profile
     message.success(`${profile.nickname}，欢迎回来`)
     this.getUserInfo(profile)
   }
@@ -97,7 +94,4 @@ class HeaderContainer extends PureComponent<IProps, StateType> {
   }
 }
 
-const mapDispatchToProps = { login }
-export default withRouter(connect(
-  null, mapDispatchToProps
-)(HeaderContainer))
+export default withRouter(loginStatus(HeaderContainer, true))

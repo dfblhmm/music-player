@@ -1,9 +1,11 @@
-import { UPDATEPLAYINFO } from '../constant'
+import { UPDATE_PLAY_INFO } from '../constant'
 import store from '../store'
 import { addToList } from './playList'
+// import { updateMusic } from './updateMusic'
 import http from '@utils/http'
+type DisPatch = typeof store.dispatch
 const updatePlayInfoHandle = (data: onPlayInfoType): Action<onPlayInfoType> => {
-  return { type: UPDATEPLAYINFO, data }
+  return { type: UPDATE_PLAY_INFO, data }
 }
 const getSong = (id: number): onPlayInfoType | null => {
   const { playList } = store.getState()
@@ -30,7 +32,7 @@ interface urlDetail {
   freeTrialInfo?: { start: number, end: number }
 }
 export const updatePlayInfo = (id: number, song?: onPlayInfoType) => {
-  return async(dispatch: any) => {
+  return async(dispatch: DisPatch) => {
     if (song) return dispatch(updatePlayInfoHandle(song)) 
     const info = id && getSong(id)
     if (info) return dispatch(updatePlayInfoHandle(info))

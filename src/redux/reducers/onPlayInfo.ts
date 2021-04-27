@@ -1,4 +1,4 @@
-import { UPDATEPLAYINFO } from '../constant'
+import { UPDATE_PLAY_INFO } from '../constant'
 const initState: onPlayInfoType = {
   id: 0, // 歌曲id
   src: '', // 歌曲地址
@@ -15,6 +15,6 @@ const initState: onPlayInfoType = {
 }
 export default function onPlayInfo(preState = initState, action: Action<onPlayInfoType>): onPlayInfoType {
   const { type, data } = action
-  if (type !== UPDATEPLAYINFO) return preState
+  if (type !== UPDATE_PLAY_INFO) return preState
   return data 
 }

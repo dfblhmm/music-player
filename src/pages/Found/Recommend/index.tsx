@@ -1,16 +1,14 @@
 import { PureComponent } from 'react'
-import { RouteComponentProps, withRouter } from 'react-router-dom'
+import { RouteComponentProps, withRouter } from 'react-router'
 import { nanoid } from 'nanoid'
-import LoginStatus from '@containers/LoginStatus'
 import http from '@utils/http'
+import LoginStatus, { TypeOfState } from '@containers/LoginStatus'
 import Carousel from '@components/Carousel'
 import ImgCardList from '@components/ImgCardList'
 import NavTitle from '@components/NavTitle'
 import NewSong from './NewSong'
 import picUrl from '@assets/images/daily.jpg'
-interface IProps extends RouteComponentProps {
-  loginInfo: LoginType
-}
+interface IProps extends TypeOfState, RouteComponentProps {}
 interface IState {
   banners: Array<Banners>,
   recommendSongList: Array<ImgCardItemType>,
@@ -29,8 +27,8 @@ class Recommend extends PureComponent<IProps, IState> {
     radios: []
   }
   componentDidUpdate(prevProps: IProps) {
-    const preLogin = prevProps.loginInfo.isLogin
-    const login = this.props.loginInfo.isLogin
+    const preLogin = prevProps.loginStatus.isLogin
+    const login = this.props.loginStatus.isLogin
     if (preLogin === login) return
     // 更新推荐歌单
     this.updateRecommendSongList(login)
@@ -55,7 +53,7 @@ class Recommend extends PureComponent<IProps, IState> {
     // 获取主播电台
     this.getRadios(res[4].djRadios) 
     // 获取推荐歌单
-    this.updateRecommendSongList(this.props.loginInfo.isLogin)
+    this.updateRecommendSongList(this.props.loginStatus.isLogin)
   }
   // 获取轮播图数据
   getBanners(res: Array<Banners>) {
@@ -152,7 +150,7 @@ class Recommend extends PureComponent<IProps, IState> {
     return (
       <div style={{padding: '0 90px'}}>
         {/* 轮播图 */}
-        <Carousel banners={banners} autoplay={false} />
+        <Carousel banners={banners} autoplay={true} />
         {/* 推荐歌单 */}
         <NavTitle to="/found/songlist" title="推荐歌单" />
         <ImgCardList list={recommendSongList} flex="20%" wrap showPlayIcon />

@@ -2,14 +2,11 @@ import { PureComponent, Fragment } from 'react'
 import { Link } from 'react-router-dom'
 import { Menu, Collapse } from 'antd'
 import { CaretRightOutlined } from '@ant-design/icons'
-import LoginStatus from '@containers/LoginStatus'
+import LoginStatus, { TypeOfState } from '@containers/LoginStatus'
 import http from '@utils/http'
 import IconFont from '@components/IconFont'
 import './index.scss'
 const { Panel } = Collapse
-interface IProps {
-  loginInfo: LoginType
-}
 interface IState {
   createdSonglist: Array<ItemType>
   collectedSonglist: Array<ItemType>
@@ -17,16 +14,16 @@ interface IState {
 interface Playlist extends ItemType {
   userId: number
 }
-class SiderContainer extends PureComponent<IProps, IState> {
+class SiderContainer extends PureComponent<TypeOfState, IState> {
   state: IState = {
     createdSonglist: [],
     collectedSonglist: [],
   }
-  componentDidUpdate(prevProps: IProps) {
-    const prevLogin = prevProps.loginInfo.isLogin
-    const login = this.props.loginInfo.isLogin
+  componentDidUpdate(prevProps: TypeOfState) {
+    const prevLogin = prevProps.loginStatus.isLogin
+    const login = this.props.loginStatus.isLogin
     if (prevLogin === login) return
-    login && this.getUserSonglist(this.props.loginInfo.uid)
+    login && this.getUserSonglist(this.props.loginStatus.uid)
     !login && this.setState({ createdSonglist: [], collectedSonglist: [] })
   }
   // 点击了导航条
@@ -43,7 +40,7 @@ class SiderContainer extends PureComponent<IProps, IState> {
   }
   // 用户歌单
   createdSonglist(type: string): JSX.Element {
-    const { isLogin } = this.props.loginInfo
+    const { isLogin } = this.props.loginStatus
     if (!isLogin) return (<></>)
     let list: Array<ItemType> = []
     if (type === 'create') list = this.state.createdSonglist
