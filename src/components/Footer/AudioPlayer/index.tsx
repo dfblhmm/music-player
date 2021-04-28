@@ -1,6 +1,6 @@
 import { PureComponent } from 'react'
 import { Tooltip, Slider, message } from 'antd'
-import updateSong from '@containers/UpdateSong'
+import musicInfo from '@containers/MusicInfo'
 import IconFont from '@components/IconFont'
 import formatTime from '@utils/formatTime'
 import style from './index.module.scss'
@@ -11,12 +11,9 @@ interface IState {
   currentTime: number // 当前的歌曲时间
   isDrag: boolean // 是否正在拖拽滑块
 }
-interface IProps extends PlaySongFunc {
-  src: string
+interface IProps extends PlaySongFunc, MusicSource {
   id: number
-  duration: number
   playList: PlayListType[]
-  freeTrialInfo?: freeTrialInfoType
   isVip: boolean
   cs: boolean
 }
@@ -33,8 +30,8 @@ class AudioPlayer extends PureComponent<IProps, IState> {
     this.audio!.volume = 0.4 
   }
   componentDidUpdate(prevProps: IProps) {
-    const preSrc = prevProps.src
-    const src = this.props.src
+    const preSrc = prevProps.url
+    const src = this.props.url
     if (preSrc === src) return
     const { isVip, freeTrialInfo, cs } = this.props
     if (isVip && !freeTrialInfo && !cs) return message.error('该歌曲为付费歌曲~~~')
@@ -159,10 +156,10 @@ class AudioPlayer extends PureComponent<IProps, IState> {
   render() {
     const { playMode, playStatus, currentTime } = this.state
     const { updateTime, playControl, changeTime, afterChange, prev, next, getFreeTrialInfo } = this
-    const { src, duration } = this.props
+    const { url, duration } = this.props
     return (
       <div className={style['audio-container']}>
-        <audio src={src} ref={c => this.audio = c} onTimeUpdate={updateTime}
+        <audio src={url} ref={c => this.audio = c} onTimeUpdate={updateTime}
           onEnded={this.end} preload="auto"></audio>
         <div className={style['play-control']}>
           {this.changePlayMode(playMode)}
@@ -183,4 +180,4 @@ class AudioPlayer extends PureComponent<IProps, IState> {
   }
 }
 
-export default updateSong(AudioPlayer)
+export default musicInfo(AudioPlayer)

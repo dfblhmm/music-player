@@ -51,6 +51,7 @@ interface PlayListType {
 // 歌曲src及歌曲试听片段
 interface MusicSource {
   url: string // 歌曲Src
+  duration: number // 歌曲时长
   freeTrialInfo?: { start: number, end: number } // 歌曲试听片段
 }
 
@@ -59,4 +60,5 @@ interface GlobalState {
   loginStatus: LoginType,
   onPlayInfo: onPlayInfoType
   playList: Array<PlayListType>
+  musicInfo: MusicSource
 }

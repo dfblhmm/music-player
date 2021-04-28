@@ -2,13 +2,13 @@ import { PureComponent } from 'react'
 import { RouteComponentProps, withRouter } from 'react-router'
 import { nanoid } from 'nanoid'
 import http from '@utils/http'
-import LoginStatus, { TypeOfState } from '@containers/LoginStatus'
+import LoginStatus from '@containers/LoginStatus'
 import Carousel from '@components/Carousel'
 import ImgCardList from '@components/ImgCardList'
 import NavTitle from '@components/NavTitle'
 import NewSong from './NewSong'
 import picUrl from '@assets/images/daily.jpg'
-interface IProps extends TypeOfState, RouteComponentProps {}
+interface IProps extends LoginType, RouteComponentProps {}
 interface IState {
   banners: Array<Banners>,
   recommendSongList: Array<ImgCardItemType>,
@@ -27,8 +27,8 @@ class Recommend extends PureComponent<IProps, IState> {
     radios: []
   }
   componentDidUpdate(prevProps: IProps) {
-    const preLogin = prevProps.loginStatus.isLogin
-    const login = this.props.loginStatus.isLogin
+    const preLogin = prevProps.isLogin
+    const login = this.props.isLogin
     if (preLogin === login) return
     // 更新推荐歌单
     this.updateRecommendSongList(login)
@@ -53,7 +53,7 @@ class Recommend extends PureComponent<IProps, IState> {
     // 获取主播电台
     this.getRadios(res[4].djRadios) 
     // 获取推荐歌单
-    this.updateRecommendSongList(this.props.loginStatus.isLogin)
+    this.updateRecommendSongList(this.props.isLogin)
   }
   // 获取轮播图数据
   getBanners(res: Array<Banners>) {

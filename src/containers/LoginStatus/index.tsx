@@ -2,15 +2,13 @@ import { ComponentType } from 'react'
 import { connect } from 'react-redux'
 import { login, loginOut } from '@redux/actions/loginStatus'
 const mapStateToProps = (state: GlobalState) => {
-  const { loginStatus } = state
-  return { loginStatus }
+  const { uid, isLogin } = state.loginStatus
+  return { uid, isLogin }
 }
 const mapDispatchToProps = {
   login, loginOut
 }
-export type TypeOfState = {
-  loginStatus: LoginType
-}
+type TypeOfState = LoginType
 export type TypeOfDispatch = typeof mapDispatchToProps
 export default function LoginStatus<T>(Component: ComponentType<any>, changeable?: boolean) {
   if (changeable) {
