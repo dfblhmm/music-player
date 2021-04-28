@@ -20,6 +20,7 @@ interface Detail  {
   name: string, // 歌曲名
   alia: Array<string> // 歌曲来源
   mv: number
+  fee: number // 1代表试听
 }
 interface Privileges {
   chargeInfoList: Array<ChargeType> // 付费方式
@@ -35,11 +36,11 @@ export const updatePlayInfo = (id: number, song?: onPlayInfoType) => {
     const detail: Detail = res.songs[0]
     const { chargeInfoList, cs, maxbr } = res.privileges[0] as Privileges
     const duration = Math.floor(detail.dt / 1000)
-    const { name, al: { picUrl }, ar, alia, mv } = detail
+    const { name, al: { picUrl }, ar, alia, mv, fee } = detail
     const songInfo: onPlayInfoType = { 
       id, name, artists: ar, 
       picUrl: picUrl + '?param=x55y55', alias: alia[0],
-      chargeInfoList, freeTrialInfo: true, 
+      chargeInfoList, freeTrialInfo: fee === 1, 
       isVip: chargeInfoList[0]?.chargeType === 1,
       cs, maxbr, mv, duration
     }
