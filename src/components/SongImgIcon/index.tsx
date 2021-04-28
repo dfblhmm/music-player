@@ -6,7 +6,6 @@ interface IProps extends PlaySongFunc {
   flex: string
   src: string
   id: number
-  getMusic: (id: number) => void
 }
 function SongImgIcon(props: IProps) {
   const { flex, src, id, updatePlayInfo, getMusic } = props
