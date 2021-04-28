@@ -23,8 +23,7 @@ interface SuggestInfo {
   playlists?: Array<ItemType>
   songs?: Array<CommonType>
 }
-interface IProps extends PlaySongFunc{
-}
+interface IProps extends PlaySongFunc{}
 class Search extends PureComponent<IProps> {
   state = {
     keywords: '',
@@ -91,16 +90,20 @@ class Search extends PureComponent<IProps> {
     const { songs } = this.state.suggest
     if (!songs) return (<></>)
     const header = this.createHeader('music', '单曲')
-    const { updatePlayInfo } = this.props
     return (
       <List header={header} dataSource={songs}
         renderItem={item => 
-          <List.Item key={item.id} onClick={() => updatePlayInfo(item.id)} title="播放单曲">
+          <List.Item key={item.id} onClick={() => this.play(item.id)} title="播放单曲">
             {item.name}
             {item.alias?.length !==0 && `（${item.alias![0]}）`} - &nbsp;
             {this.formatArtists(item.artists!)}
           </List.Item>} />
     )
+  }
+  play = (id: number) => {
+    const { updatePlayInfo, getMusic } = this.props
+    getMusic(id)
+    updatePlayInfo(id)
   }
   // 歌手 
   artists(): JSX.Element {

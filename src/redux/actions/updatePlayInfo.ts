@@ -1,7 +1,6 @@
 import { UPDATE_PLAY_INFO } from '../constant'
 import store from '../store'
 import { addToList } from './playList'
-// import { updateMusic } from './updateMusic'
 import http from '@utils/http'
 type DisPatch = typeof store.dispatch
 const updatePlayInfoHandle = (data: onPlayInfoType): Action<onPlayInfoType> => {
@@ -27,29 +26,22 @@ interface Privileges {
   cs: boolean // 是否为云盘歌曲
   maxbr: number // 最大码率
 }
-interface urlDetail {
-  url: string,
-  freeTrialInfo?: { start: number, end: number }
-}
 export const updatePlayInfo = (id: number, song?: onPlayInfoType) => {
   return async(dispatch: DisPatch) => {
     if (song) return dispatch(updatePlayInfoHandle(song)) 
     const info = id && getSong(id)
     if (info) return dispatch(updatePlayInfoHandle(info))
-    const res = await http.all([
-      { url: '/song/url', data: { id, timestamp: Date.now() } },
-      { url: '/song/detail', data: { ids: id, timestamp: Date.now() } }
-    ])
-    const { url, freeTrialInfo } = res[0].data[0] as urlDetail
-    const detail: Detail = res[1].songs[0]
-    const { chargeInfoList, cs, maxbr } = res[1].privileges[0] as Privileges
+    const res = await http('/song/detail', { ids: id })
+    const detail: Detail = res.songs[0]
+    const { chargeInfoList, cs, maxbr } = res.privileges[0] as Privileges
     const duration = Math.floor(detail.dt / 1000)
     const { name, al: { picUrl }, ar, alia, mv } = detail
     const songInfo: onPlayInfoType = { 
-      src: url, duration, id, name, artists: ar, 
+      id, name, artists: ar, 
       picUrl: picUrl + '?param=x55y55', alias: alia[0],
-      chargeInfoList, freeTrialInfo, isVip: chargeInfoList[0]?.chargeType === 1,
-      cs, maxbr, mv
+      chargeInfoList, freeTrialInfo: true, 
+      isVip: chargeInfoList[0]?.chargeType === 1,
+      cs, maxbr, mv, duration
     }
     // 更新当前播放歌曲信息
     dispatch(updatePlayInfoHandle(songInfo))

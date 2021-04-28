@@ -70,4 +70,5 @@ type LoginSuccessProps = {
 
 type PlaySongFunc = {
   updatePlayInfo: (id: number, songInfo?: onPlayInfoType) => void
+  getMusic: (id: number) => void
 }

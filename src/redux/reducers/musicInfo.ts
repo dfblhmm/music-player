@@ -1,7 +1,7 @@
 import { GET_MUSIC, RESET_MUSIC } from '../constant'
 const initState: MusicSource = {
+  id: 0,
   url: '',
-  duration: 0
 }
 export default function reducer(preState = initState , action: Action<MusicSource>) {
   const { type, data } = action

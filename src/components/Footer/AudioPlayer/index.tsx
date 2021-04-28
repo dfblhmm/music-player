@@ -11,11 +11,15 @@ interface IState {
   currentTime: number // 当前的歌曲时间
   isDrag: boolean // 是否正在拖拽滑块
 }
-interface IProps extends PlaySongFunc, MusicSource {
-  id: number
-  playList: PlayListType[]
-  isVip: boolean
-  cs: boolean
+// 从父组件接收到的props
+interface FProps {
+  isVip: boolean // 是否是VIP歌曲
+  cs: boolean // 是否是云盘资源
+  duration: number // 歌曲时长
+}
+interface IProps extends MusicSource, FProps {
+  playList: GlobalState['playList']
+  getMusic: (id: number) => void
 }
 class AudioPlayer extends PureComponent<IProps, IState> {
   audio!: HTMLAudioElement | null
@@ -27,7 +31,7 @@ class AudioPlayer extends PureComponent<IProps, IState> {
     isDrag: false
   }
   componentDidMount() {
-    this.audio!.volume = 0.4 
+    this.audio!.volume = 0.5 
   }
   componentDidUpdate(prevProps: IProps) {
     const preSrc = prevProps.url
@@ -37,7 +41,7 @@ class AudioPlayer extends PureComponent<IProps, IState> {
     if (isVip && !freeTrialInfo && !cs) return message.error('该歌曲为付费歌曲~~~')
     this.audio?.play()
     this.updateTime()
-    this.setState({ playStatus: true, currentTime: 0 })
+    this.setState({ currentTime: 0 })
   }
   // 改变播放模式
   changePlayMode(mode: number): JSX.Element {
@@ -53,7 +57,7 @@ class AudioPlayer extends PureComponent<IProps, IState> {
         return this.Icon('icon-list-play', '列表循环')
     }
   }
-  // 播放模式Icon
+  // 播放模式气泡提示
   Icon(type: string, title: string): JSX.Element {
     const { visible } = this.state
     const cssStyle = { 
@@ -72,13 +76,12 @@ class AudioPlayer extends PureComponent<IProps, IState> {
     this.setState(state => ({ playMode: state.playMode + 1, visible: true }))
     window.setTimeout(() => this.setState({ visible: false }), 1000)
   }
-  // 播放控制
+  // 播放/暂停
   playControl = () => {
     // 播放/暂停音乐
     const { playStatus } = this.state
     if (playStatus) this.audio?.pause()
     else this.audio?.play()
-    this.setState({ playStatus: !playStatus })
   }
   // 更新歌曲时间
   updateTime = () => {
@@ -102,10 +105,10 @@ class AudioPlayer extends PureComponent<IProps, IState> {
     const playMode = this.state.playMode % 4
     const index = this.getCurrentIndex()
     const { playList } = this.props
-    if (playMode === 3 && index === playList.length - 1) return this.setState({ playStatus: false })
+    // 顺序播放已结束
+    if (playMode === 3 && index === playList.length - 1) return
     if (playMode === 1 || playList.length === 1) {
       this.audio?.play()
-      this.setState({ playStatus: true })
       return
     }
     this.next()
@@ -113,7 +116,7 @@ class AudioPlayer extends PureComponent<IProps, IState> {
   // 切换歌曲
   toggleSong(toggle: 'next' | 'prev') {
     const { playMode } = this.state
-    const { playList, updatePlayInfo } = this.props
+    const { playList, getMusic } = this.props
     const length = playList.length
     if (length <= 1) return
     // 非随机播放模式
@@ -121,12 +124,12 @@ class AudioPlayer extends PureComponent<IProps, IState> {
       let index = this.getCurrentIndex()
       if (toggle === 'prev') index = index === 0 ? playList.length - 1 : index - 1
       else index = index === length - 1 ? 0 : index + 1
-      updatePlayInfo(0, playList[index].songInfo)
+      getMusic(playList[index].id)
     } else {
       // 随机播放模式
       while(true) {
         const index = Math.floor(Math.random() * length)
-        updatePlayInfo(0, playList[index].songInfo)
+        getMusic(playList[index].id)
         break
       }
     }
@@ -160,7 +163,10 @@ class AudioPlayer extends PureComponent<IProps, IState> {
     return (
       <div className={style['audio-container']}>
         <audio src={url} ref={c => this.audio = c} onTimeUpdate={updateTime}
-          onEnded={this.end} preload="auto"></audio>
+          onEnded={this.end} preload="auto" 
+          onPlay={() => this.setState({ playStatus: true })}
+          onPause={() => this.setState({ playStatus: false })}>
+        </audio>
         <div className={style['play-control']}>
           {this.changePlayMode(playMode)}
           <IconFont type="icon-prev-song" className={style.icon} title="上一首" onClick={prev} />
@@ -180,4 +186,4 @@ class AudioPlayer extends PureComponent<IProps, IState> {
   }
 }
 
-export default musicInfo(AudioPlayer)
+export default musicInfo<FProps>(AudioPlayer)

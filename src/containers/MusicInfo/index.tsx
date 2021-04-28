@@ -1,12 +1,14 @@
 import { ComponentType } from 'react'
 import { connect } from 'react-redux'
+import { getMusic } from '@redux/actions/updateMusic'
 const mapStateToProps = (state: GlobalState) => {
-  const { url, freeTrialInfo, duration } = state.musicInfo
-  return { url, freeTrialInfo, duration }
+  const { musicInfo, playList } = state
+  const { url, freeTrialInfo, id } = musicInfo
+  return { url, freeTrialInfo, id, playList }
 }
-export type TypeOfState = {
-  musicInfo: MusicSource
-}
-export default function MusicInfo(Component: ComponentType<any>) {
-  return connect(mapStateToProps)(Component)
+const mapDispatchToProps = { getMusic }
+type TypeOfState = MusicSource & { playList: Array<PlayListType> }
+type TypeOfDispatch = typeof mapDispatchToProps
+export default function MusicInfo<T>(Component: ComponentType<any>) {
+  return connect<TypeOfState,TypeOfDispatch,T,any>(mapStateToProps, mapDispatchToProps)(Component)
 }

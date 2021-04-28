@@ -21,27 +21,25 @@ interface freeTrialInfoType {
   end: number
 } 
 
-// 歌曲信息
-interface onPlayInfoType extends AlbumType {
-  id: number // 歌曲id
-  src: string // 歌曲地址
-  duration: number // 歌曲时长
-  chargeInfoList: Array<ChargeType> // 付费方式
-  freeTrialInfo?: freeTrialInfoType // 试听片段
-  isVip: boolean // 是否为付费
-  cs: boolean // 是否为云盘歌曲
-  maxbr: number // 最大码率
-  mv: number
-}
-
+// 歌曲专辑图信息
 interface AlbumType {
   picUrl: string // 歌曲专辑图
   artists: Array<Artist> // 歌手
   name: string // 歌曲名
   alias: string // 歌曲来源
   isVip: boolean // 是否付费
-  freeTrialInfo?: freeTrialInfoType // 是否可以试听
+  freeTrialInfo: boolean // 是否可以试听
 }
+// 歌曲信息
+interface onPlayInfoType extends AlbumType {
+  id: number // 歌曲id
+  chargeInfoList: Array<ChargeType> // 付费方式
+  cs: boolean // 是否为云盘歌曲
+  maxbr: number // 最大码率
+  mv: number
+  duration: number
+}
+
 
 interface PlayListType {
   id: number
@@ -50,8 +48,8 @@ interface PlayListType {
 
 // 歌曲src及歌曲试听片段
 interface MusicSource {
+  id: number // 歌曲id
   url: string // 歌曲Src
-  duration: number // 歌曲时长
   freeTrialInfo?: { start: number, end: number } // 歌曲试听片段
 }
 
