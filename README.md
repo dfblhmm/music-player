@@ -3,6 +3,7 @@
 #### 所用技术
 
 - React全家桶
+- Redux
 - TypeScript
 - axios
 - SCSS
