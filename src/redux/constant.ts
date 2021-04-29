@@ -1,6 +1,7 @@
 export const LOGIN = 'login'
 export const LOGIN_OUT = 'loginOut'
 export const UPDATE_PLAY_INFO = 'updatePlayInfo'
+export const RESET_PLAY_INFO = 'resetPlayInfo'
 export const ADD = 'addToList'
 export const CLEAR = 'clearList'
 export const GET_MUSIC = 'getMusic'

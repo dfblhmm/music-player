@@ -1,7 +1,7 @@
 import { PureComponent, ChangeEvent, FocusEvent, Fragment } from 'react'
 import { Input, List } from 'antd'
 import { SearchOutlined, UserOutlined } from '@ant-design/icons'
-import updateSong from '@containers/UpdateSong'
+import musicInfo from '@containers/MusicInfo'
 import http from '@utils/http'
 import IconFont from '@components/IconFont'
 import style from './index.module.scss'
@@ -89,21 +89,17 @@ class Search extends PureComponent<IProps> {
   songs(): JSX.Element {
     const { songs } = this.state.suggest
     if (!songs) return (<></>)
+    const { getMusic } = this.props
     const header = this.createHeader('music', '单曲')
     return (
       <List header={header} dataSource={songs}
         renderItem={item => 
-          <List.Item key={item.id} onClick={() => this.play(item.id)} title="播放单曲">
+          <List.Item key={item.id} onClick={() => getMusic(item.id)} title="播放单曲">
             {item.name}
             {item.alias?.length !==0 && `（${item.alias![0]}）`} - &nbsp;
             {this.formatArtists(item.artists!)}
           </List.Item>} />
     )
-  }
-  play = (id: number) => {
-    const { updatePlayInfo, getMusic } = this.props
-    getMusic(id)
-    updatePlayInfo(id)
   }
   // 歌手 
   artists(): JSX.Element {
@@ -201,4 +197,4 @@ class Search extends PureComponent<IProps> {
   }
 }
 
-export default updateSong(Search)
+export default musicInfo(Search)

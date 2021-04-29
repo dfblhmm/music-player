@@ -7,14 +7,11 @@ interface IProps {
   playList: PlayListType[]
 }
 function FooterContainer(props: IProps) {
-  const { onPlayInfo, playList } = props
-  const 
-    { alias, artists, name, duration,
-      picUrl, freeTrialInfo, isVip, cs } = onPlayInfo
-  const albumInfo = { alias, artists, name, picUrl, freeTrialInfo, isVip }
+  const { onPlayInfo } = props
+  const { duration, isVip, cs, chargeInfoList, maxbr, ...albumInfo } = onPlayInfo
   return (
     <Row style={{height: '100%'}}>
-      <Col span={8}><AlbumPic {...albumInfo} /></Col>
+      <Col span={8}><AlbumPic {...albumInfo} isVip={isVip} /></Col>
       <Col span={8}><AudioPlayer duration={duration} isVip={isVip} cs={cs} /></Col>
       <Col span={8}>歌单</Col>
     </Row>

@@ -19,7 +19,7 @@ interface FProps {
 }
 interface IProps extends MusicSource, FProps {
   playList: GlobalState['playList']
-  getMusic: (id: number) => void
+  getMusic: (id: number) => Promise<void>
 }
 class AudioPlayer extends PureComponent<IProps, IState> {
   audio!: HTMLAudioElement | null
@@ -107,10 +107,8 @@ class AudioPlayer extends PureComponent<IProps, IState> {
     const { playList } = this.props
     // 顺序播放已结束
     if (playMode === 3 && index === playList.length - 1) return
-    if (playMode === 1 || playList.length === 1) {
-      this.audio?.play()
-      return
-    }
+    // 单曲循环模式或者只有一首歌曲，重新播放
+    if (playMode === 1 || playList.length === 1) return this.audio?.play()
     this.next()
   }
   // 切换歌曲

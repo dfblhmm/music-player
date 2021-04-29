@@ -1,4 +1,4 @@
-import { UPDATE_PLAY_INFO } from '../constant'
+import { UPDATE_PLAY_INFO, RESET_PLAY_INFO } from '../constant'
 const initState: onPlayInfoType = {
   id: 0, // 歌曲id
   picUrl: '', // 歌曲专辑图
@@ -15,6 +15,12 @@ const initState: onPlayInfoType = {
 }
 export default function onPlayInfo(preState = initState, action: Action<onPlayInfoType>): onPlayInfoType {
   const { type, data } = action
-  if (type !== UPDATE_PLAY_INFO) return preState
-  return data 
+  switch (type) {
+    case UPDATE_PLAY_INFO:
+      return data
+    case RESET_PLAY_INFO:
+      return initState
+    default:
+      return preState
+  }
 }

@@ -1,7 +1,7 @@
 import { MouseEventHandler, PureComponent } from 'react'
 import { Image } from 'antd'
 import { nanoid } from 'nanoid'
-import updateSong from '@containers/UpdateSong'
+import musicInfo from '@containers/MusicInfo'
 import './index.scss'
 import IconFont from '@components/IconFont'
 type PrevNext = {
@@ -99,7 +99,7 @@ class Carousel extends PureComponent<IProps, IState> {
     if (index === next) return this.changeCurrent('next')
     return () => {
       const { targetId, targetType, url } = value
-      if (targetId && targetType === 1) return this.props.updatePlayInfo(targetId) 
+      if (targetId && targetType === 1) return this.props.getMusic(targetId) 
       url && window.open(url)
     }
   }
@@ -142,4 +142,4 @@ class Carousel extends PureComponent<IProps, IState> {
   }
 }
 
-export default updateSong(Carousel)
+export default musicInfo(Carousel)

@@ -11,7 +11,7 @@ interface LoginType {
 
 // 付费方式
 interface ChargeType {
-  rate: 128000 | 192000 | 320000 | 999000 | 0,
+  rate: 128000 | 192000 | 320000 | 999000,
   chargeType: 0 | 1
 }
 
