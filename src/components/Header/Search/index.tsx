@@ -2,6 +2,7 @@ import { PureComponent, ChangeEvent, FocusEvent, Fragment } from 'react'
 import { Input, List } from 'antd'
 import { SearchOutlined, UserOutlined } from '@ant-design/icons'
 import musicInfo from '@containers/MusicInfo'
+import throttle from '@utils/throttle'
 import http from '@utils/http'
 import IconFont from '@components/IconFont'
 import style from './index.module.scss'
@@ -182,7 +183,7 @@ class Search extends PureComponent<IProps> {
     const { value } = e.target
     if (!value.trim()) return this.setState({ type: 0 })
     this.setState({ type: 1, keywords: value })
-    window.setTimeout(() => this.getSearchSuggest(value), 1000)
+    throttle.call(this, this.getSearchSuggest, 1000, value)()
   }
   render() {
     const { type } = this.state
