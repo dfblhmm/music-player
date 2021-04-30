@@ -2,6 +2,7 @@ import { PureComponent, Fragment } from 'react'
 import { RouteComponentProps } from 'react-router'
 import { message, BackTop } from 'antd'
 import InfiniteScroll from 'react-infinite-scroller'
+import throttle from '@utils/throttle'
 import target from '@components/Main/context'
 import http from '@/utils/http'
 import IconFont from '@/components/IconFont'
@@ -59,13 +60,12 @@ export default class QualitySongList extends PureComponent<RouteComponentProps> 
   }
   // 加载更多数据
   loadMore = async () => {
-    const { before, cat } = this.state
+    const { before, cat, more } = this.state
+    if (!more) return message.warning('没有更多了') 
     const res = await http('/top/playlist/highquality', { limit: 15, cat, before }) as {
       more: boolean, playlists: Array<HighQualitySongList>
     }
-    const { more, playlists } = res
-    if (!more) setTimeout(() => message.warning('没有更多了!'), 500) 
-    this.getHighQualitySongList(playlists, more)
+    this.getHighQualitySongList(res.playlists, res.more)
   }
   // 切换分类
   changeCategory = async (cat: string) => {
@@ -83,19 +83,21 @@ export default class QualitySongList extends PureComponent<RouteComponentProps> 
     const btnStyle = {fontSize: '13px', padding: '6px 10px'}
     // 获取所有精品歌单标签
     const { categoryList, songList } = this.state
+    const { changeCategory, context, loadMore } = this
     return (
       <div className={style['quality-songlist-container']} >
         <div className={style.header}>
           <NavTitle title="精品歌单" />
           <Category cardPosition="right" btnElement={btnElement} width={550} 
-            categoryItemStyle={{flex: '20%', fontSize: '13px'}} changeCategory={this.changeCategory}
+            categoryItemStyle={{flex: '20%', fontSize: '13px'}} changeCategory={changeCategory}
             btnTitle="全部歌单" btnStyle={btnStyle} categoryList={categoryList} />
         </div>
-        <InfiniteScroll loadMore={this.loadMore} useWindow={false} threshold={0}
-          hasMore={more} getScrollParent={()=>this.context}>
+        <InfiniteScroll loadMore={throttle.call(this, loadMore, 2000)} 
+          useWindow={false} threshold={150} hasMore={more} 
+          getScrollParent={() => this.context}>
           <HighQualityList list={songList} />
         </InfiniteScroll>
-        <BackTop visibilityHeight={1000} target={()=>this.context}
+        <BackTop visibilityHeight={1000} target={() => context}
           style={{right: '30px', bottom: '100px'}} />
       </div>
     )
