@@ -2,7 +2,6 @@ import { PureComponent, ChangeEvent, FocusEvent, Fragment } from 'react'
 import { Input, List } from 'antd'
 import { SearchOutlined, UserOutlined } from '@ant-design/icons'
 import musicInfo from '@containers/MusicInfo'
-// import throttle from '@utils/throttle'
 import http from '@utils/http'
 import IconFont from '@components/IconFont'
 import style from './index.module.scss'
@@ -188,11 +187,10 @@ class Search extends PureComponent<IProps> {
   }
   // 防抖
   throttle = (fn: Function, delay: number, ...args: any[]) => {
-    // this.timer = undefined
-    return (e: ChangeEvent<HTMLInputElement>) => {
+    return () => {
       if (this.timer) return
       this.timer = window.setTimeout(() => {
-        fn.apply(this, e)
+        fn.apply(this, args)
         this.timer = undefined
       }, delay)
     }
@@ -204,7 +202,7 @@ class Search extends PureComponent<IProps> {
       <div style={{position: 'relative'}}>
         <Input placeholder="搜索" bordered={false} className={style.search} onBlur={this.blur}
           prefix={icon} onFocus={this.focus} onClick={e => e.stopPropagation()} 
-          onChange={this.throttle(this.input, 2000)} />
+          onChange={e => this.throttle(() => this.input(e), 1000)()} />
         {type === 0 ? this.hotSearch() : this.searchSuggest()}
       </div>
     )
