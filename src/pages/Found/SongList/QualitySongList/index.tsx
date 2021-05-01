@@ -2,7 +2,6 @@ import { PureComponent, Fragment } from 'react'
 import { RouteComponentProps } from 'react-router'
 import { message, BackTop } from 'antd'
 import InfiniteScroll from 'react-infinite-scroller'
-import throttle from '@utils/throttle'
 import target from '@components/Main/context'
 import http from '@/utils/http'
 import IconFont from '@/components/IconFont'
@@ -92,9 +91,8 @@ export default class QualitySongList extends PureComponent<RouteComponentProps> 
             categoryItemStyle={{flex: '20%', fontSize: '13px'}} changeCategory={changeCategory}
             btnTitle="全部歌单" btnStyle={btnStyle} categoryList={categoryList} />
         </div>
-        <InfiniteScroll loadMore={throttle.call(this, loadMore, 2000)} 
-          useWindow={false} threshold={150} hasMore={more} 
-          getScrollParent={() => this.context}>
+        <InfiniteScroll loadMore={loadMore} useWindow={false} 
+          threshold={150} hasMore={more} getScrollParent={() => this.context}>
           <HighQualityList list={songList} />
         </InfiniteScroll>
         <BackTop visibilityHeight={1000} target={() => context}

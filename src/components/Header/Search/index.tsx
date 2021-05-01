@@ -2,7 +2,7 @@ import { PureComponent, ChangeEvent, FocusEvent, Fragment } from 'react'
 import { Input, List } from 'antd'
 import { SearchOutlined, UserOutlined } from '@ant-design/icons'
 import musicInfo from '@containers/MusicInfo'
-import throttle from '@utils/throttle'
+// import throttle from '@utils/throttle'
 import http from '@utils/http'
 import IconFont from '@components/IconFont'
 import style from './index.module.scss'
@@ -26,6 +26,7 @@ interface SuggestInfo {
 }
 interface IProps extends PlaySongFunc{}
 class Search extends PureComponent<IProps> {
+  timer: number | undefined
   state = {
     keywords: '',
     list: [],
@@ -183,7 +184,18 @@ class Search extends PureComponent<IProps> {
     const { value } = e.target
     if (!value.trim()) return this.setState({ type: 0 })
     this.setState({ type: 1, keywords: value })
-    throttle.call(this, this.getSearchSuggest, 1000, value)()
+    this.getSearchSuggest(value)
+  }
+  // 防抖
+  throttle = (fn: Function, delay: number, ...args: any[]) => {
+    // this.timer = undefined
+    return (e: ChangeEvent<HTMLInputElement>) => {
+      if (this.timer) return
+      this.timer = window.setTimeout(() => {
+        fn.apply(this, e)
+        this.timer = undefined
+      }, delay)
+    }
   }
   render() {
     const { type } = this.state
@@ -191,8 +203,9 @@ class Search extends PureComponent<IProps> {
     return (
       <div style={{position: 'relative'}}>
         <Input placeholder="搜索" bordered={false} className={style.search} onBlur={this.blur}
-          prefix={icon} onFocus={this.focus} onClick={e => e.stopPropagation()} onChange={this.input} />
-        {type === 0 ? this.hotSearch(): this.searchSuggest()}
+          prefix={icon} onFocus={this.focus} onClick={e => e.stopPropagation()} 
+          onChange={this.throttle(this.input, 2000)} />
+        {type === 0 ? this.hotSearch() : this.searchSuggest()}
       </div>
     )
   }

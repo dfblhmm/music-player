@@ -4,7 +4,6 @@ import { nanoid } from 'nanoid'
 import InfiniteScroll from 'react-infinite-scroller'
 import http from '@utils/http'
 import target from '@components/Main/context'
-import throttle from '@utils/throttle'
 import NavTitle from '@components/NavTitle'
 import ImgCardList from '@components/ImgCardList'
 interface IState {
@@ -35,7 +34,7 @@ export default class Exclusive extends PureComponent {
     this.setState({ more, list: [...list], offset })
   }
   // 加载更多数据
-  loadMore = async() => {
+  loadMore = async () => {
     const { offset, more } = this.state
     if (!more) return message.warning('没有更多了~~')
     const res = await http('/personalized/privatecontent/list', { offset, limit: 15 })
@@ -46,7 +45,7 @@ export default class Exclusive extends PureComponent {
     return (
       <div style={{padding: '0 90px'}}>
         <NavTitle title="独家放送" />
-        <InfiniteScroll hasMore={more} loadMore={throttle.call(this, this.loadMore, 2000)} 
+        <InfiniteScroll hasMore={more} loadMore={this.loadMore} 
           useWindow={false} threshold={400} getScrollParent={() => this.context}>
           <ImgCardList list={list} flex="33.33%" showVideoIcon wrap />
         </InfiniteScroll>
