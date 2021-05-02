@@ -99,8 +99,8 @@ export default class QualitySongList extends PureComponent<RouteComponentProps> 
             categoryItemStyle={{flex: '20%', fontSize: '13px'}} changeCategory={changeCategory}
             btnTitle="全部歌单" btnStyle={btnStyle} categoryList={categoryList} />
         </div>
-        <InfiniteScroll loadMore={this.throttle(loadMore, 300)} useWindow={false} 
-          threshold={300} hasMore={more} getScrollParent={() => this.context}>
+        <InfiniteScroll loadMore={this.throttle(loadMore, 350)} useWindow={false} 
+          threshold={250} hasMore={more} getScrollParent={() => this.context}>
           <HighQualityList list={songList} />
         </InfiniteScroll>
         <BackTop visibilityHeight={1000} target={() => context}
