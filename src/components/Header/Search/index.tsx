@@ -3,6 +3,7 @@ import { Input, List } from 'antd'
 import { SearchOutlined, UserOutlined } from '@ant-design/icons'
 import musicInfo from '@containers/MusicInfo'
 import http from '@utils/http'
+import throttle, { TypeOfThrottle } from '@utils/throttle'
 import IconFont from '@components/IconFont'
 import style from './index.module.scss'
 interface HotList {
@@ -26,12 +27,18 @@ interface SuggestInfo {
 interface IProps extends PlaySongFunc{}
 class Search extends PureComponent<IProps> {
   timer: number | undefined
+  throttle: TypeOfThrottle
   state = {
     keywords: '',
     list: [],
     suggest: {} as SuggestInfo,
     showList: false, // 是否显示当前搜索
     type: 0 // 0表示热搜列表，1表示搜索建议
+  }
+  // 初始化节流函数
+  constructor(props: IProps) {
+    super(props)
+    this.throttle = throttle
   }
   componentDidMount() {
     window.addEventListener('click', this.closeList)
@@ -184,16 +191,6 @@ class Search extends PureComponent<IProps> {
     if (!value.trim()) return this.setState({ type: 0 })
     this.setState({ type: 1, keywords: value })
     this.getSearchSuggest(value)
-  }
-  // 防抖
-  throttle = (fn: Function, delay: number, ...args: any[]) => {
-    return () => {
-      if (this.timer) return
-      this.timer = window.setTimeout(() => {
-        fn.apply(this, args)
-        this.timer = undefined
-      }, delay)
-    }
   }
   render() {
     const { type } = this.state

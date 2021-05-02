@@ -4,6 +4,7 @@ import { nanoid } from 'nanoid'
 import InfiniteScroll from 'react-infinite-scroller'
 import http from '@utils/http'
 import target from '@components/Main/context'
+import throttle, { TypeOfThrottle } from '@utils/throttle'
 import NavTitle from '@components/NavTitle'
 import ImgCardList from '@components/ImgCardList'
 interface IState {
@@ -13,10 +14,16 @@ interface IState {
 }
 export default class Exclusive extends PureComponent {
   static contextType = target
+  timer: number | undefined
+  throttle: TypeOfThrottle
   state: IState = {
     more: false,
     offset: 0,
     list: []
+  }
+  constructor(props: any) {
+    super(props)
+    this.throttle = throttle
   }
   async componentDidMount() {
     const res = await http('/personalized/privatecontent/list', { limit: 30 })
@@ -45,8 +52,9 @@ export default class Exclusive extends PureComponent {
     return (
       <div style={{padding: '0 90px'}}>
         <NavTitle title="独家放送" />
-        <InfiniteScroll hasMore={more} loadMore={this.loadMore} 
-          useWindow={false} threshold={400} getScrollParent={() => this.context}>
+        <InfiniteScroll hasMore={more} useWindow={false} threshold={300}
+          loadMore={this.throttle(this.loadMore, 2000)} 
+          getScrollParent={() => this.context}>
           <ImgCardList list={list} flex="33.33%" showVideoIcon wrap />
         </InfiniteScroll>
         <BackTop visibilityHeight={1000} style={{right: '30px', bottom: '100px'}} 

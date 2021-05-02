@@ -4,6 +4,7 @@ import { message, BackTop } from 'antd'
 import InfiniteScroll from 'react-infinite-scroller'
 import target from '@components/Main/context'
 import http from '@/utils/http'
+import throttle, { TypeOfThrottle } from '@utils/throttle'
 import IconFont from '@/components/IconFont'
 import NavTitle from '@/components/NavTitle'
 import Category from '@/components/Category'
@@ -11,12 +12,19 @@ import HighQualityList from './HighQualityList'
 import style from './index.module.scss'
 export default class QualitySongList extends PureComponent<RouteComponentProps> {
   static contextType = target
+  timer: number | undefined
+  throttle: TypeOfThrottle
   state = {
     categoryList: [],
     songList: [],
     before: 0, // 分页参数
     cat: '',
     more: false
+  }
+  // 初始化节流函数
+  constructor(props: RouteComponentProps) {
+    super(props)
+    this.throttle = throttle
   }
   async componentDidMount() {
     const { match: { params }} = this.props
@@ -91,8 +99,8 @@ export default class QualitySongList extends PureComponent<RouteComponentProps> 
             categoryItemStyle={{flex: '20%', fontSize: '13px'}} changeCategory={changeCategory}
             btnTitle="全部歌单" btnStyle={btnStyle} categoryList={categoryList} />
         </div>
-        <InfiniteScroll loadMore={loadMore} useWindow={false} 
-          threshold={150} hasMore={more} getScrollParent={() => this.context}>
+        <InfiniteScroll loadMore={this.throttle(loadMore, 300)} useWindow={false} 
+          threshold={300} hasMore={more} getScrollParent={() => this.context}>
           <HighQualityList list={songList} />
         </InfiniteScroll>
         <BackTop visibilityHeight={1000} target={() => context}
