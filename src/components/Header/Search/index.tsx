@@ -1,6 +1,7 @@
 import { PureComponent, ChangeEvent, FocusEvent, Fragment } from 'react'
 import { Input, List } from 'antd'
 import { SearchOutlined, UserOutlined } from '@ant-design/icons'
+import { nanoid } from 'nanoid'
 import musicInfo from '@containers/MusicInfo'
 import http from '@utils/http'
 import throttle, { TypeOfThrottle } from '@utils/throttle'
@@ -88,7 +89,9 @@ class Search extends PureComponent<IProps> {
     return (
       <Fragment>
         {
-          artists.map(value => <span key={value.id}>{value.name}&nbsp;</span>)
+          artists.map(value => <span key={value.id ? value.id : nanoid()}>
+            {value.name}&nbsp;</span>
+          )
         }
       </Fragment>
     )
