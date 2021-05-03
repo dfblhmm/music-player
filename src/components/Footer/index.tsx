@@ -1,7 +1,8 @@
 import { Row, Col } from 'antd'
 import { connect } from 'react-redux'
-import AudioPlayer from './AudioPlayer'
 import AlbumPic from './AlbumPic'
+import AudioPlayer from './AudioPlayer'
+import RateInfo from './RateInfo'
 interface IProps {
   onPlayInfo: onPlayInfoType
   playList: PlayListType[]
@@ -13,7 +14,7 @@ function FooterContainer(props: IProps) {
     <Row style={{height: '100%'}}>
       <Col span={8}><AlbumPic {...albumInfo} isVip={isVip} /></Col>
       <Col span={8}><AudioPlayer duration={duration} isVip={isVip} cs={cs} /></Col>
-      <Col span={8}>歌单</Col>
+      <Col span={8}><RateInfo /></Col>
     </Row>
   )
 }
