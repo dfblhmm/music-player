@@ -24,16 +24,20 @@ interface Artist extends ItemType {}
 interface ImgCardItemType extends ImgCardItemIconType {
   id: number | string
   nid?: string // 当id重复时使用nanoid进行替换
-  picUrl: string
+  picUrl: string // 封面图
   sPicUrl?: string
   name: string
-  playCount?: number
+  playCount?: number // 播放次数
   playcount?: number
   artists?: Array<Artist> // 歌手数组
   duration?: number // 资源的时长
   rcmdtext?: string // 电台类型
   // 歌单作者头像信息
-  creatorInfo?: {userId: number, nickname: string, avatarDetail?: {identityIconUrl: string}}
+  creatorInfo?: { 
+    userId: number, 
+    nickname: string, 
+    avatarDetail?: { identityIconUrl: string }
+  }
 }
 // 控制不同的卡片是否显示特定的图标
 interface ImgCardItemIconType {
@@ -45,12 +49,12 @@ interface ImgCardItemIconType {
 // 歌曲信息
 interface SongItem {
   id: number
-  artists: Array<Artist>
+  artists: Array<Artist> // 歌手数组
   name: string
   picUrl: string
   mvid: number
-  maxbr: number
-  alias?: string
+  maxbr: number // 歌曲最大码率
+  alias?: string // 歌曲来源信息
 }
 // 精品歌单信息
 interface HighQualitySongList {
@@ -61,7 +65,7 @@ interface HighQualitySongList {
   creator: {userId: number, nickname: string, avatarDetail?: {identityIconUrl: string}}
   coverImgUrl: string // 歌单封面
   playCount: number // 歌单播放数
-  updateTime?: number
+  updateTime?: number // 分页参数
 }
 // 登录成功的处理
 type LoginSuccessProps = {

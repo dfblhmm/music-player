@@ -11,14 +11,14 @@ interface LoginType {
 
 // 付费方式
 interface ChargeType {
-  rate: 128000 | 192000 | 320000 | 999000,
-  chargeType: 0 | 1
+  rate: 128000 | 192000 | 320000 | 999000 | number, // 歌曲码率
+  chargeType: 0 | 1 // 是否需要付费，0代表不需要，1代表需要
 }
 
 // 试听片段
 interface freeTrialInfoType {
-  start: number,
-  end: number
+  start: number, // 试听片段的开始时间
+  end: number // 试听片段的结束时间
 } 
 
 // 歌曲专辑图信息
@@ -36,14 +36,14 @@ interface onPlayInfoType extends AlbumType {
   chargeInfoList: Array<ChargeType> // 付费方式
   cs: boolean // 是否为云盘歌曲
   maxbr: number // 最大码率
-  mv: number
-  duration: number
+  mv: number // mvid
+  duration: number // 歌曲时长
 }
 
 
 interface PlayListType {
-  id: number
-  songInfo: onPlayInfoType
+  id: number // 歌曲id
+  songInfo: onPlayInfoType // 歌曲信息
 }
 
 // 歌曲src及歌曲试听片段
